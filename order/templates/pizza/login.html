@@ -1,0 +1,26 @@
+{% extends 'pizza/layout.html' %} 
+{% load static %} 
+
+{% block body %}
+<div class="container d-flex justify-content-center my-5 login_form">
+    
+    <form action="{% url 'pizzaShop:login' %}" method="post" class="card p-5 bg-light" >
+        {% for message in messages %}
+        <div class="alert {{ message.tags }}" role="alert" style="color:red;">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% csrf_token %}
+        <h1 class="mx-4">Log-In</h1>
+        <div class="card-body">
+            <input class="m-1 border rounded p-2" type="text" name="Username"  placeholder="Username" > <br>
+            <input class="m-1 border rounded p-2" type="password" name="Password" placeholder="Password"> <br>
+            
+            <input class=" m-1 btn btn-primary" style="width:96%" type="submit" value="Log-In">
+            
+        </div>     
+        <small>Don't have an account? <a href="{% url 'pizzaShop:register' %}">Register here.</a></small> 
+    </form>
+    
+</div>
+{% endblock %}

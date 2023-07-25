@@ -1,0 +1,84 @@
+{% extends 'pizza/layout.html' %}
+{% load static %}
+
+{% block body %}
+
+{% if dish_type %}
+<div class="d-flex justify-content-center Type-Bar" >{{ dish_type }}</div>
+{% endif %}      
+<div class=" container border rounded" style="margin-top: 30px; margin-bottom: 90px; width:800px; ">
+    <form action="{% url 'pizzaShop:categories' %}" method="get">
+        <select name="type" class="custom-select m-4  p-2">
+            <option selected value="">All</option>
+            {% for types in Types %}
+            <option value="{{ types.type }}"> {{ types.type }}</option>
+            {% endfor %}
+        </select>   
+        <button type="submit" class="btn btn-outline-dark mb-1 ">Find</button>
+    </form>
+
+    <div class="menu-view col m-5">
+        {% for dish in Menu %}
+            <div class="card text-center m-3">
+                <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    {% if dish.size %}
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="true" href="#" style="color:black; font-weight:800;">LARGE</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" style="color:black; font-weight:800;">SMALL</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="true" href="#" style="color:black; font-weight:800;">Dish</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="true" style=" color:black; " href="#">Topping</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link disabled">{{ dish_type }}</a>
+                    </li>
+                </ul>
+                </div>
+                <div class="card-body">
+                    <div class="card mb-3">
+                        <img src="{{ dish.image }}"class="card-img-top" alt="Dish_Image" height="350px">
+                        <div class="card-body">
+                        <h5 class="card-title">{{ dish.name }}</h5>
+                        <p class="card-text">{{ dish.description }}</p>
+                        </div>
+
+                        <form action="" method="post">
+                            {% if dish.size %}
+                            <select name="size" id="size_">
+                                <option selected value="#">choose</option>
+                                {% for size in sizes %}
+                                    <option value="{{ size }}">{{ size }}({{ dish.size.price }})</option>                                       
+                                {% endfor %}
+                            </select>
+                            {% endif %} 
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+        {% if Menu.has_previous %}
+            <li class="page-item m-3">
+                <a class="page-link" href="?page={{ Menu.previous_page_number }}&type={{ dish_type }}" tabindex="-1" >Previous</a>
+            </li>
+        {% endif %}
+        {% if Menu.has_next %} 
+        <li class="page-item m-3">
+            <a class="page-link" href="?page={{ Menu.next_page_number }}&type={{ dish_type }}">Next</a>
+        </li>
+        {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock body %}

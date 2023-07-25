@@ -1,0 +1,16 @@
+{% extends 'pizza/layout.html' %} 
+{% load static %} 
+
+
+{% block body %}
+<div class="container index_page ">
+    <h1 class="d-inline align-content-center m-4 " >Home Page</h1>
+    <div class="d-block page-view">
+        <a href="{% url 'pizzaShop:menu' %}" class="m-4 btn"> 
+            <button id="menu_btn" class="btn btn-outline-dark mt-3" >Menu</button>
+        </a>
+    </div>
+    
+</div>
+
+{% endblock %}
