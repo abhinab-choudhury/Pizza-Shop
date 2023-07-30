@@ -2,8 +2,11 @@
 {% load static %} 
 
 {% block body %}
+<style>
+    
+</style>
 <div class="container d-flex  justify-content-center my-5 register">
-    <form class="card p-3 bg-light" style="width:600px;" action="{% url 'pizzaShop:register' %}" method="post">
+    <form class="card p-3" action="{% url 'pizzaShop:register' %}" method="post" style="background-color: #f3c97b29; border-radius: 25px; border: 1px solid transparent;width: 600px;">
         {% for message in messages %}
         <div class="alert {{message.tags}}" role="alert" style="color:red;">
             {{ message }}
@@ -13,7 +16,7 @@
         <h1 class="mx-4">Register</h1>
         <div class="card-body">
             <div class="d-flex justify-content-center">
-                <input class="m-0 border rounded" style="background-color:#6a6a6a63; width:10%; padding: 8px 18px;" type="text" name="icon" disabled value="@">
+                <input class="m-0 border rounded" style="background-color: #edba5b; width:10%; padding: 8px 18px;" type="text" name="icon" disabled value="@">
                 <input class="m-0 border rounded p-2" style="width:45%" type="text" name="FirstName" placeholder="FirstName" required>
                 <input class="m-0 border rounded p-2" style="width:45%" type="text" name="LastName" placeholder="LastName">
             </div>

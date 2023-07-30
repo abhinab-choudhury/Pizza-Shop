@@ -1,0 +1,44 @@
+{% extends 'pizza/layout.html' %} 
+{% load static %} 
+
+
+{% block body %}
+<style>
+    tr,
+    th,
+    td,
+    table,
+    thead,
+    tbody
+    {
+        padding: 5px;
+        border: 1px solid rgba(250, 163, 33, 0.646);
+        border-collapse: collapse;
+        font-weight: 200;
+    }
+</style>
+<div class="container">
+    <div class="m-4" style="font-size: 43px;font-weight: 700;">Our store hours are</di>
+    <table>
+        <thead>
+            <tr>
+                <th style="font-size: 20px;font-weight: 600;">Days</th>
+                <th style="font-size: 20px;font-weight: 600;">Timing</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Sunday</td>
+                <td>12 noon - 12 am</td>
+            </tr>
+            <tr>
+                <td>Monday - Saturday</td>
+                <td>11 am - 1 am*</td>
+            </tr>
+        </tbody>   
+    </table>
+    <spam class="text-muted">
+        When the students are in session from September until May we stay open till 2:00 am on Friday and Saturday night
+    </spam>
+</div>
+{% endblock body %}

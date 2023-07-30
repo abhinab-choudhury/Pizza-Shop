@@ -2,49 +2,81 @@
     padding: 0px;
     margin: 0px;
     box-sizing: border-box;
+    font-style: normal;
+    font-size: medium;
+    font-weight: 700;
+    line-height: normal;
+    font-family: 'Victor Mono', monospace;
+}
+body{
+    background: #F1E6D1;
+}
+a{
+    text-decoration: none;
 }
 .login_form {
     display: inline;
     margin: 25px auto;
     padding: auto;
 }
-#user_name {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    border: 1px solid whitesmoke;
-    border-radius: 18px;
-    padding: 10px;
-    margin: 2px 5px;
-    font-size: 24px;
-    font-weight: bolder;
-    color: #ffffff;
-}
-.navbar{
-    background-color: rgb(10, 10, 10);
-    font-weight: 600;
-}
-.nav-link{
-    font-size: 20px;
-    color: #ffffff;
+nav{
+    border: 1px solid lightgoldenrodyellow;
+    background-color: #F1E2B9;
+    height: 80px;
+    font-size: 20px;    
 }
 
-.index_page{
-    background-color: rgba(255, 255, 255, 0.995);
-    margin-top: 0px 20px;
-    padding: 25px;
+input{
+    background-color: #f2debad8;
 }
 
-.breaker {
-    border: 1px solid purple;
+.index-page{
+    margin-top: 30px;
+    padding: 15px;
+    height: 587px;
+    width: 100%;
+    border-radius: 10px;
+    background-image: linear-gradient(166deg, #E5C863 2.25%, #E5C863 6.61%, rgba(233, 42, 30, 0.00) 100%);
 }
 
-.Type-Bar{
-    background-color:black; 
-    color:white; 
-    height:60px;
-    font-size:35px; 
-    font-weight: 900; 
-    margin:25px auto; 
-    border: 1px solid black; 
-    border-radius: 10px; 
-    width: 53%;
+
+.image {
+    margin: 10px;
+    border: 1px solid transparent;
+    border-radius: 25px;
+    margin-top: -30px;
+}
+
+.title {
+    font-size: 48px;
+    font-weight: 700;
+}
+
+.vidoe-section {
+    width: 87%;
+    padding: 30px;
+    margin-top: 90px;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 280px;
+    border-radius: 10px;
+    background-image: linear-gradient(7deg, #E5C863 2.25%, #E5C863 6.61%, rgba(233, 42, 30, 0.00) 100%);
+}
+
+footer {
+    width: 100%;
+    margin-top: 80px;
+    padding-top: 20px;
+    border: 1px solid  transparent;
+    background-color: #f2debad8;
+    
+}
+
+@media screen and (max-width: 980px) {
+    .index-page {
+        height: 1000px;
+    }
+    .image {
+        margin: 31px;
+    }
 }

@@ -1,0 +1,57 @@
+{% extends 'pizza/layout.html' %} 
+{% load static %} 
+
+
+{% block body %}
+<style>
+.main{
+    border: 1px solid transparent;
+    border-radius: 20px;
+    margin-top: 20px;
+    padding: 25px;
+
+    background-color: #f2deba;
+}
+.title {
+    font-size: 43px;
+    margin-left:auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+}
+</style>
+<div class="container main">
+    <div class="d-flex">
+        <strong class="title">
+            Sicilian Pizza vs Regular Pizza
+        </strong>
+    </div>
+
+    <u><h3>Sicilian Pizza</h3></u>
+    <p>
+        Our Sicilian pizza is a deep-dish or thick-crust pizza. We sell them in a 9-slice or a 15-slice size.
+
+        <ul>
+            <li>The 9-slice size is 16" x 16" and will feed anywhere from 3 to 5 people.</li>
+            <li>The 15-slice size is 28" x 16", comes in 2 large pizza boxes and can feed 6 to 9 people.</li>
+        </ul>
+    </p>
+
+    <u><h3>Regular Pizza</h3></u>
+    <p>
+        Our Regular pizza is a thin-crust or Neapolitan pizza. They come in 2 sizes: small (12" in diameter) and large (16" in diameter). The small is suitable for 1 to 2 people while the large feeds 2 to 4 people.
+    </p>
+
+    <u><h3>Gluten Free</h3></u> 
+    <p>
+        We now offer gluten free pizza. It comes in a round 10" thin crust that we cook to order. You can get it with any toppings and it takes about 20 minutes to prepare
+    </p>
+    <hr>
+    <spam>We now offer gluten free pizza. It comes in a round 10" thin crust that we cook to order. You can get it with any toppings and it takes about 20 minutes to prepare</spam>
+    <div class="d-flex justify-content-center">
+        <spam style="font-size: 30px; margin-top: 20px;">
+            Oh, and always remember: <br>
+            Eat More Pizza!
+        </spam>
+    </div>
+</div>
+{% endblock body %}

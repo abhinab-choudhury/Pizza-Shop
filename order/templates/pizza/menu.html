@@ -2,16 +2,16 @@
 {% load static %}
 
 {% block body %}
-
+<!-- 
 {% if dish_type %}
 <div class="d-flex justify-content-center Type-Bar" >{{ dish_type }}</div>
 {% endif %}      
 <div class=" container border rounded" style="margin-top: 30px; margin-bottom: 90px; width:800px; ">
-    <form action="{% url 'pizzaShop:categories' %}" method="get">
+    <form action="#" method="get">
         <select name="type" class="custom-select m-4  p-2">
-            <option selected value="">All</option>
+            <option selected value="All">All</option>
             {% for types in Types %}
-            <option value="{{ types.type }}"> {{ types.type }}</option>
+            <option value="#"> #</option>
             {% endfor %}
         </select>   
         <button type="submit" class="btn btn-outline-dark mb-1 ">Find</button>
@@ -22,7 +22,7 @@
             <div class="card text-center m-3">
                 <div class="card-header">
                 <ul class="nav nav-tabs card-header-tabs">
-                    {% if dish.size %}
+                    {% if dish.sizes %}
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="true" href="#" style="color:black; font-weight:800;">LARGE</a>
                         </li>
@@ -37,9 +37,12 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="true" style=" color:black; " href="#">Topping</a>
                     </li>
+                    {% if dish_type != 'All' %}
                     <li class="nav-item">
-                    <a class="nav-link disabled">{{ dish_type }}</a>
+                        <a class="nav-link disabled">{{ dish_type }}</a>
                     </li>
+                    {% endif %}
+                    
                 </ul>
                 </div>
                 <div class="card-body">
@@ -47,17 +50,20 @@
                         <img src="{{ dish.image }}"class="card-img-top" alt="Dish_Image" height="350px">
                         <div class="card-body">
                         <h5 class="card-title">{{ dish.name }}</h5>
-                        <p class="card-text">{{ dish.description }}</p>
+                        <p class="card-text">${{ dish.price }}</p>
                         </div>
 
                         <form action="" method="post">
-                            {% if dish.size %}
-                            <select name="size" id="size_">
+                            {% if dish.name == '1 Topping' %}
+                            Choose Your Topping: <br>
+                            <select name="toppings" id="topping_">
                                 <option selected value="#">choose</option>
-                                {% for size in sizes %}
-                                    <option value="{{ size }}">{{ size }}({{ dish.size.price }})</option>                                       
+                                {%for topping in pizza_topping %}
+                                    <option value="{{ topping }}">{{ topping  }}</option>                                       
                                 {% endfor %}
                             </select>
+                            <br>
+                            <input type="submit" value="Order">
                             {% endif %} 
                         </form>
                     </div>
@@ -80,5 +86,126 @@
         {% endif %}
         </ul>
     </nav>
+</div> -->
+
+<style>
+
+    .menu-nav{
+        font-size: 20px;
+    }
+    .menu-nav:hover{
+        border: 0.7px solid black;
+        border-radius: 10px;
+        text-decoration: underline;  
+        background-color: white; 
+    }
+  
+</style>
+
+<div class="container">
+   
+    <div class="d-flex justify-content-around my-3 p-4" style="background-color: #f3c97b93;width: 97%;margin-left: 20px;border-radius: 10px;">
+        <form action="#" method="GET" >
+            <input type="hidden" name="Choise" value="Regular Pizza">
+            <input class="menu-nav border-0 bg-transparent" type="submit" value="Regular Pizza">
+        </form>
+        <form action="#" method="get">
+            <input type="hidden" name="Choise" value="Sicilian Pizza">
+            <input class="menu-nav border-0 bg-transparent" type="submit" value="Sicilian Pizza">
+        </form>
+        <form action="#" method="get">
+            <input type="hidden" name="Choise" value="Subs">
+            <input class="menu-nav border-0 bg-transparent" type="submit" value="Subs">
+        </form>
+        <form action="#" method="get">
+            <input type="hidden" name="Choise" value="Pasta">
+            <input class="menu-nav border-0 bg-transparent" type="submit" value="Pasta">
+        </form>    
+        <form action="#" method="get">
+            <input type="hidden" name="Choise" value="Salads">
+            <input class="menu-nav border-0 bg-transparent" type="submit" value="Salads">
+        </form>    
+        <form action="#" method="get">
+            <input type="hidden" name="Choise" value="Dinner Platters">
+            <input class="menu-nav border-0 bg-transparent" type="submit" value="Dinner Platters">
+        </form>    
+    </div>
+    <div class="d-block p-3 w-25 mx-3">
+        <form action="{% url 'pizzaShop:size_field' %}" method="POST">
+            {% csrf_token %}
+            <select name="size" id="size_field" class="p-2">
+                <option value="Small">Small</option>
+                <option value="Large">Large</option>
+            </select>
+            <input class="bg-transparent p-1" type="submit" value="Get">
+        </form>
+    </div>
+   
+    <div id="Large_item" class="row">
+    {% for dish in Dishes %} 
+    <form action="{% url 'pizzaShop:order' %}" method="post" class="col-sm-6">
+        {% csrf_token %}
+        <div class="card m-3 " style="max-width: 740px; background-color: #f3c97b29;">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="{{ dish.image }}" class="img-fluid rounded-start" alt="image">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                    <small class="bg-white border rounded-pill p-1" >{{ dish.size }}</small>
+                    
+                    <input type="hidden" name="category" value="{{ dish.category.name }}">
+                    <input type="hidden" name="image" value="{{ dish.image }}">
+                    <input type="hidden" name="item_name" value="{{ dish.name }}">
+                    <input type="hidden" name="item_price" id="" value="{{ dish.price }}">
+                    <input type="hidden" name="size" value="{{ dish.size }}">
+                    
+                    <div class="d-flex justify-content-between mt-2">
+                        <h5 class="card-title border-0 bg-transparent" style="font-weight: 700;">{{ dish.name }}</h5>
+                        <h5 class="card-title border-0 bg-transparent" style="font-weight: 700;">${{ dish.price }}</h5>
+                    </div>    
+                    <input class="d-inline float-end p-1 rounded" type="submit" value="Order" id="submit_btn_{{ dish.id }}">
+                    
+                    <!-- <select name="Size" id="size_field" style="background-color: #f2debad8; border-color: whitesmoke;">
+                        {% for Size in Sizes %}
+                        <option value="{{ Size }}">{{ Size }}</option>
+                        {% endfor %}
+                    </select> -->
+                    <br>
+                    
+                    <div class="topping-section my-1">
+                        {% if dish.topping_cnt > 0 %}
+                        <h5 style="font-weight: 700;">Choose Your Toppings:</h5>
+                            {% with ''|center:dish.topping_cnt as range %}
+                            {% for _ in range %}
+                                <select name="Topping{{ forloop.counter }}" id="Topping_field" style="background-color: #f2debad8; border-color: whitesmoke;">
+                                    <option selected value="">Topping {{ forloop.counter }}</option>
+                                    {% for topping in Toppings %}
+                                    <option value="{{ topping.name }}">{{ topping.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <!-- {{ forloop.counter }} -->
+                            {% endfor %}
+                            {% endwith %}
+                        {% endif %}
+                    </div>
+                 
+                    
+                    <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+                    
+                </div>
+              </div>
+              
+            </div>
+
+        </div>
+
+    </form>
+    {% endfor %}
+    </div>
+    
+
+    <!-- <h1> Large_Size : {{Size.item_size.price}}</h1> -->
 </div>
 {% endblock body %}

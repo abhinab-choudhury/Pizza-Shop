@@ -2,9 +2,12 @@
 {% load static %} 
 
 {% block body %}
+<style>
+   
+</style>
 <div class="container d-flex justify-content-center my-5 login_form">
     
-    <form action="{% url 'pizzaShop:login' %}" method="post" class="card p-5 bg-light" >
+    <form action="{% url 'pizzaShop:login' %}" method="post" class="card p-5"  style="background-color: #f3c97b29; border-radius: 25px; border: 1px solid transparent;width: 400px;">
         {% for message in messages %}
         <div class="alert {{ message.tags }}" role="alert" style="color:red;">
             {{ message }}
@@ -12,11 +15,11 @@
         {% endfor %}
         {% csrf_token %}
         <h1 class="mx-4">Log-In</h1>
-        <div class="card-body">
-            <input class="m-1 border rounded p-2" type="text" name="Username"  placeholder="Username" > <br>
-            <input class="m-1 border rounded p-2" type="password" name="Password" placeholder="Password"> <br>
+        <div class="card-body" style="width: 100%">
+            <input class="m-1 border rounded p-2" style="width:100%" type="text" name="Username"  placeholder="Username"> <br>
+            <input class="m-1 border rounded p-2" style="width:100%" type="password" name="Password" placeholder="Password"> <br>
             
-            <input class=" m-1 btn btn-primary" style="width:96%" type="submit" value="Log-In">
+            <input class="m-1 btn btn-primary" style="width:100%" type="submit" value="Log-In">
             
         </div>     
         <small>Don't have an account? <a href="{% url 'pizzaShop:register' %}">Register here.</a></small> 

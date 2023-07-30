@@ -3,14 +3,40 @@
 
 
 {% block body %}
-<div class="container index_page ">
-    <h1 class="d-inline align-content-center m-4 " >Home Page</h1>
-    <div class="d-block page-view">
-        <a href="{% url 'pizzaShop:menu' %}" class="m-4 btn"> 
-            <button id="menu_btn" class="btn btn-outline-dark mt-3" >Menu</button>
-        </a>
+<div class="container index-page">
+    <div class="d-inline align-content-center title">
+        Pinocchio's Pizza & Subs
     </div>
+    <div class="d-block">
+        <a class="float-start" href="{% url 'pizzaShop:menu' %}" > 
+            <button id="menu_btn" style="font-size: 30px; margin-left: 15px;margin-bottom: 20px;" class="btn btn-outline-dark mt-3" >Menu</button>
+        </a>
+
+        <div class="container d-flex btn-image">
+            <div class="d-block mt-4 bg-gradient rounded p-2 h-50">
+                <p class="float-start">
+                    Noch's has been in business for over 50 years! We've been feeding Harvard and the surrounding area since 1966!
+                </p>
+                <p>
+                    We sell award-winning sicilian-style pizza and mouth-watering steak subs! We have over 750 reviews on Yelp--- check it out!
+                </p>
+            </div>
+            <img class="image" src="{% static 'pizza/assets/30689.png' %}" alt="image" height="420px" width="624px">
+        </div>   
+    </div>
+</div>
+
+<div class="vidoe-section d-flex justify-content-around flex-grow-1">
     
+    <div class="d-block">
+        <h1 style="margin-top: 60px;">Videos</h1>
+        <p>
+            Check out our mention on Suits! <br>
+            ....and on the Phantom Gourmet
+        </p>
+    </div>
+    <iframe width="460" height="215" src="https://www.youtube.com/embed/hoM7PJu6V-E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <iframe width="460" height="215" src="https://www.youtube.com/embed/TkABR72j7jU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </div>
 
 {% endblock %}

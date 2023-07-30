@@ -5,126 +5,73 @@ from django.db import models
 class User(AbstractUser):
     pass
 
+# Sizes
 class Size(models.Model):
-    size = models.CharField(max_length=80)
+    name = models.CharField(verbose_name="Size Name",max_length=255)
+    
+    class Meta():
+        verbose_name_plural = "Sizes"
+
     def __str__(self):
-        return f"{self.size}"
+        return self.name
+    
+# Categories    
+class Category(models.Model):
+    name = models.CharField(verbose_name="Type",max_length=255,db_index=True)
+    
+    class Meta:
+        verbose_name_plural = 'Catergories'
+        
+    def __str__(self):
+        return self.name
+
+# Toppings
+def default_type():
+    """
+    Getting a Default Value:
+    create new status if not avilable
+    Returns:
+        Category: category_object
+    """
+    return Category.objects.get_or_create(name="None")[0]
+              
+class Topping(models.Model):
+    name = models.CharField(verbose_name="Toppping Name",max_length=255,blank=False)
+    category = models.ManyToManyField(Category,verbose_name="Type of Dish",blank=True,default="None")
+    price = models.DecimalField(verbose_name="Price",max_digits=5, decimal_places=2)
+    
+    def __str__(self):
+        return f"{self.name}({self.category}) for ${self.price}"
  
-class Pizza_Topping(models.Model):
-    image = models.CharField(max_length=225,default="https://img.freepik.com/premium-vector/male-cook-cooking-meal-profile-avatar-icon_48369-15378.jpg")
-    topping = models.CharField(max_length=60, blank=False,null=False)  
+# all the avilable dishes
+class Dish(models.Model):
+    name = models.CharField(verbose_name="Name of the Dish",max_length=50, blank=False)
+    category = models.ForeignKey(Category,verbose_name="Type of Dish",blank=False, on_delete=models.CASCADE)
+    image = models.URLField(verbose_name="Image URL",max_length=255, default="https://i.redd.it/xgw4znhmt4t51.jpg")
+    size = models.ForeignKey(Size,verbose_name="Size", on_delete=models.CASCADE, blank=True,related_name="item_size")
+    topping_cnt= models.IntegerField(verbose_name="Number of Toppings: ",default=0)
+    price = models.DecimalField(verbose_name="Price",max_digits=5, decimal_places=2)
+    
+     
+    class Meta:
+        verbose_name_plural = "Dishes"
     
     def __str__(self):
-        return f"{self.topping}"
- 
-class Subs_Topping(models.Model):
-    topping = models.CharField(max_length=60, blank=False,null=False)  
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+        return f"{self.name}({self.category}):{self.size} for {self.price}"    
     
-    def __str__(self):
-        return f"{self.topping}for ${self.price}"    
-    
-class Menu(models.Model):
-    type = models.CharField(max_length=80,blank=False,null=True)
-    
-    def __str__(self):
-        return f"{self.type}"
-
-#Regular Pizza
-class Pizza(models.Model):
-    name = models.CharField(max_length=30)
-    image = models.CharField(max_length=225,default="https://img.freepik.com/premium-vector/male-cook-cooking-meal-profile-avatar-icon_48369-15378.jpg")
-    size = models.ForeignKey(Size, on_delete=models.PROTECT, null=False, blank=False)
-    toppings = models.ManyToManyField(Pizza_Topping)
-    price = models.DecimalField(decimal_places=2,max_digits=6)
-    description = models.TextField(max_length=225,default="This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.")
-    rating= models.PositiveIntegerField(default=0)
-    
-    def __str__(self):
-        return f"{self.name}({self.size}) for ${self.price}"
- 
-#Sicilian Pizza
-class Sicilian_Pizza(models.Model):
-    name = models.CharField(max_length=30)
-    image = models.CharField(max_length=225,default="https://img.freepik.com/premium-vector/male-cook-cooking-meal-profile-avatar-icon_48369-15378.jpg")
-    size = models.ForeignKey(Size, on_delete=models.PROTECT, null=False, blank=False)
-    toppings = models.ManyToManyField(Pizza_Topping)
-    price = models.DecimalField(decimal_places=2,max_digits=6)
-    description = models.TextField(max_length=225,default="This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.")
-    rating= models.PositiveIntegerField(default=0)
-    
-    def __str__(self):
-        return f"{self.name}({self.size}) for ${self.price}"
-   
-# Subs             
-class Sub(models.Model):
-    name = models.CharField(max_length=30)
-    image = models.CharField(max_length=225,default="https://img.freepik.com/premium-vector/male-cook-cooking-meal-profile-avatar-icon_48369-15378.jpg")
-    size = models.ForeignKey(Size, on_delete=models.PROTECT, null=False, blank=False)
-    toppings = models.ManyToManyField(Subs_Topping)
-    price = models.DecimalField(decimal_places=2,max_digits=6)
-    description = models.TextField(max_length=225,default="This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.")
-    rating= models.PositiveIntegerField(default=0)
-    
-    def __str__(self):
-        return f"{self.name}({self.size}) for ${self.price}"
-
-# Patsa
-class Pasta(models.Model):
-    name = models.CharField(max_length=30,blank=False,null=False)
-    image = models.CharField(max_length=225,default="https://img.freepik.com/premium-vector/male-cook-cooking-meal-profile-avatar-icon_48369-15378.jpg")
-    price = models.DecimalField(decimal_places=2,max_digits=6)
-    description = models.TextField(max_length=225,default="This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.")
-    rating= models.PositiveIntegerField(default=0)
-    
-    def __str__(self):
-        return f"{self.name} for ${self.price}"
-
-# Salad
-class Salad(models.Model):
-    name = models.CharField(max_length=30)
-    image = models.CharField(max_length=225,default="https://img.freepik.com/premium-vector/male-cook-cooking-meal-profile-avatar-icon_48369-15378.jpg")
-    price = models.DecimalField(decimal_places=2,max_digits=6)
-    description = models.TextField(max_length=225,default="This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.")
-    rating= models.PositiveIntegerField(default=0)
-    
-    def __str__(self):
-        return f"{self.name} for ${self.price}"
-
-# Dinner Platter
-class Dinner_Platter(models.Model):
-    name = models.CharField(max_length=30)
-    image = models.CharField(max_length=225,default="https://img.freepik.com/premium-vector/male-cook-cooking-meal-profile-avatar-icon_48369-15378.jpg")
-    price_small = models.DecimalField(decimal_places=2,max_digits=6)
-    price_large = models.DecimalField(decimal_places=2,max_digits=6)
-    description = models.TextField(max_length=225,default="This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.")
-    rating= models.PositiveIntegerField(default=0)
-    
-    def __str__(self):
-        return f"{self.name} for small: ${self.price_large}, large ${self.price_large}"
-
-#Order
 class Order(models.Model):
-    item = models.IntegerField(default= 0)
-    image = models.CharField(max_length=225,default="https://img.freepik.com/premium-vector/male-cook-cooking-meal-profile-avatar-icon_48369-15378.jpg")    
-    owner = models.ForeignKey(User, on_delete=models.CASCADE,related_name="Buyer", blank=False, null=False)
-    price = models.DecimalField(max_digits=6,decimal_places=2, default=0)
-    size = models.CharField(max_length=20)
-
-    def __str__(self):
-        return f"{self.owner} order a {self.size} Pizza with {self.topings}" 
-
-# Cart
-class Cart(models.Model):
-    order_id = models.IntegerField()
-    item = models.CharField(max_length=25)
-    price = models.DecimalField(decimal_places=2, max_digits=6)     
-    image = models.CharField(max_length=225,default="https://img.freepik.com/premium-vector/male-cook-cooking-meal-profile-avatar-icon_48369-15378.jpg")
-    cutomer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cutomer", null=False,blank=False)
-    ordered_at = models.DateTimeField(auto_created=True)
-    delivery = models.BooleanField(default=False)
+    user = models.ForeignKey(User, verbose_name="User", on_delete=models.CASCADE) 
+    name = models.CharField(verbose_name="Dish Name",max_length=255)
+    category = models.CharField(max_length=255, verbose_name="Dish Type")
+    image = models.URLField(verbose_name="Image URL",max_length=255, default="https://i.redd.it/xgw4znhmt4t51.jpg")
+    size = models.ForeignKey(Size, verbose_name="Size of the Ordered Dish: ", on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=5,decimal_places=2)
+    topping = models.CharField(max_length=255, verbose_name="Included Topping",default="None")
+    ordered_at = models.DateField(verbose_name="Time", auto_now_add=True)
     
+    class Meta:
+        get_latest_by="user"
+        
     def __str__(self):
-        return f"{self.order_id}. {self.cutomer}  ==> Item {self.item} and Price{self.price}."    
-    
+        return f"{self.user} orderd {self.name}({self.category}) for ({self.price})"
     

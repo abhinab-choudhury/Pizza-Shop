@@ -58,62 +58,169 @@ def register(request):
             return render(request,'pizza/register.html')
    else:
       return render(request,'pizza/register.html')
-   
-def menu(request):
-   menu = []
-   pasta = list(Pasta.objects.all())
-   subs = list(Sub.objects.filter(size = Size.objects.get(pk=1)))
-   salad = list(Salad.objects.all())
-   regular_pizza = list(Pizza.objects.filter(size = Size.objects.get(pk=1)))
-   sicilian_pizza = list(Sicilian_Pizza.objects.filter(size = Size.objects.get(pk=1)))
-   dinner = list(Dinner_Platter.objects.all())
-   
-   [menu.extend(type) for type in (pasta, subs, salad, regular_pizza, sicilian_pizza,dinner)]
-    
-   # Paginator
-   pagination = Paginator(menu, 10)
-   page_number = request.GET.get('page')
-   Items = pagination.get_page(page_number)
-      
-   types = Menu.objects.all()
-   sizes = Size.objects.all()
-   return render(request, 'pizza/menu.html',{
-      "Menu":Items,
-      "Types": types,
-      "dish_type":'All',
-      "sizes": sizes,
-   })   
 
-def categories(request):
-   
-   menu=[]
-   
-   # Getting the Categories
-   dish_type = request.GET['type']
-   if(dish_type == 'Pasta'):
-      menu = Pasta.objects.all()
-   elif(dish_type == 'Subs'):
-      menu = Sub.objects.filter(size = Size.objects.get(pk=1))
-   elif(dish_type == 'Salads'):
-      menu = Salad.objects.all()
-   elif(dish_type == 'Sicilian Pizza'):
-      menu = Sicilian_Pizza.objects.filter(size = Size.objects.get(pk=1))
-   elif(dish_type == 'Dinner Platters'):
-      menu = Dinner_Platter.objects.all()
-   elif(dish_type == 'Regular Pizza'):
-      menu = Pizza.objects.filter(size = Size.objects.get(pk=1))
+def SicilianPizza_vs_RegularPizza(request):
+   return render(request, 'pizza/SicilianPizza_vs_RegularPizza.html')   
+
+def Directions(request):
+   return render(request, 'pizza/Directions.html')
+
+def Hours(request):
+   return render(request,'pizza/Hours.html')
+
+
+def Menu(request):
+   if request.method == "POST":
+      pass
    else:
-      return HttpResponseRedirect(reverse('pizzaShop:menu'))
+      S_Dishes = Dish.objects.filter(size = Size.objects.get(pk=1))
+      # L_Dishes = Dish.objects.filter(size = Size.objects.get(pk=2))
+      # AllDishes = Dish.objects.all()
+      
+      return render(request,'pizza/menu.html',{
+         "Dishes":S_Dishes,
+         "Toppings": Topping.objects.all(),
+         "Sizes": Size.objects.all() 
+      })
+
+def size_field(request):
+   if request.method == "POST":
+      if request.POST['size'] == 'Small':
+         S_Dishes = Dish.objects.filter(size = Size.objects.get(pk=1))
+         context = {
+            "Dishes":S_Dishes,
+            "Toppings": Topping.objects.all(),
+            "Sizes": Size.objects.all() 
+         }
+         return render(request,'pizza/menu.html',context)
+      elif request.POST['size'] == 'Large':         
+         L_Dishes = Dish.objects.filter(size = Size.objects.get(pk=2))
+         context = {
+            "Dishes":L_Dishes,
+            "Toppings": Topping.objects.all(),
+            "Sizes": Size.objects.all() 
+         }
+         return render(request,'pizza/menu.html',context)
+      else:
+         pass
+   else:
+      pass
    
-   # Paginator
-   pagination = Paginator(menu, 10)
-   page_number = request.GET.get('page')
-   Items = pagination.get_page(page_number)
+def order(request):
+   if request.method == "POST":
+      name = request.POST["item_name"]
+      price = request.POST["item_price"]
+      category = request.POST["category"]
+      image = request.POST["image"]
+      size = request.POST["size"]
+      
+      topping_cnt = 0
+      first_char = name[0]
+      if(first_char.isdigit()):
+         topping_cnt = int(name[0])
+      
+      topping = []
+      try:
+         for cnt in range(1,topping_cnt+1):
+            t = [request.POST[f"Topping{cnt}"]]
+            topping.extend(t)
+      except:
+         topping = []
+
+      dish = Dish.objects.filter(size = Size.objects.get(name=size))
+      context = {
+         "Dishes":dish,
+         "Toppings": Topping.objects.all(),
+         "Sizes": Size.objects.all() 
+      }
+      print("Dishes",dish)
+      print("topping",topping)
+      print("Price",price)
+      print("category",category)
+      
+      new_order = Order(
+         user = request.user,
+         name=name,
+         category=category,
+         image=image,
+         size=Size.objects.get(name=size),
+         price=price,
+         topping=topping
+      )
+      new_order.save()
+      
+      return render(request,'pizza/menu.html',context)
+
+
+
+# def menu(request,size):
+#    menu = []
+#    pasta = list(Pasta.objects.all())
+#    subs = list(Sub.objects.filter(sizes = Size.objects.get(size=size)))
+#    salad = list(Salad.objects.all())
+#    regular_pizza = list(Pizza.objects.filter(sizes = Size.objects.get(size=size)))
+#    sicilian_pizza = list(Sicilian_Pizza.objects.filter(sizes = Size.objects.get(size=size)))
+#    dinner = list(Dinner_Platter.objects.filter(sizes = Size.objects.get(size=size)))
    
-   types = list(Menu.objects.all())   
-   context = {
-      "Menu": Items,
-      "Types": types,
-      "dish_type":dish_type,
-   }
-   return render(request, 'pizza/menu.html',context) 
+#    [menu.extend(type) for type in (pasta, subs, salad, regular_pizza, sicilian_pizza,dinner)]
+    
+#    # Paginator
+#    pagination = Paginator(menu, 10)
+#    page_number = request.GET.get('page')
+#    Items = pagination.get_page(page_number)
+      
+#    types = Menu.objects.all()
+#    pizza_topping = Pizza_Topping.objects.all()
+#    context={
+#       "Menu":Items,
+#       "Types": types,
+#       "pizza_topping":pizza_topping,
+#       "dish_type":'All',
+#    }
+#    return render(request, 'pizza/menu.html',context)   
+
+# def categories(request,size):
+   
+#    menu=[]
+   
+#    # Getting the Categories
+#    dish_type = request.GET['type']
+#    if(dish_type == 'Pasta'):
+#       menu = Pasta.objects.all()
+#    elif(dish_type == 'Subs'):
+#       menu = Sub.objects.filter(sizes = Size.objects.get(size=size))
+#    elif(dish_type == 'Salads'):
+#       menu = Salad.objects.all()
+#    elif(dish_type == 'Sicilian Pizza'):
+#       menu = Sicilian_Pizza.objects.filter(sizes = Size.objects.get(size=size))
+#    elif(dish_type == 'Dinner Platters'):
+#       menu = Dinner_Platter.objects.all()
+#    elif(dish_type == 'Regular Pizza'):
+#       menu = Pizza.objects.filter(sizes = Size.objects.get(size=size))
+#    elif(dish_type == 'All'): 
+#       pasta = list(Pasta.objects.all())
+#       subs = list(Sub.objects.filter(sizes = Size.objects.get(size=size)))
+#       salad = list(Salad.objects.all())
+#       regular_pizza = list(Pizza.objects.filter(sizes = Size.objects.get(size=size)))
+#       sicilian_pizza = list(Sicilian_Pizza.objects.filter(sizes = Size.objects.get(size=size)))
+#       dinner = list(Dinner_Platter.objects.all())
+      
+#       [menu.extend(type) for type in (pasta, subs, salad, regular_pizza, sicilian_pizza,dinner)]
+   
+#    else:
+#       pass
+   
+#    # Paginator
+#    pagination = Paginator(menu, 10)
+#    page_number = request.GET.get('page')
+#    Items = pagination.get_page(page_number)
+   
+#    types = Menu.objects.all()
+#    pizza_topping = Pizza_Topping.objects.all()
+#    context={
+#       "Menu":Items,
+#       "Types": types,
+#       "pizza_topping":pizza_topping,
+#       "dish_type":dish_type,
+#    }
+#    return render(request, 'pizza/menu.html',context) 
