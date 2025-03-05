@@ -1,0 +1,1435 @@
+[
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "stringify",
+        "importPath": "flatted",
+        "description": "flatted",
+        "isExtraImport": true,
+        "detail": "flatted",
+        "documentation": {}
+    },
+    {
+        "label": "parse",
+        "importPath": "flatted",
+        "description": "flatted",
+        "isExtraImport": true,
+        "detail": "flatted",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
+        "label": "django.contrib.auth.models",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "AbstractUser",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "AbstractUser",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "django.contrib.auth.validators",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.contrib.auth.validators",
+        "description": "django.contrib.auth.validators",
+        "detail": "django.contrib.auth.validators",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "IntegrityError",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "django.db.models.deletion",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.db.models.deletion",
+        "description": "django.db.models.deletion",
+        "detail": "django.db.models.deletion",
+        "documentation": {}
+    },
+    {
+        "label": "django.utils.timezone",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.utils.timezone",
+        "description": "django.utils.timezone",
+        "detail": "django.utils.timezone",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "messages",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "*",
+        "importPath": "order.models",
+        "description": "order.models",
+        "isExtraImport": true,
+        "detail": "order.models",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "reverse",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "include",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "include",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "login_required",
+        "importPath": "django.contrib.auth.decorators",
+        "description": "django.contrib.auth.decorators",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "authenticate",
+        "importPath": "django.contrib.auth",
+        "description": "django.contrib.auth",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth",
+        "documentation": {}
+    },
+    {
+        "label": "login",
+        "importPath": "django.contrib.auth",
+        "description": "django.contrib.auth",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth",
+        "documentation": {}
+    },
+    {
+        "label": "logout",
+        "importPath": "django.contrib.auth",
+        "description": "django.contrib.auth",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth",
+        "documentation": {}
+    },
+    {
+        "label": "Paginator",
+        "importPath": "django.core.paginator",
+        "description": "django.core.paginator",
+        "isExtraImport": true,
+        "detail": "django.core.paginator",
+        "documentation": {}
+    },
+    {
+        "label": "HttpResponse",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "HttpResponseRedirect",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "render",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "render",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "get_asgi_application",
+        "importPath": "django.core.asgi",
+        "description": "django.core.asgi",
+        "isExtraImport": true,
+        "detail": "django.core.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "get_asgi_application",
+        "importPath": "django.core.asgi",
+        "description": "django.core.asgi",
+        "isExtraImport": true,
+        "detail": "django.core.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "get_wsgi_application",
+        "importPath": "django.core.wsgi",
+        "description": "django.core.wsgi",
+        "isExtraImport": true,
+        "detail": "django.core.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "get_wsgi_application",
+        "importPath": "django.core.wsgi",
+        "description": "django.core.wsgi",
+        "isExtraImport": true,
+        "detail": "django.core.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "routers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "serializers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "viewsets",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "_Known",
+        "kind": 6,
+        "importPath": "client.node_modules.flatted.python.flatted",
+        "description": "client.node_modules.flatted.python.flatted",
+        "peekOfCode": "class _Known:\n    def __init__(self):\n        self.key = []\n        self.value = []\nclass _String:\n    def __init__(self, value):\n        self.value = value\ndef _array_keys(value):\n    keys = []\n    i = 0",
+        "detail": "client.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "_String",
+        "kind": 6,
+        "importPath": "client.node_modules.flatted.python.flatted",
+        "description": "client.node_modules.flatted.python.flatted",
+        "peekOfCode": "class _String:\n    def __init__(self, value):\n        self.value = value\ndef _array_keys(value):\n    keys = []\n    i = 0\n    for _ in value:\n        keys.append(i)\n        i += 1\n    return keys",
+        "detail": "client.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "parse",
+        "kind": 2,
+        "importPath": "client.node_modules.flatted.python.flatted",
+        "description": "client.node_modules.flatted.python.flatted",
+        "peekOfCode": "def parse(value, *args, **kwargs):\n    json = _json.loads(value, *args, **kwargs)\n    wrapped = []\n    for value in json:\n        wrapped.append(_wrap(value))\n    input = []\n    for value in wrapped:\n        if isinstance(value, _String):\n            input.append(value.value)\n        else:",
+        "detail": "client.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "stringify",
+        "kind": 2,
+        "importPath": "client.node_modules.flatted.python.flatted",
+        "description": "client.node_modules.flatted.python.flatted",
+        "peekOfCode": "def stringify(value, *args, **kwargs):\n    known = _Known()\n    input = []\n    output = []\n    i = int(_index(known, input, value))\n    while i < len(input):\n        output.append(_transform(known, input, input[i]))\n        i += 1\n    return _json.dumps(output, *args, **kwargs)",
+        "detail": "client.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "stringify",
+        "kind": 2,
+        "importPath": "client.node_modules.flatted.python.test",
+        "description": "client.node_modules.flatted.python.test",
+        "peekOfCode": "def stringify(value):\n    return _stringify(value, separators=(',', ':'))\nassert stringify([None, None]) == '[[null,null]]'\na = []\no = {}\nassert stringify(a) == '[[]]'\nassert stringify(o) == '[{}]'\na.append(a)\no['o'] = o\nassert stringify(a) == '[[\"0\"]]'",
+        "detail": "client.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "a",
+        "kind": 5,
+        "importPath": "client.node_modules.flatted.python.test",
+        "description": "client.node_modules.flatted.python.test",
+        "peekOfCode": "a = []\no = {}\nassert stringify(a) == '[[]]'\nassert stringify(o) == '[{}]'\na.append(a)\no['o'] = o\nassert stringify(a) == '[[\"0\"]]'\nassert stringify(o) == '[{\"o\":\"0\"}]'\nb = parse(stringify(a))\nassert isinstance(b, list) and b[0] == b",
+        "detail": "client.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "o",
+        "kind": 5,
+        "importPath": "client.node_modules.flatted.python.test",
+        "description": "client.node_modules.flatted.python.test",
+        "peekOfCode": "o = {}\nassert stringify(a) == '[[]]'\nassert stringify(o) == '[{}]'\na.append(a)\no['o'] = o\nassert stringify(a) == '[[\"0\"]]'\nassert stringify(o) == '[{\"o\":\"0\"}]'\nb = parse(stringify(a))\nassert isinstance(b, list) and b[0] == b\na.append(1)",
+        "detail": "client.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "o['o']",
+        "kind": 5,
+        "importPath": "client.node_modules.flatted.python.test",
+        "description": "client.node_modules.flatted.python.test",
+        "peekOfCode": "o['o'] = o\nassert stringify(a) == '[[\"0\"]]'\nassert stringify(o) == '[{\"o\":\"0\"}]'\nb = parse(stringify(a))\nassert isinstance(b, list) and b[0] == b\na.append(1)\na.append('two')\na.append(True)\no['one'] = 1\no['two'] = 'two'",
+        "detail": "client.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "b",
+        "kind": 5,
+        "importPath": "client.node_modules.flatted.python.test",
+        "description": "client.node_modules.flatted.python.test",
+        "peekOfCode": "b = parse(stringify(a))\nassert isinstance(b, list) and b[0] == b\na.append(1)\na.append('two')\na.append(True)\no['one'] = 1\no['two'] = 'two'\no['three'] = True\nassert stringify(a) == '[[\"0\",1,\"1\",true],\"two\"]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true},\"two\"]'",
+        "detail": "client.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "o['one']",
+        "kind": 5,
+        "importPath": "client.node_modules.flatted.python.test",
+        "description": "client.node_modules.flatted.python.test",
+        "peekOfCode": "o['one'] = 1\no['two'] = 'two'\no['three'] = True\nassert stringify(a) == '[[\"0\",1,\"1\",true],\"two\"]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true},\"two\"]'\na.append(o)\no['a'] = a\nassert stringify(a) == '[[\"0\",1,\"1\",true,\"2\"],\"two\",{\"o\":\"2\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"0\"}]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"2\"},\"two\",[\"2\",1,\"1\",true,\"0\"]]'\na.append({'test': 'OK'})",
+        "detail": "client.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "o['two']",
+        "kind": 5,
+        "importPath": "client.node_modules.flatted.python.test",
+        "description": "client.node_modules.flatted.python.test",
+        "peekOfCode": "o['two'] = 'two'\no['three'] = True\nassert stringify(a) == '[[\"0\",1,\"1\",true],\"two\"]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true},\"two\"]'\na.append(o)\no['a'] = a\nassert stringify(a) == '[[\"0\",1,\"1\",true,\"2\"],\"two\",{\"o\":\"2\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"0\"}]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"2\"},\"two\",[\"2\",1,\"1\",true,\"0\"]]'\na.append({'test': 'OK'})\na.append([1, 2, 3])",
+        "detail": "client.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "o['three']",
+        "kind": 5,
+        "importPath": "client.node_modules.flatted.python.test",
+        "description": "client.node_modules.flatted.python.test",
+        "peekOfCode": "o['three'] = True\nassert stringify(a) == '[[\"0\",1,\"1\",true],\"two\"]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true},\"two\"]'\na.append(o)\no['a'] = a\nassert stringify(a) == '[[\"0\",1,\"1\",true,\"2\"],\"two\",{\"o\":\"2\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"0\"}]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"2\"},\"two\",[\"2\",1,\"1\",true,\"0\"]]'\na.append({'test': 'OK'})\na.append([1, 2, 3])\no['test'] = {'test': 'OK'}",
+        "detail": "client.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "o['a']",
+        "kind": 5,
+        "importPath": "client.node_modules.flatted.python.test",
+        "description": "client.node_modules.flatted.python.test",
+        "peekOfCode": "o['a'] = a\nassert stringify(a) == '[[\"0\",1,\"1\",true,\"2\"],\"two\",{\"o\":\"2\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"0\"}]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"2\"},\"two\",[\"2\",1,\"1\",true,\"0\"]]'\na.append({'test': 'OK'})\na.append([1, 2, 3])\no['test'] = {'test': 'OK'}\no['array'] = [1, 2, 3]\nassert stringify(a) == '[[\"0\",1,\"1\",true,\"2\",\"3\",\"4\"],\"two\",{\"o\":\"2\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"0\",\"test\":\"3\",\"array\":\"4\"},{\"test\":\"5\"},[1,2,3],\"OK\"]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"2\",\"test\":\"3\",\"array\":\"4\"},\"two\",[\"2\",1,\"1\",true,\"0\",\"3\",\"4\"],{\"test\":\"5\"},[1,2,3],\"OK\"]'\na2 = parse(stringify(a));",
+        "detail": "client.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "o['test']",
+        "kind": 5,
+        "importPath": "client.node_modules.flatted.python.test",
+        "description": "client.node_modules.flatted.python.test",
+        "peekOfCode": "o['test'] = {'test': 'OK'}\no['array'] = [1, 2, 3]\nassert stringify(a) == '[[\"0\",1,\"1\",true,\"2\",\"3\",\"4\"],\"two\",{\"o\":\"2\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"0\",\"test\":\"3\",\"array\":\"4\"},{\"test\":\"5\"},[1,2,3],\"OK\"]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"2\",\"test\":\"3\",\"array\":\"4\"},\"two\",[\"2\",1,\"1\",true,\"0\",\"3\",\"4\"],{\"test\":\"5\"},[1,2,3],\"OK\"]'\na2 = parse(stringify(a));\no2 = parse(stringify(o));\nassert a2[0] == a2\nassert o2['o'] == o2\nassert a2[1] == 1 and a2[2] == 'two' and a2[3] == True and isinstance(a2[4], dict)\nassert a2[4] == a2[4]['o'] and a2 == a2[4]['o']['a']",
+        "detail": "client.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "o['array']",
+        "kind": 5,
+        "importPath": "client.node_modules.flatted.python.test",
+        "description": "client.node_modules.flatted.python.test",
+        "peekOfCode": "o['array'] = [1, 2, 3]\nassert stringify(a) == '[[\"0\",1,\"1\",true,\"2\",\"3\",\"4\"],\"two\",{\"o\":\"2\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"0\",\"test\":\"3\",\"array\":\"4\"},{\"test\":\"5\"},[1,2,3],\"OK\"]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"2\",\"test\":\"3\",\"array\":\"4\"},\"two\",[\"2\",1,\"1\",true,\"0\",\"3\",\"4\"],{\"test\":\"5\"},[1,2,3],\"OK\"]'\na2 = parse(stringify(a));\no2 = parse(stringify(o));\nassert a2[0] == a2\nassert o2['o'] == o2\nassert a2[1] == 1 and a2[2] == 'two' and a2[3] == True and isinstance(a2[4], dict)\nassert a2[4] == a2[4]['o'] and a2 == a2[4]['o']['a']\nstr = parse('[{\"prop\":\"1\",\"a\":\"2\",\"b\":\"3\"},{\"value\":123},[\"4\",\"5\"],{\"e\":\"6\",\"t\":\"7\",\"p\":4},{},{\"b\":\"8\"},\"f\",{\"a\":\"9\"},[\"10\"],\"sup\",{\"a\":1,\"d\":2,\"c\":\"7\",\"z\":\"11\",\"h\":1},{\"g\":2,\"a\":\"7\",\"b\":\"12\",\"f\":6},{\"r\":4,\"u\":\"7\",\"c\":5}]')",
+        "detail": "client.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "a2",
+        "kind": 5,
+        "importPath": "client.node_modules.flatted.python.test",
+        "description": "client.node_modules.flatted.python.test",
+        "peekOfCode": "a2 = parse(stringify(a));\no2 = parse(stringify(o));\nassert a2[0] == a2\nassert o2['o'] == o2\nassert a2[1] == 1 and a2[2] == 'two' and a2[3] == True and isinstance(a2[4], dict)\nassert a2[4] == a2[4]['o'] and a2 == a2[4]['o']['a']\nstr = parse('[{\"prop\":\"1\",\"a\":\"2\",\"b\":\"3\"},{\"value\":123},[\"4\",\"5\"],{\"e\":\"6\",\"t\":\"7\",\"p\":4},{},{\"b\":\"8\"},\"f\",{\"a\":\"9\"},[\"10\"],\"sup\",{\"a\":1,\"d\":2,\"c\":\"7\",\"z\":\"11\",\"h\":1},{\"g\":2,\"a\":\"7\",\"b\":\"12\",\"f\":6},{\"r\":4,\"u\":\"7\",\"c\":5}]')\nassert str['b']['t']['a'] == 'sup' and str['a'][1]['b'][0]['c'] == str['b']['t']\noo = parse('[{\"a\":\"1\",\"b\":\"0\",\"c\":\"2\"},{\"aa\":\"3\"},{\"ca\":\"4\",\"cb\":\"5\",\"cc\":\"6\",\"cd\":\"7\",\"ce\":\"8\",\"cf\":\"9\"},{\"aaa\":\"10\"},{\"caa\":\"4\"},{\"cba\":\"5\"},{\"cca\":\"2\"},{\"cda\":\"4\"},\"value2\",\"value3\",\"value1\"]');\nassert oo['a']['aa']['aaa'] == 'value1' and oo == oo['b'] and oo['c']['ca']['caa'] == oo['c']['ca']",
+        "detail": "client.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "o2",
+        "kind": 5,
+        "importPath": "client.node_modules.flatted.python.test",
+        "description": "client.node_modules.flatted.python.test",
+        "peekOfCode": "o2 = parse(stringify(o));\nassert a2[0] == a2\nassert o2['o'] == o2\nassert a2[1] == 1 and a2[2] == 'two' and a2[3] == True and isinstance(a2[4], dict)\nassert a2[4] == a2[4]['o'] and a2 == a2[4]['o']['a']\nstr = parse('[{\"prop\":\"1\",\"a\":\"2\",\"b\":\"3\"},{\"value\":123},[\"4\",\"5\"],{\"e\":\"6\",\"t\":\"7\",\"p\":4},{},{\"b\":\"8\"},\"f\",{\"a\":\"9\"},[\"10\"],\"sup\",{\"a\":1,\"d\":2,\"c\":\"7\",\"z\":\"11\",\"h\":1},{\"g\":2,\"a\":\"7\",\"b\":\"12\",\"f\":6},{\"r\":4,\"u\":\"7\",\"c\":5}]')\nassert str['b']['t']['a'] == 'sup' and str['a'][1]['b'][0]['c'] == str['b']['t']\noo = parse('[{\"a\":\"1\",\"b\":\"0\",\"c\":\"2\"},{\"aa\":\"3\"},{\"ca\":\"4\",\"cb\":\"5\",\"cc\":\"6\",\"cd\":\"7\",\"ce\":\"8\",\"cf\":\"9\"},{\"aaa\":\"10\"},{\"caa\":\"4\"},{\"cba\":\"5\"},{\"cca\":\"2\"},{\"cda\":\"4\"},\"value2\",\"value3\",\"value1\"]');\nassert oo['a']['aa']['aaa'] == 'value1' and oo == oo['b'] and oo['c']['ca']['caa'] == oo['c']['ca']\nprint('OK')",
+        "detail": "client.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "str",
+        "kind": 5,
+        "importPath": "client.node_modules.flatted.python.test",
+        "description": "client.node_modules.flatted.python.test",
+        "peekOfCode": "str = parse('[{\"prop\":\"1\",\"a\":\"2\",\"b\":\"3\"},{\"value\":123},[\"4\",\"5\"],{\"e\":\"6\",\"t\":\"7\",\"p\":4},{},{\"b\":\"8\"},\"f\",{\"a\":\"9\"},[\"10\"],\"sup\",{\"a\":1,\"d\":2,\"c\":\"7\",\"z\":\"11\",\"h\":1},{\"g\":2,\"a\":\"7\",\"b\":\"12\",\"f\":6},{\"r\":4,\"u\":\"7\",\"c\":5}]')\nassert str['b']['t']['a'] == 'sup' and str['a'][1]['b'][0]['c'] == str['b']['t']\noo = parse('[{\"a\":\"1\",\"b\":\"0\",\"c\":\"2\"},{\"aa\":\"3\"},{\"ca\":\"4\",\"cb\":\"5\",\"cc\":\"6\",\"cd\":\"7\",\"ce\":\"8\",\"cf\":\"9\"},{\"aaa\":\"10\"},{\"caa\":\"4\"},{\"cba\":\"5\"},{\"cca\":\"2\"},{\"cda\":\"4\"},\"value2\",\"value3\",\"value1\"]');\nassert oo['a']['aa']['aaa'] == 'value1' and oo == oo['b'] and oo['c']['ca']['caa'] == oo['c']['ca']\nprint('OK')",
+        "detail": "client.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "oo",
+        "kind": 5,
+        "importPath": "client.node_modules.flatted.python.test",
+        "description": "client.node_modules.flatted.python.test",
+        "peekOfCode": "oo = parse('[{\"a\":\"1\",\"b\":\"0\",\"c\":\"2\"},{\"aa\":\"3\"},{\"ca\":\"4\",\"cb\":\"5\",\"cc\":\"6\",\"cd\":\"7\",\"ce\":\"8\",\"cf\":\"9\"},{\"aaa\":\"10\"},{\"caa\":\"4\"},{\"cba\":\"5\"},{\"cca\":\"2\"},{\"cda\":\"4\"},\"value2\",\"value3\",\"value1\"]');\nassert oo['a']['aa']['aaa'] == 'value1' and oo == oo['b'] and oo['c']['ca']['caa'] == oo['c']['ca']\nprint('OK')",
+        "detail": "client.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "django-project.order.migrations.0001_initial",
+        "description": "django-project.order.migrations.0001_initial",
+        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n        ('auth', '0012_alter_user_first_name_max_length'),\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='User',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),",
+        "detail": "django-project.order.migrations.0001_initial",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "django-project.order.migrations.0002_remove_topping_category_topping_category",
+        "description": "django-project.order.migrations.0002_remove_topping_category_topping_category",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('order', '0001_initial'),\n    ]\n    operations = [\n        migrations.RemoveField(\n            model_name='topping',\n            name='category',\n        ),\n        migrations.AddField(",
+        "detail": "django-project.order.migrations.0002_remove_topping_category_topping_category",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "django-project.order.migrations.0003_remove_order_img_order_image_alter_dish_image",
+        "description": "django-project.order.migrations.0003_remove_order_img_order_image_alter_dish_image",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('order', '0002_remove_topping_category_topping_category'),\n    ]\n    operations = [\n        migrations.RemoveField(\n            model_name='order',\n            name='img',\n        ),\n        migrations.AddField(",
+        "detail": "django-project.order.migrations.0003_remove_order_img_order_image_alter_dish_image",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "django-project.order.migrations.0004_alter_dish_size",
+        "description": "django-project.order.migrations.0004_alter_dish_size",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('order', '0003_remove_order_img_order_image_alter_dish_image'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='dish',\n            name='size',\n            field=models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, related_name='item_size', to='order.size', verbose_name='Size'),\n        ),",
+        "detail": "django-project.order.migrations.0004_alter_dish_size",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "django-project.order.migrations.0005_remove_order_topping_order_topping",
+        "description": "django-project.order.migrations.0005_remove_order_topping_order_topping",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('order', '0004_alter_dish_size'),\n    ]\n    operations = [\n        migrations.RemoveField(\n            model_name='order',\n            name='topping',\n        ),\n        migrations.AddField(",
+        "detail": "django-project.order.migrations.0005_remove_order_topping_order_topping",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "django-project.order.migrations.0006_alter_order_ordered_at",
+        "description": "django-project.order.migrations.0006_alter_order_ordered_at",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('order', '0005_remove_order_topping_order_topping'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='order',\n            name='ordered_at',\n            field=models.DateField(auto_now_add=True, verbose_name='Time'),\n        ),",
+        "detail": "django-project.order.migrations.0006_alter_order_ordered_at",
+        "documentation": {}
+    },
+    {
+        "label": "OrderConfig",
+        "kind": 6,
+        "importPath": "django-project.order.apps",
+        "description": "django-project.order.apps",
+        "peekOfCode": "class OrderConfig(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = 'order'",
+        "detail": "django-project.order.apps",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "kind": 6,
+        "importPath": "django-project.order.models",
+        "description": "django-project.order.models",
+        "peekOfCode": "class User(AbstractUser):\n    pass\n# Sizes\nclass Size(models.Model):\n    name = models.CharField(verbose_name=\"Size Name\",max_length=255)\n    class Meta():\n        verbose_name_plural = \"Sizes\"\n    def __str__(self):\n        return self.name\n# Categories    ",
+        "detail": "django-project.order.models",
+        "documentation": {}
+    },
+    {
+        "label": "Size",
+        "kind": 6,
+        "importPath": "django-project.order.models",
+        "description": "django-project.order.models",
+        "peekOfCode": "class Size(models.Model):\n    name = models.CharField(verbose_name=\"Size Name\",max_length=255)\n    class Meta():\n        verbose_name_plural = \"Sizes\"\n    def __str__(self):\n        return self.name\n# Categories    \nclass Category(models.Model):\n    name = models.CharField(verbose_name=\"Type\",max_length=255,db_index=True)\n    class Meta:",
+        "detail": "django-project.order.models",
+        "documentation": {}
+    },
+    {
+        "label": "Category",
+        "kind": 6,
+        "importPath": "django-project.order.models",
+        "description": "django-project.order.models",
+        "peekOfCode": "class Category(models.Model):\n    name = models.CharField(verbose_name=\"Type\",max_length=255,db_index=True)\n    class Meta:\n        verbose_name_plural = 'Catergories'\n    def __str__(self):\n        return self.name\n# Toppings\ndef default_type():\n    \"\"\"\n    Getting a Default Value:",
+        "detail": "django-project.order.models",
+        "documentation": {}
+    },
+    {
+        "label": "Topping",
+        "kind": 6,
+        "importPath": "django-project.order.models",
+        "description": "django-project.order.models",
+        "peekOfCode": "class Topping(models.Model):\n    name = models.CharField(verbose_name=\"Toppping Name\",max_length=255,blank=False)\n    category = models.ManyToManyField(Category,verbose_name=\"Type of Dish\",blank=True,default=\"None\")\n    price = models.DecimalField(verbose_name=\"Price\",max_digits=5, decimal_places=2)\n    def __str__(self):\n        return f\"{self.name}({self.category}) for ${self.price}\"\n# all the avilable dishes\nclass Dish(models.Model):\n    name = models.CharField(verbose_name=\"Name of the Dish\",max_length=50, blank=False)\n    category = models.ForeignKey(Category,verbose_name=\"Type of Dish\",blank=False, on_delete=models.CASCADE)",
+        "detail": "django-project.order.models",
+        "documentation": {}
+    },
+    {
+        "label": "Dish",
+        "kind": 6,
+        "importPath": "django-project.order.models",
+        "description": "django-project.order.models",
+        "peekOfCode": "class Dish(models.Model):\n    name = models.CharField(verbose_name=\"Name of the Dish\",max_length=50, blank=False)\n    category = models.ForeignKey(Category,verbose_name=\"Type of Dish\",blank=False, on_delete=models.CASCADE)\n    image = models.URLField(verbose_name=\"Image URL\",max_length=255, default=\"https://i.redd.it/xgw4znhmt4t51.jpg\")\n    size = models.ForeignKey(Size,verbose_name=\"Size\", on_delete=models.CASCADE, blank=True,related_name=\"item_size\")\n    topping_cnt= models.IntegerField(verbose_name=\"Number of Toppings: \",default=0)\n    price = models.DecimalField(verbose_name=\"Price\",max_digits=5, decimal_places=2)\n    class Meta:\n        verbose_name_plural = \"Dishes\"\n    def __str__(self):",
+        "detail": "django-project.order.models",
+        "documentation": {}
+    },
+    {
+        "label": "Order",
+        "kind": 6,
+        "importPath": "django-project.order.models",
+        "description": "django-project.order.models",
+        "peekOfCode": "class Order(models.Model):\n    user = models.ForeignKey(User, verbose_name=\"User\", on_delete=models.CASCADE) \n    name = models.CharField(verbose_name=\"Dish Name\",max_length=255)\n    category = models.CharField(max_length=255, verbose_name=\"Dish Type\")\n    image = models.URLField(verbose_name=\"Image URL\",max_length=255, default=\"https://i.redd.it/xgw4znhmt4t51.jpg\")\n    size = models.ForeignKey(Size, verbose_name=\"Size of the Ordered Dish: \", on_delete=models.CASCADE)\n    price = models.DecimalField(max_digits=5,decimal_places=2)\n    topping = models.CharField(max_length=255, verbose_name=\"Included Topping\",default=\"None\")\n    ordered_at = models.DateField(verbose_name=\"Time\", auto_now_add=True)\n    class Meta:",
+        "detail": "django-project.order.models",
+        "documentation": {}
+    },
+    {
+        "label": "default_type",
+        "kind": 2,
+        "importPath": "django-project.order.models",
+        "description": "django-project.order.models",
+        "peekOfCode": "def default_type():\n    \"\"\"\n    Getting a Default Value:\n    create new status if not avilable\n    Returns:\n        Category: category_object\n    \"\"\"\n    return Category.objects.get_or_create(name=\"None\")[0]\nclass Topping(models.Model):\n    name = models.CharField(verbose_name=\"Toppping Name\",max_length=255,blank=False)",
+        "detail": "django-project.order.models",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "kind": 6,
+        "importPath": "django-project.order.temp",
+        "description": "django-project.order.temp",
+        "peekOfCode": "class User(AbstractUser):\n    pass\nclass Size(models.Model):\n    size = models.CharField(max_length=80)\n    def __str__(self):\n        return f\"{self.size}\"\nclass Pizza_Topping(models.Model):\n    image = models.CharField(max_length=225,default=\"https://img.freepik.com/premium-vector/male-cook-cooking-meal-profile-avatar-icon_48369-15378.jpg\")\n    topping = models.CharField(max_length=60, blank=False,null=False)  \n    def __str__(self):",
+        "detail": "django-project.order.temp",
+        "documentation": {}
+    },
+    {
+        "label": "Size",
+        "kind": 6,
+        "importPath": "django-project.order.temp",
+        "description": "django-project.order.temp",
+        "peekOfCode": "class Size(models.Model):\n    size = models.CharField(max_length=80)\n    def __str__(self):\n        return f\"{self.size}\"\nclass Pizza_Topping(models.Model):\n    image = models.CharField(max_length=225,default=\"https://img.freepik.com/premium-vector/male-cook-cooking-meal-profile-avatar-icon_48369-15378.jpg\")\n    topping = models.CharField(max_length=60, blank=False,null=False)  \n    def __str__(self):\n        return f\"{self.topping}\"\nclass Subs_Topping(models.Model):",
+        "detail": "django-project.order.temp",
+        "documentation": {}
+    },
+    {
+        "label": "Pizza_Topping",
+        "kind": 6,
+        "importPath": "django-project.order.temp",
+        "description": "django-project.order.temp",
+        "peekOfCode": "class Pizza_Topping(models.Model):\n    image = models.CharField(max_length=225,default=\"https://img.freepik.com/premium-vector/male-cook-cooking-meal-profile-avatar-icon_48369-15378.jpg\")\n    topping = models.CharField(max_length=60, blank=False,null=False)  \n    def __str__(self):\n        return f\"{self.topping}\"\nclass Subs_Topping(models.Model):\n    topping = models.CharField(max_length=60, blank=False,null=False)  \n    price = models.DecimalField(max_digits=6, decimal_places=2)\n    def __str__(self):\n        return f\"{self.topping} for ${self.price}\"    ",
+        "detail": "django-project.order.temp",
+        "documentation": {}
+    },
+    {
+        "label": "Subs_Topping",
+        "kind": 6,
+        "importPath": "django-project.order.temp",
+        "description": "django-project.order.temp",
+        "peekOfCode": "class Subs_Topping(models.Model):\n    topping = models.CharField(max_length=60, blank=False,null=False)  \n    price = models.DecimalField(max_digits=6, decimal_places=2)\n    def __str__(self):\n        return f\"{self.topping} for ${self.price}\"    \nclass Menu(models.Model):\n    type = models.CharField(max_length=80,blank=False,null=True)\n    def __str__(self):\n        return f\"{self.type}\"\n#Regular Pizza",
+        "detail": "django-project.order.temp",
+        "documentation": {}
+    },
+    {
+        "label": "Menu",
+        "kind": 6,
+        "importPath": "django-project.order.temp",
+        "description": "django-project.order.temp",
+        "peekOfCode": "class Menu(models.Model):\n    type = models.CharField(max_length=80,blank=False,null=True)\n    def __str__(self):\n        return f\"{self.type}\"\n#Regular Pizza\nclass Pizza(models.Model):\n    name = models.CharField(max_length=30)\n    image = models.CharField(max_length=225,default=\"https://img.freepik.com/premium-vector/male-cook-cooking-meal-profile-avatar-icon_48369-15378.jpg\")\n    sizes = models.ForeignKey(Size, on_delete=models.CASCADE, null=False, blank=False)\n    toppings = models.ManyToManyField(Pizza_Topping,related_name=\"additions\")",
+        "detail": "django-project.order.temp",
+        "documentation": {}
+    },
+    {
+        "label": "Pizza",
+        "kind": 6,
+        "importPath": "django-project.order.temp",
+        "description": "django-project.order.temp",
+        "peekOfCode": "class Pizza(models.Model):\n    name = models.CharField(max_length=30)\n    image = models.CharField(max_length=225,default=\"https://img.freepik.com/premium-vector/male-cook-cooking-meal-profile-avatar-icon_48369-15378.jpg\")\n    sizes = models.ForeignKey(Size, on_delete=models.CASCADE, null=False, blank=False)\n    toppings = models.ManyToManyField(Pizza_Topping,related_name=\"additions\")\n    price = models.DecimalField(decimal_places=2,max_digits=6)\n    description = models.TextField(max_length=225,default=\"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.\")\n    rating= models.PositiveIntegerField(default=0)\n    def __str__(self):\n        return f\"{self.name}({self.sizes}) for ${self.price}\"",
+        "detail": "django-project.order.temp",
+        "documentation": {}
+    },
+    {
+        "label": "Sicilian_Pizza",
+        "kind": 6,
+        "importPath": "django-project.order.temp",
+        "description": "django-project.order.temp",
+        "peekOfCode": "class Sicilian_Pizza(models.Model):\n    name = models.CharField(max_length=30)\n    image = models.CharField(max_length=225,)\n    sizes = models.ForeignKey(Size, on_delete=models.CASCADE, null=False, blank=False)\n    toppings = models.ManyToManyField(Pizza_Topping,blank=True)\n    price = models.DecimalField(decimal_places=2,max_digits=6)\n    description = models.TextField(max_length=225,default=\"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.\")\n    rating= models.PositiveIntegerField(default=0)\n    def __str__(self):\n        return f\"{self.name}({self.sizes}) for ${self.price}\"",
+        "detail": "django-project.order.temp",
+        "documentation": {}
+    },
+    {
+        "label": "Sub",
+        "kind": 6,
+        "importPath": "django-project.order.temp",
+        "description": "django-project.order.temp",
+        "peekOfCode": "class Sub(models.Model):\n    name = models.CharField(max_length=30)\n    image = models.CharField(max_length=225,default=\"https://img.freepik.com/premium-vector/male-cook-cooking-meal-profile-avatar-icon_48369-15378.jpg\")\n    sizes = models.ForeignKey(Size, on_delete=models.CASCADE, null=False, blank=False)\n    toppings = models.ManyToManyField(Subs_Topping,blank=True)\n    price = models.DecimalField(decimal_places=2,max_digits=6)\n    description = models.TextField(max_length=225,default=\"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.\")\n    rating= models.PositiveIntegerField(default=0)\n    def __str__(self):\n        return f\"{self.name}({self.sizes}) for ${self.price}\"",
+        "detail": "django-project.order.temp",
+        "documentation": {}
+    },
+    {
+        "label": "Pasta",
+        "kind": 6,
+        "importPath": "django-project.order.temp",
+        "description": "django-project.order.temp",
+        "peekOfCode": "class Pasta(models.Model):\n    name = models.CharField(max_length=30,blank=False,null=False)\n    image = models.CharField(max_length=225,default=\"https://img.freepik.com/premium-vector/male-cook-cooking-meal-profile-avatar-icon_48369-15378.jpg\")\n    price = models.DecimalField(decimal_places=2,max_digits=6)\n    description = models.TextField(max_length=225,default=\"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.\")\n    rating= models.PositiveIntegerField(default=0)\n    def __str__(self):\n        return f\"{self.name} for ${self.price}\"\n# Salad\nclass Salad(models.Model):",
+        "detail": "django-project.order.temp",
+        "documentation": {}
+    },
+    {
+        "label": "Salad",
+        "kind": 6,
+        "importPath": "django-project.order.temp",
+        "description": "django-project.order.temp",
+        "peekOfCode": "class Salad(models.Model):\n    name = models.CharField(max_length=30)\n    image = models.CharField(max_length=225,default=\"https://img.freepik.com/premium-vector/male-cook-cooking-meal-profile-avatar-icon_48369-15378.jpg\")\n    price = models.DecimalField(decimal_places=2,max_digits=6)\n    description = models.TextField(max_length=225,default=\"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.\")\n    rating= models.PositiveIntegerField(default=0)\n    def __str__(self):\n        return f\"{self.name} for ${self.price}\"\n# Dinner Platter\nclass Dinner_Platter(models.Model):",
+        "detail": "django-project.order.temp",
+        "documentation": {}
+    },
+    {
+        "label": "Dinner_Platter",
+        "kind": 6,
+        "importPath": "django-project.order.temp",
+        "description": "django-project.order.temp",
+        "peekOfCode": "class Dinner_Platter(models.Model):\n    name = models.CharField(max_length=30)\n    image = models.CharField(max_length=225,default=\"https://img.freepik.com/premium-vector/male-cook-cooking-meal-profile-avatar-icon_48369-15378.jpg\")\n    sizes = models.ForeignKey(Size,on_delete=models.CASCADE,default=Size.objects.get(pk=1).id)\n    price = models.DecimalField(max_digits=6,decimal_places=2,default=0.0)\n    description = models.TextField(max_length=225,default=\"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.\")\n    rating= models.PositiveIntegerField(default=0)\n    def __str__(self):\n        return f\"{self.name} for small: ${self.price_large}, large ${self.price_large}\"\n#Order",
+        "detail": "django-project.order.temp",
+        "documentation": {}
+    },
+    {
+        "label": "Order",
+        "kind": 6,
+        "importPath": "django-project.order.temp",
+        "description": "django-project.order.temp",
+        "peekOfCode": "class Order(models.Model):\n    item = models.IntegerField(default= 0)\n    image = models.CharField(max_length=225,default=\"https://img.freepik.com/premium-vector/male-cook-cooking-meal-profile-avatar-icon_48369-15378.jpg\")    \n    owner = models.ForeignKey(User, on_delete=models.CASCADE,related_name=\"Buyer\", blank=False, null=False)\n    price = models.DecimalField(max_digits=6,decimal_places=2, default=0)\n    size = models.CharField(max_length=20)\n    def __str__(self):\n        return f\"{self.owner} order a {self.size} Pizza with {self.topings}\" \n# Cart\nclass Cart(models.Model):",
+        "detail": "django-project.order.temp",
+        "documentation": {}
+    },
+    {
+        "label": "Cart",
+        "kind": 6,
+        "importPath": "django-project.order.temp",
+        "description": "django-project.order.temp",
+        "peekOfCode": "class Cart(models.Model):\n    order_id = models.IntegerField()\n    item = models.CharField(max_length=25)\n    price = models.DecimalField(decimal_places=2, max_digits=6)     \n    image = models.CharField(max_length=225,default=\"https://img.freepik.com/premium-vector/male-cook-cooking-meal-profile-avatar-icon_48369-15378.jpg\")\n    cutomer = models.ForeignKey(User, on_delete=models.CASCADE, related_name=\"cutomer\", null=False,blank=False)\n    ordered_at = models.DateTimeField(auto_created=True)\n    delivery = models.BooleanField(default=False)\n    def __str__(self):\n        return f\"{self.order_id}. {self.cutomer}  ==> Item {self.item} and Price{self.price}.\"",
+        "detail": "django-project.order.temp",
+        "documentation": {}
+    },
+    {
+        "label": "app_name",
+        "kind": 5,
+        "importPath": "django-project.order.urls",
+        "description": "django-project.order.urls",
+        "peekOfCode": "app_name = \"pizzaShop\"\nurlpatterns = [\n    path(\"\", views.index, name=\"index\"),\n    path(\"login/\", views.login_view, name=\"login\"),\n    path(\"logout/\", views.logout_view, name=\"logout\"),\n    path(\"register/\", views.register, name=\"register\"),\n    path(\"SicilianPizza_vs_RegularPizza/\",views.SicilianPizza_vs_RegularPizza,name=\"SicilianPizza_vs_RegularPizza\"),\n    path(\"Directions/\",views.Directions,name=\"Directions\"),\n    path(\"Hours/\",views.Hours,name=\"Hours\"),\n    path(\"menu/\",views.Menu, name=\"menu\"),",
+        "detail": "django-project.order.urls",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "django-project.order.urls",
+        "description": "django-project.order.urls",
+        "peekOfCode": "urlpatterns = [\n    path(\"\", views.index, name=\"index\"),\n    path(\"login/\", views.login_view, name=\"login\"),\n    path(\"logout/\", views.logout_view, name=\"logout\"),\n    path(\"register/\", views.register, name=\"register\"),\n    path(\"SicilianPizza_vs_RegularPizza/\",views.SicilianPizza_vs_RegularPizza,name=\"SicilianPizza_vs_RegularPizza\"),\n    path(\"Directions/\",views.Directions,name=\"Directions\"),\n    path(\"Hours/\",views.Hours,name=\"Hours\"),\n    path(\"menu/\",views.Menu, name=\"menu\"),\n    path(\"size_field/\",views.size_field,name=\"size_field\"),",
+        "detail": "django-project.order.urls",
+        "documentation": {}
+    },
+    {
+        "label": "index",
+        "kind": 2,
+        "importPath": "django-project.order.views",
+        "description": "django-project.order.views",
+        "peekOfCode": "def index(request):\n   return render(request, 'pizza/index.html')\n   # return HttpResponse(\"<h1> Hello World! Welcome to Pinocchio's Pizza & Subs</h1>\")\ndef login_view(request):\n   if request.method == 'POST':\n      # required info\n      Username = request.POST['Username']\n      Password = request.POST['Password']\n      user = authenticate(request, username=Username, password=Password)\n      # Check if authentication successful",
+        "detail": "django-project.order.views",
+        "documentation": {}
+    },
+    {
+        "label": "login_view",
+        "kind": 2,
+        "importPath": "django-project.order.views",
+        "description": "django-project.order.views",
+        "peekOfCode": "def login_view(request):\n   if request.method == 'POST':\n      # required info\n      Username = request.POST['Username']\n      Password = request.POST['Password']\n      user = authenticate(request, username=Username, password=Password)\n      # Check if authentication successful\n      if user is not None:\n         login(request, user)\n         return HttpResponseRedirect(reverse(\"pizzaShop:index\"))",
+        "detail": "django-project.order.views",
+        "documentation": {}
+    },
+    {
+        "label": "logout_view",
+        "kind": 2,
+        "importPath": "django-project.order.views",
+        "description": "django-project.order.views",
+        "peekOfCode": "def logout_view(request):\n   logout(request)\n   return HttpResponseRedirect(reverse('pizzaShop:index'))\ndef register(request):\n   if request.method == 'POST':\n      username = request.POST[\"username\"]\n      email =request.POST[\"email\"]\n      firstName = request.POST[\"FirstName\"]\n      lastName = request.POST[\"LastName\"]\n      # Ensure password matches with confirmation",
+        "detail": "django-project.order.views",
+        "documentation": {}
+    },
+    {
+        "label": "register",
+        "kind": 2,
+        "importPath": "django-project.order.views",
+        "description": "django-project.order.views",
+        "peekOfCode": "def register(request):\n   if request.method == 'POST':\n      username = request.POST[\"username\"]\n      email =request.POST[\"email\"]\n      firstName = request.POST[\"FirstName\"]\n      lastName = request.POST[\"LastName\"]\n      # Ensure password matches with confirmation\n      password = request.POST[\"password\"]\n      confirmation = request.POST[\"confirmation\"]\n      if password != confirmation:",
+        "detail": "django-project.order.views",
+        "documentation": {}
+    },
+    {
+        "label": "SicilianPizza_vs_RegularPizza",
+        "kind": 2,
+        "importPath": "django-project.order.views",
+        "description": "django-project.order.views",
+        "peekOfCode": "def SicilianPizza_vs_RegularPizza(request):\n   return render(request, 'pizza/SicilianPizza_vs_RegularPizza.html')   \ndef Directions(request):\n   return render(request, 'pizza/Directions.html')\ndef Hours(request):\n   return render(request,'pizza/Hours.html')\ndef Menu(request):\n   if request.method == \"POST\":\n      pass\n   else:",
+        "detail": "django-project.order.views",
+        "documentation": {}
+    },
+    {
+        "label": "Directions",
+        "kind": 2,
+        "importPath": "django-project.order.views",
+        "description": "django-project.order.views",
+        "peekOfCode": "def Directions(request):\n   return render(request, 'pizza/Directions.html')\ndef Hours(request):\n   return render(request,'pizza/Hours.html')\ndef Menu(request):\n   if request.method == \"POST\":\n      pass\n   else:\n      S_Dishes = Dish.objects.filter(size = Size.objects.get(pk=1))\n      # L_Dishes = Dish.objects.filter(size = Size.objects.get(pk=2))",
+        "detail": "django-project.order.views",
+        "documentation": {}
+    },
+    {
+        "label": "Hours",
+        "kind": 2,
+        "importPath": "django-project.order.views",
+        "description": "django-project.order.views",
+        "peekOfCode": "def Hours(request):\n   return render(request,'pizza/Hours.html')\ndef Menu(request):\n   if request.method == \"POST\":\n      pass\n   else:\n      S_Dishes = Dish.objects.filter(size = Size.objects.get(pk=1))\n      # L_Dishes = Dish.objects.filter(size = Size.objects.get(pk=2))\n      # AllDishes = Dish.objects.all()\n      return render(request,'pizza/menu.html',{",
+        "detail": "django-project.order.views",
+        "documentation": {}
+    },
+    {
+        "label": "Menu",
+        "kind": 2,
+        "importPath": "django-project.order.views",
+        "description": "django-project.order.views",
+        "peekOfCode": "def Menu(request):\n   if request.method == \"POST\":\n      pass\n   else:\n      S_Dishes = Dish.objects.filter(size = Size.objects.get(pk=1))\n      # L_Dishes = Dish.objects.filter(size = Size.objects.get(pk=2))\n      # AllDishes = Dish.objects.all()\n      return render(request,'pizza/menu.html',{\n         \"Dishes\":S_Dishes,\n         \"Toppings\": Topping.objects.all(),",
+        "detail": "django-project.order.views",
+        "documentation": {}
+    },
+    {
+        "label": "size_field",
+        "kind": 2,
+        "importPath": "django-project.order.views",
+        "description": "django-project.order.views",
+        "peekOfCode": "def size_field(request):\n   if request.method == \"POST\":\n      if request.POST['size'] == 'Small':\n         S_Dishes = Dish.objects.filter(size = Size.objects.get(pk=1))\n         context = {\n            \"Dishes\":S_Dishes,\n            \"Toppings\": Topping.objects.all(),\n            \"Sizes\": Size.objects.all() \n         }\n         return render(request,'pizza/menu.html',context)",
+        "detail": "django-project.order.views",
+        "documentation": {}
+    },
+    {
+        "label": "order",
+        "kind": 2,
+        "importPath": "django-project.order.views",
+        "description": "django-project.order.views",
+        "peekOfCode": "def order(request):\n   if request.method == \"POST\":\n      name = request.POST[\"item_name\"]\n      price = request.POST[\"item_price\"]\n      category = request.POST[\"category\"]\n      image = request.POST[\"image\"]\n      size = request.POST[\"size\"]\n      topping_cnt = 0\n      first_char = name[0]\n      if(first_char.isdigit()):",
+        "detail": "django-project.order.views",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "django-project.pizza.asgi",
+        "description": "django-project.pizza.asgi",
+        "peekOfCode": "application = get_asgi_application()",
+        "detail": "django-project.pizza.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "BASE_DIR",
+        "kind": 5,
+        "importPath": "django-project.pizza.settings",
+        "description": "django-project.pizza.settings",
+        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = 'django-insecure-)mgq^5iw1$x9iz)s4zjt=g@x43@t)u4(!$55s=rr92uf(udhp^'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [",
+        "detail": "django-project.pizza.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SECRET_KEY",
+        "kind": 5,
+        "importPath": "django-project.pizza.settings",
+        "description": "django-project.pizza.settings",
+        "peekOfCode": "SECRET_KEY = 'django-insecure-)mgq^5iw1$x9iz)s4zjt=g@x43@t)u4(!$55s=rr92uf(udhp^'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [\n    'order',\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',",
+        "detail": "django-project.pizza.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DEBUG",
+        "kind": 5,
+        "importPath": "django-project.pizza.settings",
+        "description": "django-project.pizza.settings",
+        "peekOfCode": "DEBUG = True\nALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [\n    'order',\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',",
+        "detail": "django-project.pizza.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ALLOWED_HOSTS",
+        "kind": 5,
+        "importPath": "django-project.pizza.settings",
+        "description": "django-project.pizza.settings",
+        "peekOfCode": "ALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [\n    'order',\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',",
+        "detail": "django-project.pizza.settings",
+        "documentation": {}
+    },
+    {
+        "label": "INSTALLED_APPS",
+        "kind": 5,
+        "importPath": "django-project.pizza.settings",
+        "description": "django-project.pizza.settings",
+        "peekOfCode": "INSTALLED_APPS = [\n    'order',\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n]\nMIDDLEWARE = [",
+        "detail": "django-project.pizza.settings",
+        "documentation": {}
+    },
+    {
+        "label": "MIDDLEWARE",
+        "kind": 5,
+        "importPath": "django-project.pizza.settings",
+        "description": "django-project.pizza.settings",
+        "peekOfCode": "MIDDLEWARE = [\n    'django.middleware.security.SecurityMiddleware',\n    'django.contrib.sessions.middleware.SessionMiddleware',\n    'django.middleware.common.CommonMiddleware',\n    'django.middleware.csrf.CsrfViewMiddleware',\n    'django.contrib.auth.middleware.AuthenticationMiddleware',\n    'django.contrib.messages.middleware.MessageMiddleware',\n    'django.middleware.clickjacking.XFrameOptionsMiddleware',\n]\nROOT_URLCONF = 'pizza.urls'",
+        "detail": "django-project.pizza.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ROOT_URLCONF",
+        "kind": 5,
+        "importPath": "django-project.pizza.settings",
+        "description": "django-project.pizza.settings",
+        "peekOfCode": "ROOT_URLCONF = 'pizza.urls'\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',",
+        "detail": "django-project.pizza.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TEMPLATES",
+        "kind": 5,
+        "importPath": "django-project.pizza.settings",
+        "description": "django-project.pizza.settings",
+        "peekOfCode": "TEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',\n                'django.contrib.auth.context_processors.auth',",
+        "detail": "django-project.pizza.settings",
+        "documentation": {}
+    },
+    {
+        "label": "WSGI_APPLICATION",
+        "kind": 5,
+        "importPath": "django-project.pizza.settings",
+        "description": "django-project.pizza.settings",
+        "peekOfCode": "WSGI_APPLICATION = 'pizza.wsgi.application'\n# Database\n# https://docs.djangoproject.com/en/4.2/ref/settings/#databases\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / 'db.sqlite3',\n    }\n}\n# Password validation",
+        "detail": "django-project.pizza.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DATABASES",
+        "kind": 5,
+        "importPath": "django-project.pizza.settings",
+        "description": "django-project.pizza.settings",
+        "peekOfCode": "DATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / 'db.sqlite3',\n    }\n}\n# Password validation\n# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators\nAUTH_PASSWORD_VALIDATORS = [\n    {",
+        "detail": "django-project.pizza.settings",
+        "documentation": {}
+    },
+    {
+        "label": "AUTH_PASSWORD_VALIDATORS",
+        "kind": 5,
+        "importPath": "django-project.pizza.settings",
+        "description": "django-project.pizza.settings",
+        "peekOfCode": "AUTH_PASSWORD_VALIDATORS = [\n    {\n        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',\n    },",
+        "detail": "django-project.pizza.settings",
+        "documentation": {}
+    },
+    {
+        "label": "AUTH_USER_MODEL",
+        "kind": 5,
+        "importPath": "django-project.pizza.settings",
+        "description": "django-project.pizza.settings",
+        "peekOfCode": "AUTH_USER_MODEL = 'order.User'\n# Internationalization\n# https://docs.djangoproject.com/en/4.2/topics/i18n/\nLANGUAGE_CODE = 'en-us'\nTIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/4.2/howto/static-files/\nSTATIC_URL = 'static/'",
+        "detail": "django-project.pizza.settings",
+        "documentation": {}
+    },
+    {
+        "label": "LANGUAGE_CODE",
+        "kind": 5,
+        "importPath": "django-project.pizza.settings",
+        "description": "django-project.pizza.settings",
+        "peekOfCode": "LANGUAGE_CODE = 'en-us'\nTIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/4.2/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "django-project.pizza.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TIME_ZONE",
+        "kind": 5,
+        "importPath": "django-project.pizza.settings",
+        "description": "django-project.pizza.settings",
+        "peekOfCode": "TIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/4.2/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "django-project.pizza.settings",
+        "documentation": {}
+    },
+    {
+        "label": "USE_I18N",
+        "kind": 5,
+        "importPath": "django-project.pizza.settings",
+        "description": "django-project.pizza.settings",
+        "peekOfCode": "USE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/4.2/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "django-project.pizza.settings",
+        "documentation": {}
+    },
+    {
+        "label": "USE_TZ",
+        "kind": 5,
+        "importPath": "django-project.pizza.settings",
+        "description": "django-project.pizza.settings",
+        "peekOfCode": "USE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/4.2/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "django-project.pizza.settings",
+        "documentation": {}
+    },
+    {
+        "label": "STATIC_URL",
+        "kind": 5,
+        "importPath": "django-project.pizza.settings",
+        "description": "django-project.pizza.settings",
+        "peekOfCode": "STATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "django-project.pizza.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DEFAULT_AUTO_FIELD",
+        "kind": 5,
+        "importPath": "django-project.pizza.settings",
+        "description": "django-project.pizza.settings",
+        "peekOfCode": "DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "django-project.pizza.settings",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "django-project.pizza.urls",
+        "description": "django-project.pizza.urls",
+        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('', include(\"order.urls\")),\n]",
+        "detail": "django-project.pizza.urls",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "django-project.pizza.wsgi",
+        "description": "django-project.pizza.wsgi",
+        "peekOfCode": "application = get_wsgi_application()",
+        "detail": "django-project.pizza.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "django-project.manage",
+        "description": "django-project.manage",
+        "peekOfCode": "def main():\n    \"\"\"Run administrative tasks.\"\"\"\n    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pizza.settings')\n    try:\n        from django.core.management import execute_from_command_line\n    except ImportError as exc:\n        raise ImportError(\n            \"Couldn't import Django. Are you sure it's installed and \"\n            \"available on your PYTHONPATH environment variable? Did you \"\n            \"forget to activate a virtual environment?\"",
+        "detail": "django-project.manage",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "server.app_backend.asgi",
+        "description": "server.app_backend.asgi",
+        "peekOfCode": "application = get_asgi_application()",
+        "detail": "server.app_backend.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "BASE_DIR",
+        "kind": 5,
+        "importPath": "server.app_backend.settings",
+        "description": "server.app_backend.settings",
+        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = 'django-insecure-$$m4lu-bfjrh6+!g_kkhml3h&v()*2*c8o=nlmoddsvded_r8n'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS = []\n# Application definition\nEXTERNAL_APPS = [",
+        "detail": "server.app_backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SECRET_KEY",
+        "kind": 5,
+        "importPath": "server.app_backend.settings",
+        "description": "server.app_backend.settings",
+        "peekOfCode": "SECRET_KEY = 'django-insecure-$$m4lu-bfjrh6+!g_kkhml3h&v()*2*c8o=nlmoddsvded_r8n'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS = []\n# Application definition\nEXTERNAL_APPS = [\n    'rest_framework',\n]\nINSTALLED_APPS = [\n    'django.contrib.admin',",
+        "detail": "server.app_backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DEBUG",
+        "kind": 5,
+        "importPath": "server.app_backend.settings",
+        "description": "server.app_backend.settings",
+        "peekOfCode": "DEBUG = True\nALLOWED_HOSTS = []\n# Application definition\nEXTERNAL_APPS = [\n    'rest_framework',\n]\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',",
+        "detail": "server.app_backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ALLOWED_HOSTS",
+        "kind": 5,
+        "importPath": "server.app_backend.settings",
+        "description": "server.app_backend.settings",
+        "peekOfCode": "ALLOWED_HOSTS = []\n# Application definition\nEXTERNAL_APPS = [\n    'rest_framework',\n]\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',",
+        "detail": "server.app_backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "EXTERNAL_APPS",
+        "kind": 5,
+        "importPath": "server.app_backend.settings",
+        "description": "server.app_backend.settings",
+        "peekOfCode": "EXTERNAL_APPS = [\n    'rest_framework',\n]\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',",
+        "detail": "server.app_backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "INSTALLED_APPS",
+        "kind": 5,
+        "importPath": "server.app_backend.settings",
+        "description": "server.app_backend.settings",
+        "peekOfCode": "INSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n] + EXTERNAL_APPS\nMIDDLEWARE = [\n    'django.middleware.security.SecurityMiddleware',",
+        "detail": "server.app_backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "MIDDLEWARE",
+        "kind": 5,
+        "importPath": "server.app_backend.settings",
+        "description": "server.app_backend.settings",
+        "peekOfCode": "MIDDLEWARE = [\n    'django.middleware.security.SecurityMiddleware',\n    'django.contrib.sessions.middleware.SessionMiddleware',\n    'django.middleware.common.CommonMiddleware',\n    'django.middleware.csrf.CsrfViewMiddleware',\n    'django.contrib.auth.middleware.AuthenticationMiddleware',\n    'django.contrib.messages.middleware.MessageMiddleware',\n    'django.middleware.clickjacking.XFrameOptionsMiddleware',\n]\nROOT_URLCONF = 'app_backend.urls'",
+        "detail": "server.app_backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ROOT_URLCONF",
+        "kind": 5,
+        "importPath": "server.app_backend.settings",
+        "description": "server.app_backend.settings",
+        "peekOfCode": "ROOT_URLCONF = 'app_backend.urls'\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',",
+        "detail": "server.app_backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TEMPLATES",
+        "kind": 5,
+        "importPath": "server.app_backend.settings",
+        "description": "server.app_backend.settings",
+        "peekOfCode": "TEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',\n                'django.contrib.auth.context_processors.auth',",
+        "detail": "server.app_backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "WSGI_APPLICATION",
+        "kind": 5,
+        "importPath": "server.app_backend.settings",
+        "description": "server.app_backend.settings",
+        "peekOfCode": "WSGI_APPLICATION = 'app_backend.wsgi.application'\n# Database\n# https://docs.djangoproject.com/en/5.1/ref/settings/#databases\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / 'db.sqlite3',\n    }\n}\n# Password validation",
+        "detail": "server.app_backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DATABASES",
+        "kind": 5,
+        "importPath": "server.app_backend.settings",
+        "description": "server.app_backend.settings",
+        "peekOfCode": "DATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / 'db.sqlite3',\n    }\n}\n# Password validation\n# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators\nAUTH_PASSWORD_VALIDATORS = [\n    {",
+        "detail": "server.app_backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "AUTH_PASSWORD_VALIDATORS",
+        "kind": 5,
+        "importPath": "server.app_backend.settings",
+        "description": "server.app_backend.settings",
+        "peekOfCode": "AUTH_PASSWORD_VALIDATORS = [\n    {\n        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',\n    },",
+        "detail": "server.app_backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "LANGUAGE_CODE",
+        "kind": 5,
+        "importPath": "server.app_backend.settings",
+        "description": "server.app_backend.settings",
+        "peekOfCode": "LANGUAGE_CODE = 'en-us'\nTIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "server.app_backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TIME_ZONE",
+        "kind": 5,
+        "importPath": "server.app_backend.settings",
+        "description": "server.app_backend.settings",
+        "peekOfCode": "TIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nREST_FRAMEWORK = {",
+        "detail": "server.app_backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "USE_I18N",
+        "kind": 5,
+        "importPath": "server.app_backend.settings",
+        "description": "server.app_backend.settings",
+        "peekOfCode": "USE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nREST_FRAMEWORK = {\n    # Use Django's standard `django.contrib.auth` permissions,",
+        "detail": "server.app_backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "USE_TZ",
+        "kind": 5,
+        "importPath": "server.app_backend.settings",
+        "description": "server.app_backend.settings",
+        "peekOfCode": "USE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nREST_FRAMEWORK = {\n    # Use Django's standard `django.contrib.auth` permissions,\n    # or allow read-only access for unauthenticated users.",
+        "detail": "server.app_backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "STATIC_URL",
+        "kind": 5,
+        "importPath": "server.app_backend.settings",
+        "description": "server.app_backend.settings",
+        "peekOfCode": "STATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nREST_FRAMEWORK = {\n    # Use Django's standard `django.contrib.auth` permissions,\n    # or allow read-only access for unauthenticated users.\n    'DEFAULT_PERMISSION_CLASSES': [\n        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'\n    ]",
+        "detail": "server.app_backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DEFAULT_AUTO_FIELD",
+        "kind": 5,
+        "importPath": "server.app_backend.settings",
+        "description": "server.app_backend.settings",
+        "peekOfCode": "DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nREST_FRAMEWORK = {\n    # Use Django's standard `django.contrib.auth` permissions,\n    # or allow read-only access for unauthenticated users.\n    'DEFAULT_PERMISSION_CLASSES': [\n        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'\n    ]\n}",
+        "detail": "server.app_backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "REST_FRAMEWORK",
+        "kind": 5,
+        "importPath": "server.app_backend.settings",
+        "description": "server.app_backend.settings",
+        "peekOfCode": "REST_FRAMEWORK = {\n    # Use Django's standard `django.contrib.auth` permissions,\n    # or allow read-only access for unauthenticated users.\n    'DEFAULT_PERMISSION_CLASSES': [\n        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'\n    ]\n}",
+        "detail": "server.app_backend.settings",
+        "documentation": {}
+    },
+    {
+        "label": "UserSerializer",
+        "kind": 6,
+        "importPath": "server.app_backend.urls",
+        "description": "server.app_backend.urls",
+        "peekOfCode": "class UserSerializer(serializers.HyperlinkedModelSerializer):\n    class Meta:\n        model = User\n        fields = ['url', 'username', 'email', 'is_staff']\n# ViewSets define the view behavior.\nclass UserViewSet(viewsets.ModelViewSet):\n    queryset = User.objects.all()\n    serializer_class = UserSerializer\n# Routers provide an easy way of automatically determining the URL conf.\nrouter = routers.DefaultRouter()",
+        "detail": "server.app_backend.urls",
+        "documentation": {}
+    },
+    {
+        "label": "UserViewSet",
+        "kind": 6,
+        "importPath": "server.app_backend.urls",
+        "description": "server.app_backend.urls",
+        "peekOfCode": "class UserViewSet(viewsets.ModelViewSet):\n    queryset = User.objects.all()\n    serializer_class = UserSerializer\n# Routers provide an easy way of automatically determining the URL conf.\nrouter = routers.DefaultRouter()\nrouter.register(r'users', UserViewSet)\n# Wire up our API using automatic URL routing.\n# Additionally, we include login URLs for the browsable API.\nurlpatterns = [\n    path('', include(router.urls)),",
+        "detail": "server.app_backend.urls",
+        "documentation": {}
+    },
+    {
+        "label": "router",
+        "kind": 5,
+        "importPath": "server.app_backend.urls",
+        "description": "server.app_backend.urls",
+        "peekOfCode": "router = routers.DefaultRouter()\nrouter.register(r'users', UserViewSet)\n# Wire up our API using automatic URL routing.\n# Additionally, we include login URLs for the browsable API.\nurlpatterns = [\n    path('', include(router.urls)),\n    # path('FLp50WRUkVDOGA3Xq3XS/', admin.site.urls),\n    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))\n]",
+        "detail": "server.app_backend.urls",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "server.app_backend.urls",
+        "description": "server.app_backend.urls",
+        "peekOfCode": "urlpatterns = [\n    path('', include(router.urls)),\n    # path('FLp50WRUkVDOGA3Xq3XS/', admin.site.urls),\n    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))\n]",
+        "detail": "server.app_backend.urls",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "server.app_backend.wsgi",
+        "description": "server.app_backend.wsgi",
+        "peekOfCode": "application = get_wsgi_application()",
+        "detail": "server.app_backend.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "server.manage",
+        "description": "server.manage",
+        "peekOfCode": "def main():\n    \"\"\"Run administrative tasks.\"\"\"\n    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'app_backend.settings')\n    try:\n        from django.core.management import execute_from_command_line\n    except ImportError as exc:\n        raise ImportError(\n            \"Couldn't import Django. Are you sure it's installed and \"\n            \"available on your PYTHONPATH environment variable? Did you \"\n            \"forget to activate a virtual environment?\"",
+        "detail": "server.manage",
+        "documentation": {}
+    }
+]
