@@ -6,7 +6,6 @@ import {
   Clock,
   Phone,
   ChevronRight,
-  Star,
   ShoppingBag,
   Users,
   ArrowRight,
