@@ -1,4 +1,4 @@
-# Pizza Shop
+# Pinocchio's Pizza & Subs | Pizza Shop
 
 ## Features to Add
 
