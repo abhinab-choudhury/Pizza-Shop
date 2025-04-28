@@ -6,13 +6,13 @@ import {
   Clock,
   Phone,
   ChevronRight,
-  ShoppingBag,
   Users,
   ArrowRight,
   Heart,
   Award,
+  Pizza,
 } from 'lucide-react';
-import HeroImage from '@/assets/hero-image.jpeg';
+import HeroImage from '@/assets/hero-image.webp';
 import Grubhub from '@/assets/grubhub.png';
 import Doordash from '@/assets/doordash.png';
 import UberEats from '@/assets/uber-eats.svg';
@@ -20,6 +20,7 @@ import PizzaIcon from '@/assets/icons-pizza.png';
 import SubsIcon from '@/assets/icons-subs.png';
 import SlidersIcon from '@/assets/icons-sliders.png';
 import ShopBuilding from '@/assets/building.jpg';
+import PizzaImage from "@/assets/pizza-image.png";
 
 function Index() {
   // Menu data
@@ -253,19 +254,19 @@ function Index() {
             <TabsList className="grid gap-1.5 w-fit h-full grid-cols-3 p-4 mb-8 bg-gray-100">
               <TabsTrigger
                 value="pizza"
-                className="data-[state=active]:bg-red-500 data-[state=active]:text-white"
+                className="data-[state=active]:bg-red-500 cursor-pointer data-[state=active]:text-white"
               >
                 <img src={PizzaIcon} className="w-6" />
               </TabsTrigger>
               <TabsTrigger
                 value="subs"
-                className="data-[state=active]:bg-red-500 data-[state=active]:text-white"
+                className="data-[state=active]:bg-red-500 cursor-pointer data-[state=active]:text-white"
               >
                 <img src={SubsIcon} className="w-6" />
               </TabsTrigger>
               <TabsTrigger
                 value="sides"
-                className="data-[state=active]:bg-red-500 data-[state=active]:text-white"
+                className="data-[state=active]:bg-red-500 cursor-pointer data-[state=active]:text-white"
               >
                 <img src={SlidersIcon} className="w-6" />
               </TabsTrigger>
@@ -321,58 +322,66 @@ function Index() {
       </section>
 
       {/* "Why Choose Us" Section - New Component */}
-      <section className="bg-red-50 py-16">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center mb-12">
-            <span className="text-red-600 font-semibold">WHY CHOOSE US</span>
-            <h2 className="text-3xl md:text-4xl font-bold mt-2 mb-4">The Pinocchio's Difference</h2>
+      <section className="bg-red-50 py-20 relative overflow-hidden">
+        <img src={PizzaImage} alt='' className='absolute w-40 md:w-72 -mt-30 -ml-20' />
+        <div className="container mx-auto px-6 max-w-6xl">
+          <div className="text-center mb-16">
+            <div className="flex justify-center mb-4">
+              <div className="bg-red-100 p-4 rounded-full">
+                <Pizza className="h-10 w-10 text-red-600" />
+              </div>
+            </div>
+            <span className="text-red-600 font-semibold tracking-wide uppercase">
+              Why Choose Us
+            </span>
+            <h2 className="text-4xl md:text-5xl font-extrabold mt-2 mb-4 text-gray-800">
+              The Pinocchio's Difference
+            </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               What makes our pizza and subs stand out from the rest
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="bg-white p-6 rounded-lg text-center shadow-sm hover:shadow-md transition-shadow">
-              <div className="bg-red-100 p-4 rounded-full inline-flex justify-center mb-4">
-                <Award className="h-8 w-8 text-red-600" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                Icon: Award,
+                title: 'Premium Ingredients',
+                text: 'Fresh, locally-sourced ingredients for the best flavor in every bite.',
+              },
+              {
+                Icon: Users,
+                title: 'Family Recipes',
+                text: 'Authentic Italian recipes passed down through generations.',
+              },
+              {
+                Icon: Clock,
+                title: 'Fast Service',
+                text: 'Quick preparation and delivery without compromising quality.',
+              },
+              {
+                Icon: Heart,
+                title: 'Made with Love',
+                text: 'Passion for pizza-making that you can taste in every slice.',
+              },
+            ].map(({ Icon, title, text }, idx) => (
+              <div
+                key={idx}
+                className="bg-white p-8 rounded-3xl shadow-sm hover:shadow-lg transition-all text-center border border-red-100"
+              >
+                <div className="bg-red-100 p-4 rounded-full inline-flex justify-center items-center mb-6">
+                  <Icon className="h-8 w-8 text-red-600" />
+                </div>
+                <h3 className="font-bold text-xl mb-3 text-gray-800">{title}</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">{text}</p>
               </div>
-              <h3 className="font-bold text-lg mb-2">Premium Ingredients</h3>
-              <p className="text-gray-600 text-sm">
-                Fresh, locally-sourced ingredients for the best flavor in every bite
-              </p>
-            </div>
-
-            <div className="bg-white p-6 rounded-lg text-center shadow-sm hover:shadow-md transition-shadow">
-              <div className="bg-red-100 p-4 rounded-full inline-flex justify-center mb-4">
-                <Users className="h-8 w-8 text-red-600" />
-              </div>
-              <h3 className="font-bold text-lg mb-2">Family Recipes</h3>
-              <p className="text-gray-600 text-sm">
-                Authentic Italian recipes passed down through generations
-              </p>
-            </div>
-
-            <div className="bg-white p-6 rounded-lg text-center shadow-sm hover:shadow-md transition-shadow">
-              <div className="bg-red-100 p-4 rounded-full inline-flex justify-center mb-4">
-                <Clock className="h-8 w-8 text-red-600" />
-              </div>
-              <h3 className="font-bold text-lg mb-2">Fast Service</h3>
-              <p className="text-gray-600 text-sm">
-                Quick preparation and delivery without compromising quality
-              </p>
-            </div>
-
-            <div className="bg-white p-6 rounded-lg text-center shadow-sm hover:shadow-md transition-shadow">
-              <div className="bg-red-100 p-4 rounded-full inline-flex justify-center mb-4">
-                <Heart className="h-8 w-8 text-red-600" />
-              </div>
-              <h3 className="font-bold text-lg mb-2">Made with Love</h3>
-              <p className="text-gray-600 text-sm">
-                Passion for pizza-making that you can taste in every slice
-              </p>
-            </div>
+            ))}
           </div>
         </div>
+
+        {/* Background Decoration Shapes */}
+        <div className="absolute top-0 left-0 w-40 h-40 bg-red-100 rounded-full opacity-30 blur-2xl -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="absolute bottom-0 right-0 w-60 h-60 bg-yellow-100 rounded-full opacity-20 blur-2xl translate-x-1/3 translate-y-1/3"></div>
       </section>
 
       {/* Location & Hours - Improved */}
@@ -456,84 +465,60 @@ function Index() {
         </div>
       </section>
 
-      {/* CTA Section - Enhanced */}
-      <section className="bg-gradient-to-r from-red-500 to-orange-600 text-white py-16">
-        <div className="container text-center mx-auto px-4 max-w-7xl">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">Ready to Order?</h2>
-          <p className="text-lg max-w-2xl mx-auto mb-8">
-            Experience the authentic taste of Pinocchio's Pizza & Subs. Order online for pickup or
-            delivery and enjoy our exclusive online discounts.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-white text-white hover:bg-white hover:text-red-600"
-            >
-              <Phone className="mr-2 h-5 w-5" /> Call Now: (555) 123-4567
-            </Button>
-            <Button size="lg" className="bg-white text-red-600 hover:bg-gray-100">
-              <ShoppingBag className="mr-2 h-5 w-5" /> Order Online
-            </Button>
-          </div>
-        </div>
-      </section>
       <section className="container mx-auto px-4 max-w-6xl">
-        <form action="" className="form bg-white p-6 my-10 relative">
-          <div
-            className="icon bg-blue-600 text-white w-6 h-6 absolute flex items-center justify-center p-5"
-            style={{ left: '-40px' }}
-          >
-            <i className="fal fa-phone-volume fa-fw text-2xl transform -rotate-45"></i>
-          </div>
-          <h3 className="text-2xl text-gray-900 font-semibold">Let us call you!</h3>
-          <p className="text-gray-600"> To help you choose your property</p>
-          <div className="flex space-x-5 mt-3">
-            <input
-              type="text"
-              name=""
-              id=""
-              placeholder="Your Name"
-              className="border p-2  w-1/2"
-            />
-            <input
-              type="tel"
-              name=""
-              id=""
-              placeholder="Your Number"
-              className="border p-2 w-1/2"
-            />
-          </div>
-          <input
-            type="email"
-            name=""
-            id=""
-            placeholder="Your Email"
-            className="border p-2 w-full mt-3"
-          />
-          <textarea
-            name=""
-            id=""
-            cols={10}
-            rows={3}
-            placeholder="Tell us about desired property"
-            className="border p-2 mt-3 w-full"
-          ></textarea>
-          <p className="font-bold text-sm mt-3">GDPR Agreement *</p>
-          <div className="flex items-baseline space-x-2 mt-2">
-            <input type="checkbox" name="" id="" className="inline-block" />
-            <p className="text-gray-600 text-sm">
-              I consent to having this website store my submitted information so they can respond to
-              my inquiry.
-            </p>
-          </div>
-          <input
-            type="submit"
-            value="Submit"
-            className="w-full mt-6 bg-blue-600 hover:bg-blue-500 text-white font-semibold p-3"
-          />
-        </form>
-      </section>
+  <form action="" className="form bg-white p-6 my-10 relative shadow-md rounded-lg">
+    <div
+      className="icon bg-red-600 text-white w-6 h-6 absolute flex items-center justify-center p-5"
+      style={{ left: '-20px'}}
+    >
+      <i className="fal fa-phone-volume fa-fw text-2xl transform -rotate-45"></i>
+    </div>
+    <h3 className="text-2xl text-gray-900 font-extrabold mb-1">Let us call you!</h3>
+    <p className="text-gray-600 mb-4">We’ll get back to you as soon as possible.</p>
+    
+    <div className="flex flex-col md:flex-row md:space-x-5 space-y-3 md:space-y-0">
+      <input
+        type="text"
+        placeholder="Your Name"
+        className="border border-gray-300 rounded-md p-3 w-full"
+      />
+      <input
+        type="tel"
+        placeholder="Your Number"
+        className="border border-gray-300 rounded-md p-3 w-full"
+      />
+    </div>
+
+    <input
+      type="email"
+      placeholder="Your Email"
+      className="border border-gray-300 rounded-md p-3 w-full mt-4"
+    />
+    
+    <textarea
+      cols={10}
+      rows={3}
+      placeholder="Tell us about your order or request"
+      className="border border-gray-300 rounded-md p-3 w-full mt-4"
+    ></textarea>
+
+    <p className="font-bold text-sm mt-4">GDPR Agreement *</p>
+    <div className="flex items-start space-x-2 mt-2">
+      <input type="checkbox" className="mt-1" />
+      <p className="text-gray-600 text-sm">
+        I consent to having this website store my submitted information so they can respond to
+        my inquiry.
+      </p>
+    </div>
+
+    <input
+      type="submit"
+      value="Submit"
+      className="w-full mt-6 bg-red-600 hover:bg-red-500 text-white font-semibold p-3 rounded-md transition-all duration-300"
+    />
+  </form>
+</section>
+
     </div>
   );
 }
