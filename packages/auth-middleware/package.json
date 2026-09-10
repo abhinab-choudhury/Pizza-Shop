@@ -1,0 +1,21 @@
+{
+  "name": "@repo/auth-middleware",
+  "version": "1.0.0",
+  "description": "Shared auth middleware for Pizza Shop microservices",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "jose": "^6.0.11",
+    "koa": "^3.2.0"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/koa": "^3.0.2",
+    "typescript": "^5.9.3"
+  }
+}

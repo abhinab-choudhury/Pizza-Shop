@@ -3,12 +3,9 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "target": "ES2022",
-    "lib": ["ES2022"]
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist"]

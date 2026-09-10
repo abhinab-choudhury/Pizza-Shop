@@ -1,31 +1,44 @@
 {
   "name": "auth-service",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Authentication microservice for Pizza Shop",
+  "main": "dist/app.js",
   "scripts": {
     "dev": "nodemon --watch src --exec ts-node src/app.ts",
     "build": "tsc",
-    "start": "node dist/app.js"
+    "start": "node dist/app.js",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/db/migrate.ts",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.18.1",
   "dependencies": {
-    "dotenv": "^17.2.3",
-    "koa": "^3.0.1",
+    "@node-rs/argon2": "^1.2.0",
+    "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.44.0",
+    "jose": "^6.0.11",
+    "koa": "^3.2.0",
     "koa-bodyparser": "^4.4.1",
-    "koa-router": "^14.0.0"
+    "koa-router": "^14.0.0",
+    "nodemailer": "^7.0.0",
+    "postgres": "^3.4.5",
+    "zod": "^3.25.0"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@types/koa": "^3.0.0",
-    "@types/koa-bodyparser": "^4.3.12",
-    "@types/koa-router": "^7.4.8",
-    "@types/node": "^24.7.1",
-    "nodemon": "^3.1.10",
+    "@types/koa": "^3.0.2",
+    "@types/koa-bodyparser": "^4.3.13",
+    "@types/koa-router": "^7.4.9",
+    "@types/node": "^24.12.4",
+    "@types/nodemailer": "^7.0.0",
+    "drizzle-kit": "^0.31.0",
+    "nodemon": "^3.1.14",
+    "tsx": "^4.21.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }
