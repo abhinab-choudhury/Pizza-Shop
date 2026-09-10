@@ -28,6 +28,14 @@ v10/
 build
 dist
 
+# Stray tsc output emitted into src (auth-service)
+apps/auth-service/src/**/*.js
+apps/auth-service/src/**/*.d.ts
+apps/auth-service/src/**/*.d.ts.map
+apps/auth-service/drizzle.config.js
+apps/auth-service/drizzle.config.d.ts
+apps/auth-service/drizzle.config.d.ts.map
+
 
 # Debug
 npm-debug.log*
