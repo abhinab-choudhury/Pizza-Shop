@@ -144,6 +144,8 @@ pnpm db:push
 pnpm db:studio
 ```
 
+The initial schema migration (`drizzle/0000_*.sql`) is committed, so a fresh setup only needs `pnpm db:migrate`. Open the URL Drizzle Studio prints (default: `https://local.drizzle.studio`) to browse the `users`, `otp_codes`, `accounts`, `refresh_tokens`, `sessions`, and `service_accounts` tables.
+
 ### Database Credentials
 
 | Field | Value |

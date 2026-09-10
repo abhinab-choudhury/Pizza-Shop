@@ -2,9 +2,10 @@ import { importJWK } from "jose";
 import { Context, Next } from "koa";
 import { UnauthorizedError } from "../utils/errors";
 
-const JWKS_URL =
-  process.env.AUTH_SERVICE_INTERNAL_URL ||
-  "http://localhost:3002/.well-known/jwks.json";
+const AUTH_SERVICE_INTERNAL_URL =
+  process.env.AUTH_SERVICE_INTERNAL_URL || "http://localhost:3002";
+
+const JWKS_URL = `${AUTH_SERVICE_INTERNAL_URL}/auth/.well-known/jwks.json`;
 
 let cachedKeys: Map<string, any> = new Map();
 let keysFetchTime = 0;
