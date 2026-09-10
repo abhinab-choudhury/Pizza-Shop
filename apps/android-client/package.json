@@ -1,8 +1,0 @@
-{
-  "name": "@pizza-shop/android-client",
-  "private": true,
-  "scripts": {
-    "build": "./gradlew :androidApp:assembleDebug",
-    "dev": "./gradlew :androidApp:installDebug"
-  }
-}

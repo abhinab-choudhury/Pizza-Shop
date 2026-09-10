@@ -1,34 +1,41 @@
 # Pizza Shop — Microservices Platform
 
-A full-stack pizza ordering platform built with a microservices architecture. Includes web clients, backend services, and a Kotlin Multiplatform mobile app.
+A full-stack pizza ordering platform built with a microservices architecture. Includes web clients and backend services.
 
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                      Clients                            │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
-│  │  Web Client  │  │ Admin Client │  │ Android App  │  │
-│  │  (Next.js)   │  │  (Next.js)   │  │    (KMP)     │  │
-│  │  :3000       │  │  :3001       │  │              │  │
-│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘  │
-└─────────┼──────────────────┼──────────────────┼─────────┘
-          │                  │                  │
-┌─────────▼──────────────────▼──────────────────▼─────────┐
-│                   API Gateway / Load Balancer            │
-└─────────┬──────────┬──────────┬──────────┬──────────────┘
-          │          │          │          │
-┌─────────▼──┐ ┌─────▼────┐ ┌──▼───────┐ ┌▼───────────┐
-│   Auth     │ │  Order   │ │ Payment  │ │  Product   │
-│  Service   │ │  Service │ │ Service  │ │  Service   │
-│  (Koa)     │ │ (Express)│ │ (Hono)   │ │  (Hono)    │
-│  :3002     │ │  :3004   │ │  :3005   │ │  :3006     │
-└─────┬──────┘ └────┬─────┘ └────┬─────┘ └────┬───────┘
-      │              │            │             │
-┌─────▼──────────────▼────────────▼─────────────▼─────────┐
-│                    PostgreSQL                           │
-│                    :5432                                 │
-└─────────────────────────────────────────────────────────┘
+ ┌─────────────────────────────────────────────┐
+ │                 Clients                     │
+ │   ┌──────────────┐ ┌──────────────┐         │
+ │   │  Web Client  │ │ Admin Client │         │
+ │   │  (Next.js)   │ │  (Next.js)   │         │
+ │   │  :3000       │ │  :3001       │         │
+ │   └──────┬───────┘ └──────┬───────┘         │
+ └─────────┼─────────────────┼─────────────────┘
+           │                 │
+ ┌─────────▼─────────────────▼─────────────┐
+ │          API Gateway / Load Balancer    │
+ └─────────┬──────────┬──────────┬─────────┘
+           │          │          │
+ ┌─────────▼──┐ ┌─────▼────┐ ┌───▼──────┐
+ │   Auth     │ │  Order   │ │ Payment  │
+ │  Service   │ │  Service │ │ Service  │
+ │  (Koa)     │ │ (Express)│ │ (Hono)   │
+ │  :3002     │ │  :3004   │ │  :3005   │
+ └─────┬──────┘ └────┬─────┘ └────┬─────┘
+       │              │            │
+       └───┐    ┌─────▼────────────┘
+           │    │
+ ┌─────────▼────▼──────────────┐
+ │      Product Service        │
+ │      (Hono)  :3006          │
+ └────────────┬───────────────┘
+              │
+ ┌────────────▼───────────────┐
+ │         PostgreSQL         │
+ │         :5432              │
+ └────────────────────────────┘
 ```
 
 ## Tech Stack
@@ -42,7 +49,6 @@ A full-stack pizza ordering platform built with a microservices architecture. In
 | **Payment Service** | Hono.js 4 |
 | **Product Service** | Hono.js 4 |
 | **Email Service** | Express.js 5 |
-| **Mobile App** | Kotlin Multiplatform, Compose Multiplatform |
 | **Database** | PostgreSQL 16 |
 | **Containerization** | Docker Compose |
 
@@ -93,8 +99,6 @@ This starts PostgreSQL, runs migrations, and boots all backend + frontend servic
 | **pnpm** | >= 10 | Package manager |
 | **Docker** | >= 24 | PostgreSQL database |
 | **Docker Compose** | >= 2.20 | Container orchestration |
-| **Android Studio** | Latest | Android app development |
-| **JDK** | >= 17 | KMP builds |
 
 ---
 
@@ -235,9 +239,6 @@ pnpm dev:email       # Email Service → http://localhost:3003
 # Frontend clients
 pnpm dev:web         # Web Client → http://localhost:3000
 pnpm dev:admin       # Admin Client → http://localhost:3001
-
-# Mobile app (requires Android Studio)
-pnpm dev:android
 ```
 
 ### Useful Combinations
@@ -352,64 +353,6 @@ router.get("/orders", auth, async (ctx) => {
 
 ---
 
-## Mobile App (KMP)
-
-### Prerequisites
-
-- Android Studio (latest stable)
-- JDK 17+
-- Android SDK 35
-
-### Setup
-
-```bash
-# Build the Android app
-pnpm dev:android
-
-# Or build APK directly
-cd apps/android-client
-./gradlew :androidApp:assembleDebug
-```
-
-### Architecture
-
-```
-android-client/
-├── shared/                 # KMP shared module
-│   ├── domain/
-│   │   ├── model/          # Data classes (Pizza, User, Order, CartItem)
-│   │   ├── repository/     # Repository interfaces
-│   │   └── usecase/        # Business logic use cases
-│   ├── data/
-│   │   ├── remote/         # Ktor API clients (Auth, Product, Order)
-│   │   ├── local/          # SQLDelight (cart persistence)
-│   │   └── repository/     # Repository implementations
-│   └── ui/
-│       ├── theme/          # Material3 pizza-themed colors
-│       ├── navigation/     # Navigation graph
-│       ├── screens/        # Screen composables + ViewModels
-│       │   ├── login/      # Email/password + Google + Email OTP
-│       │   ├── menu/       # Pizza grid with search + categories
-│       │   ├── cart/       # Cart with quantity controls
-│       │   ├── checkout/   # Address + payment method
-│       │   └── orders/     # Order history with status
-│       └── components/     # Reusable composables
-├── androidApp/             # Android entry point (thin shell)
-└── gradle/                 # Version catalog + wrapper
-```
-
-### Tech Stack
-
-| Library | Version | Purpose |
-|---|---|---|
-| Kotlin | 2.1 | Language |
-| Compose Multiplatform | 1.8 | Shared UI |
-| Ktor | 3.1 | HTTP client |
-| SQLDelight | 2.0 | Local database |
-| Koin | 4.0 | Dependency injection |
-
----
-
 ## Code Quality
 
 ```bash
@@ -436,8 +379,7 @@ Pizza-Shop/
 │   ├── email-service/       # Express.js email (port 3003)
 │   ├── order-service/       # Express.js orders (port 3004)
 │   ├── payment-service/     # Hono.js payments (port 3005)
-│   ├── product-service/     # Hono.js products (port 3006)
-│   └── android-client/      # KMP Android app
+│   └── product-service/     # Hono.js products (port 3006)
 ├── packages/
 │   ├── auth-middleware/      # Shared JWT verification
 │   ├── eslint-config/       # Shared ESLint configs
@@ -507,14 +449,6 @@ pnpm db:generate && pnpm db:migrate
 kill $(lsof -t -i:3002)
 
 # Or use a different port in the service's .env
-```
-
-### Android build fails
-```bash
-# Clean and rebuild
-cd apps/android-client
-./gradlew clean
-./gradlew :androidApp:assembleDebug
 ```
 
 ---
