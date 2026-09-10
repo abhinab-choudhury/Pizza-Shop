@@ -24,9 +24,23 @@ export default function LoginPage() {
   const [otpCode, setOtpCode] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [from] = useState(() => {
+    if (typeof window !== "undefined") {
+      const f = new URLSearchParams(window.location.search).get("from");
+      if (
+        f &&
+        f.startsWith("/") &&
+        !f.startsWith("//") &&
+        f !== "/login"
+      ) {
+        return f;
+      }
+    }
+    return "/product";
+  });
 
   if (isAuthenticated) {
-    router.push("/product");
+    router.replace(from);
     return null;
   }
 
@@ -41,7 +55,7 @@ export default function LoginPage() {
       } else {
         await login(email, password);
       }
-      router.push("/product");
+      router.replace(from);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
@@ -79,7 +93,7 @@ export default function LoginPage() {
     try {
       const res = await api.auth.verifyOtp(email, otpCode);
       localStorage.setItem("access_token", res.accessToken);
-      window.location.href = "/product";
+      window.location.href = from;
     } catch (err) {
       setError(err instanceof Error ? err.message : "Invalid OTP");
     } finally {
