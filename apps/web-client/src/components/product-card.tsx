@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { useCart } from "@/contexts/cart-context";
 import { Plus, Check } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
 
 interface ProductCardProps {
   id: string;
@@ -29,9 +30,15 @@ export function ProductCard({ id, name, description, price, category, imageUrl }
 
   return (
     <Card className="overflow-hidden transition-shadow hover:shadow-md">
-      <div className="aspect-video bg-muted flex items-center justify-center text-4xl">
+      <div className="relative aspect-video bg-muted flex items-center justify-center text-4xl">
         {imageUrl ? (
-          <img src={imageUrl} alt={name} className="h-full w-full object-cover" />
+          <Image
+            src={imageUrl}
+            alt={name}
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            className="object-cover"
+          />
         ) : (
           "🍕"
         )}

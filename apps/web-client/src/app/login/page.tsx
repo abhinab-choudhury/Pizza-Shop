@@ -24,7 +24,6 @@ export default function LoginPage() {
   const [otpCode, setOtpCode] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [otpSent, setOtpSent] = useState(false);
 
   if (isAuthenticated) {
     router.push("/product");
@@ -43,8 +42,8 @@ export default function LoginPage() {
         await login(email, password);
       }
       router.push("/product");
-    } catch (err: any) {
-      setError(err.message || "Something went wrong");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
       setIsLoading(false);
     }
@@ -60,10 +59,9 @@ export default function LoginPage() {
 
     try {
       await api.auth.sendOtp(email);
-      setOtpSent(true);
       setView("otp-verify");
-    } catch (err: any) {
-      setError(err.message || "Failed to send OTP");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to send OTP");
     } finally {
       setIsLoading(false);
     }
@@ -82,8 +80,8 @@ export default function LoginPage() {
       const res = await api.auth.verifyOtp(email, otpCode);
       localStorage.setItem("access_token", res.accessToken);
       window.location.href = "/product";
-    } catch (err: any) {
-      setError(err.message || "Invalid OTP");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Invalid OTP");
     } finally {
       setIsLoading(false);
     }
@@ -117,7 +115,6 @@ export default function LoginPage() {
               onVerify={handleVerifyOtp}
               onBack={() => {
                 setView("otp-email");
-                setOtpSent(false);
                 setOtpCode("");
                 setError(null);
               }}

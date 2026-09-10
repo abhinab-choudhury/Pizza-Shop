@@ -2,9 +2,41 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3002";
 
 interface ApiOptions {
   method?: string;
-  body?: any;
+  body?: unknown;
   headers?: Record<string, string>;
   token?: string;
+}
+
+export interface ApiUser {
+  id: string;
+  email: string;
+  name: string | null;
+  emailVerified: boolean;
+  status: string;
+}
+
+export interface ApiProduct {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  imageUrl?: string;
+}
+
+export interface ApiOrderItem {
+  id: string;
+  name: string;
+  quantity: number;
+  price: number;
+}
+
+export interface ApiOrder {
+  id: string;
+  items: ApiOrderItem[];
+  total: number;
+  status: string;
+  createdAt: string;
 }
 
 async function request<T>(endpoint: string, options: ApiOptions = {}): Promise<T> {
@@ -37,19 +69,19 @@ async function request<T>(endpoint: string, options: ApiOptions = {}): Promise<T
 export const api = {
   auth: {
     login: (email: string, password: string) =>
-      request<{ user: any; accessToken: string }>("/auth/login", {
+      request<{ user: ApiUser; accessToken: string }>("/auth/login", {
         method: "POST",
         body: { email, password },
       }),
 
     register: (email: string, name: string, password: string) =>
-      request<{ user: any; accessToken: string }>("/auth/register", {
+      request<{ user: ApiUser; accessToken: string }>("/auth/register", {
         method: "POST",
         body: { email, name, password },
       }),
 
     getProfile: (token: string) =>
-      request<{ user: any }>("/auth/me", { token }),
+      request<{ user: ApiUser }>("/auth/me", { token }),
 
     refreshToken: (refreshToken: string) =>
       request<{ accessToken: string }>("/auth/refresh", {
@@ -75,20 +107,20 @@ export const api = {
 
   products: {
     getAll: (token?: string) =>
-      request<any[]>("/products", { token }),
+      request<ApiProduct[]>("/products", { token }),
 
     getById: (id: string, token?: string) =>
-      request<any>(`/products/${id}`, { token }),
+      request<ApiProduct>(`/products/${id}`, { token }),
   },
 
   orders: {
-    create: (data: any, token: string) =>
-      request<any>("/orders", { method: "POST", body: data, token }),
+    create: (data: unknown, token: string) =>
+      request<ApiOrder>("/orders", { method: "POST", body: data, token }),
 
     getAll: (token: string) =>
-      request<any[]>("/orders", { token }),
+      request<ApiOrder[]>("/orders", { token }),
 
     getById: (id: string, token: string) =>
-      request<any>(`/orders/${id}`, { token }),
+      request<ApiOrder>(`/orders/${id}`, { token }),
   },
 };
