@@ -13,8 +13,8 @@
     "koa": "^3.2.0"
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
+    "@repo/eslint-config": "workspace:^",
+    "@repo/typescript-config": "workspace:^",
     "@types/koa": "^3.0.2",
     "typescript": "^5.9.3"
   }

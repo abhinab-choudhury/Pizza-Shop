@@ -131,10 +131,10 @@ importers:
         version: 3.25.76
     devDependencies:
       '@repo/eslint-config':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/eslint-config
       '@repo/typescript-config':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/typescript-config
       '@types/koa':
         specifier: ^3.0.2
@@ -186,7 +186,7 @@ importers:
         version: 3.19.0
     devDependencies:
       '@repo/typescript-config':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/typescript-config
       '@types/express':
         specifier: ^5.0.6
@@ -220,7 +220,7 @@ importers:
         version: 3.19.0
     devDependencies:
       '@repo/typescript-config':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/typescript-config
       '@types/express':
         specifier: ^5.0.6
@@ -251,7 +251,7 @@ importers:
         version: 4.12.19
     devDependencies:
       '@repo/typescript-config':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/typescript-config
       '@types/node':
         specifier: ^20.19.41
@@ -276,7 +276,7 @@ importers:
         version: 4.12.19
     devDependencies:
       '@repo/typescript-config':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/typescript-config
       '@types/node':
         specifier: ^20.19.41
@@ -359,10 +359,10 @@ importers:
         version: 3.2.0
     devDependencies:
       '@repo/eslint-config':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../eslint-config
       '@repo/typescript-config':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../typescript-config
       '@types/koa':
         specifier: ^3.0.2

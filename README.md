@@ -405,8 +405,8 @@ Pizza-Shop/
        "start": "node dist/app.js"
      },
      "devDependencies": {
-       "@repo/eslint-config": "workspace:*",
-       "@repo/typescript-config": "workspace:*"
+       "@repo/eslint-config": "workspace:^",
+       "@repo/typescript-config": "workspace:^"
      }
    }
    ```
