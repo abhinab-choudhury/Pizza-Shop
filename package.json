@@ -34,9 +34,9 @@
     "clean": "turbo run clean && rm -rf node_modules"
   },
   "devDependencies": {
-    "prettier": "^3.8.3",
-    "turbo": "^2.9.14",
-    "typescript": "6.0.3"
+    "prettier": "^3.9.6",
+    "turbo": "^2.10.12",
+    "typescript": "7.0.2"
   },
   "packageManager": "pnpm@10.18.1",
   "engines": {

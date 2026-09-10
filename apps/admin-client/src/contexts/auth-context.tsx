@@ -26,21 +26,21 @@ export function AdminAuthProvider({
   children: ReactNode;
 }) {
   const [user, setUser] = useState<ApiUser | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return !!localStorage.getItem("access_token");
+  });
 
   useEffect(() => {
     const savedToken = localStorage.getItem("access_token");
-    if (savedToken) {
-      api.auth
-        .getProfile(savedToken)
-        .then((res) => setUser(res.user))
-        .catch(() => {
-          localStorage.removeItem("access_token");
-        })
-        .finally(() => setIsLoading(false));
-    } else {
-      setIsLoading(false);
-    }
+    if (!savedToken) return;
+    api.auth
+      .getProfile(savedToken)
+      .then((res) => setUser(res.user))
+      .catch(() => {
+        localStorage.removeItem("access_token");
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const login = useCallback(async (email: string, password: string) => {

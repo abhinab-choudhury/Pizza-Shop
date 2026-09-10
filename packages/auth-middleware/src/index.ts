@@ -82,7 +82,7 @@ export function createAuthMiddleware(options: {
       }
 
       const header = JSON.parse(
-        Buffer.from(headerPayload[0], "base64url").toString(),
+        Buffer.from(headerPayload[0]!, "base64url").toString(),
       );
 
       const jwks = await fetchJWKS(jwksUrl);
@@ -142,7 +142,7 @@ export function createServiceAuthMiddleware(options: {
     try {
       const headerPayload = token.split(".");
       const header = JSON.parse(
-        Buffer.from(headerPayload[0], "base64url").toString(),
+        Buffer.from(headerPayload[0]!, "base64url").toString(),
       );
 
       const jwks = await fetchJWKS(jwksUrl);
@@ -174,4 +174,4 @@ export function createServiceAuthMiddleware(options: {
   };
 }
 
-export type { AuthenticatedUser };
+

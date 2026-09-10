@@ -24,25 +24,26 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [token, setToken] = useState<string | null>(() => {
+    if (typeof window === "undefined") return null;
+    return localStorage.getItem("access_token");
+  });
+  const [isLoading, setIsLoading] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return !!localStorage.getItem("access_token");
+  });
 
   useEffect(() => {
-    const savedToken = localStorage.getItem("access_token");
-    if (savedToken) {
-      setToken(savedToken);
-      api.auth
-        .getProfile(savedToken)
-        .then((res) => setUser(res.user))
-        .catch(() => {
-          localStorage.removeItem("access_token");
-          setToken(null);
-        })
-        .finally(() => setIsLoading(false));
-    } else {
-      setIsLoading(false);
-    }
-  }, []);
+    if (!token) return;
+    api.auth
+      .getProfile(token)
+      .then((res) => setUser(res.user))
+      .catch(() => {
+        localStorage.removeItem("access_token");
+        setToken(null);
+      })
+      .finally(() => setIsLoading(false));
+  }, [token]);
 
   const login = useCallback(async (email: string, password: string) => {
     const res = await api.auth.login(email, password);
