@@ -52,8 +52,13 @@ export async function verifyJwtMiddleware(
       throw new UnauthorizedError("Invalid token format");
     }
 
+    const encodedHeader = headerPayload[0];
+    if (!encodedHeader) {
+      throw new UnauthorizedError("Invalid token format");
+    }
+
     const header = JSON.parse(
-      Buffer.from(headerPayload[0], "base64url").toString(),
+      Buffer.from(encodedHeader, "base64url").toString(),
     );
 
     const jwks = await fetchJWKS();

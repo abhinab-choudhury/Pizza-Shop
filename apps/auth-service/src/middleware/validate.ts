@@ -10,8 +10,9 @@ export function validate(
 ) {
   return async (ctx: Context, next: Next) => {
     try {
-      const data = schema.parse(ctx.request[target]);
-      ctx.request[target] = data;
+      const req = ctx.request as unknown as Record<string, unknown>;
+      const data = schema.parse(req[target]);
+      req[target] = data;
       await next();
     } catch (err) {
       if (err instanceof ZodError) {

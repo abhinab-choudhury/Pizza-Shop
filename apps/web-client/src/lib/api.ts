@@ -12,6 +12,7 @@ async function request<T>(endpoint: string, options: ApiOptions = {}): Promise<T
 
   const config: RequestInit = {
     method,
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
       ...headers,

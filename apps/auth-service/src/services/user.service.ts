@@ -57,6 +57,10 @@ export async function createUser(
     })
     .returning();
 
+  if (!user) {
+    throw new Error("Failed to create user");
+  }
+
   return toUserResponse(user);
 }
 
@@ -169,6 +173,10 @@ export async function findOrCreateGoogleUser(
       })
       .returning();
 
+    if (!newUser) {
+      throw new Error("Failed to create user");
+    }
+
     userId = newUser.id;
 
     // Create Google account link
@@ -204,6 +212,10 @@ export async function findOrCreateEmailUser(
       emailVerified: true,
     })
     .returning();
+
+  if (!newUser) {
+    throw new Error("Failed to create user");
+  }
 
   return newUser.id;
 }

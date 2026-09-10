@@ -1,12 +1,16 @@
 import {
   SignJWT,
   jwtVerify,
-  generateKeyPairSync,
-  exportJWK,
   importJWK,
   JWTPayload,
 } from "jose";
-import { randomBytes, createHash } from "crypto";
+import {
+  randomBytes,
+  createHash,
+  generateKeyPairSync,
+  createPublicKey,
+  createPrivateKey,
+} from "crypto";
 import { eq, and, gt } from "drizzle-orm";
 import { db } from "../db";
 import { refreshTokens } from "../db/schema";
@@ -28,7 +32,7 @@ export interface AccessTokenPayload extends JWTPayload {
   aud: string;
 }
 
-let keyPair: ReturnType<typeof generateKeyPairSync> | null = null;
+let keyPair: { publicKey: string; privateKey: string } | null = null;
 let currentKid = "auth-key-1";
 
 export function getKeyPair() {
@@ -43,7 +47,7 @@ export function getKeyPair() {
 }
 
 export function getPrivateKey() {
-  return getKeyPair().privateKey;
+  return createPrivateKey(getKeyPair().privateKey);
 }
 
 export function getPublicKey() {
@@ -56,21 +60,7 @@ export function getCurrentKid() {
 
 export async function getJWKS() {
   const { publicKey } = getKeyPair();
-  const jwk = await exportJWK(
-    await importJWK(
-      { kty: "RSA", n: "", e: "" } as any,
-      "RS256",
-    ).catch(() => ({ kty: "RSA" as const })),
-  );
-
-  // Use jose to import the PEM public key and export as JWK
-  const importedKey = await importJWK(
-    { kty: "RSA", n: "", e: "" } as any,
-  ).catch(() => null);
-
-  // Simpler approach: generate JWK from the key pair
-  const nodeCrypto = await import("crypto");
-  const keyObject = nodeCrypto.createPublicKey(publicKey);
+  const keyObject = createPublicKey(publicKey);
   const jwkResult = keyObject.export({ format: "jwk" });
 
   return {

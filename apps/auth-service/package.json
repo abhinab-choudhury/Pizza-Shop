@@ -4,7 +4,7 @@
   "description": "Authentication microservice for Pizza Shop",
   "main": "dist/app.js",
   "scripts": {
-    "dev": "nodemon --watch src --exec ts-node src/app.ts",
+    "dev": "tsx watch src/app.ts",
     "build": "tsc",
     "start": "node dist/app.js",
     "db:generate": "drizzle-kit generate",
@@ -17,6 +17,7 @@
   "license": "ISC",
   "packageManager": "pnpm@10.18.1",
   "dependencies": {
+    "@koa/cors": "^5.0.0",
     "@node-rs/argon2": "^1.2.0",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^0.44.0",
@@ -34,6 +35,7 @@
     "@types/koa": "^3.0.2",
     "@types/koa-bodyparser": "^4.3.13",
     "@types/koa-router": "^7.4.9",
+    "@types/koa__cors": "^5.0.0",
     "@types/node": "^24.12.4",
     "@types/nodemailer": "^7.0.0",
     "drizzle-kit": "^0.31.0",
