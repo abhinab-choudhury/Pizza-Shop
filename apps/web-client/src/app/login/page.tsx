@@ -1,23 +1,336 @@
-import { Button } from "@/components/ui/button";
+"use client";
 
-export default function login() {
-    return (
-        <div>
-            <h1>Login to Pinocchio's pizza</h1>
-            <div className="flex flex-col gap-4 w-full max-w-sm">
-                <Button
-                    className="inline-flex items-center justify-center gap-2 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-                    aria-label="Sign in with Google"
-                >
-                    <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden>
-                        <path fill="#EA4335" d="M24 12.5c3.9 0 7 1.5 9.1 3.2l6.7-6.7C35.9 5.2 30.4 3 24 3 14.6 3 6.7 8.6 3.1 16.7l7.7 6C12.4 15.1 17.8 12.5 24 12.5z" />
-                        <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v8.6h12.6c-.5 2.8-2 5.2-4.3 6.8l6.9 5.3C43.8 36.1 46.5 30.9 46.5 24.5z" />
-                        <path fill="#FBBC05" d="M10.8 29.1A14.6 14.6 0 0 1 9 24.5c0-1.6.3-3.1.8-4.5l-7.7-6A24 24 0 0 0 0 24.5c0 3.9.9 7.6 2.5 11.1l8.3-6.5z" />
-                        <path fill="#34A853" d="M24 44.9c6.4 0 11.9-2.1 16-5.7l-7.6-5.9c-2.3 1.6-5.2 2.6-8.4 2.6-6.2 0-11.6-3-14.8-7.6l-8.3 6.5C6.7 40.3 14.6 44.9 24 44.9z" />
-                    </svg>
-                    Sign in with Google
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/auth-context";
+import { api } from "@/lib/api";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { ArrowLeft, Mail, CheckCircle } from "lucide-react";
+
+type View = "login" | "otp-email" | "otp-verify";
+
+export default function LoginPage() {
+  const { login, register, isAuthenticated } = useAuth();
+  const router = useRouter();
+  const [view, setView] = useState<View>("login");
+  const [isRegister, setIsRegister] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [otpCode, setOtpCode] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
+
+  if (isAuthenticated) {
+    router.push("/product");
+    return null;
+  }
+
+  const handleEmailPasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      if (isRegister) {
+        await register(email, name, password);
+      } else {
+        await login(email, password);
+      }
+      router.push("/product");
+    } catch (err: any) {
+      setError(err.message || "Something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSendOtp = async () => {
+    if (!email.trim()) {
+      setError("Please enter your email");
+      return;
+    }
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      await api.auth.sendOtp(email);
+      setOtpSent(true);
+      setView("otp-verify");
+    } catch (err: any) {
+      setError(err.message || "Failed to send OTP");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (otpCode.length !== 6) {
+      setError("OTP must be 6 digits");
+      return;
+    }
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      const res = await api.auth.verifyOtp(email, otpCode);
+      localStorage.setItem("access_token", res.accessToken);
+      window.location.href = "/product";
+    } catch (err: any) {
+      setError(err.message || "Invalid OTP");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="flex min-h-[calc(100vh-12rem)] items-center justify-center px-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="text-center">
+          <span className="text-4xl">🍕</span>
+          <CardTitle className="mt-2">
+            {view === "otp-verify"
+              ? "Enter Verification Code"
+              : isRegister
+                ? "Create Account"
+                : "Welcome Back"}
+          </CardTitle>
+          <CardDescription>
+            {view === "otp-verify"
+              ? `We sent a 6-digit code to ${email}`
+              : isRegister
+                ? "Sign up to start ordering"
+                : "Sign in to your account"}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {view === "otp-verify" ? (
+            <OtpVerifyView
+              otpCode={otpCode}
+              setOtpCode={setOtpCode}
+              onVerify={handleVerifyOtp}
+              onBack={() => {
+                setView("otp-email");
+                setOtpSent(false);
+                setOtpCode("");
+                setError(null);
+              }}
+              isLoading={isLoading}
+              error={error}
+            />
+          ) : view === "otp-email" ? (
+            <OtpEmailView
+              email={email}
+              setEmail={setEmail}
+              onSend={handleSendOtp}
+              onBack={() => {
+                setView("login");
+                setError(null);
+              }}
+              isLoading={isLoading}
+              error={error}
+            />
+          ) : (
+            <>
+              <form onSubmit={handleEmailPasswordSubmit} className="space-y-4">
+                {isRegister && (
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Full Name</Label>
+                    <Input
+                      id="name"
+                      placeholder="John Doe"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      required
+                    />
+                  </div>
+                )}
+
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="you@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    minLength={8}
+                  />
+                </div>
+
+                {error && (
+                  <p className="text-sm text-destructive">{error}</p>
+                )}
+
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading
+                    ? "Please wait..."
+                    : isRegister
+                      ? "Create Account"
+                      : "Sign In"}
                 </Button>
-            </div>
+              </form>
+
+              <div className="relative my-6">
+                <Separator />
+                <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-card px-2 text-xs text-muted-foreground">
+                  or
+                </span>
+              </div>
+
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={() => {
+                  setView("otp-email");
+                  setError(null);
+                }}
+              >
+                <Mail className="size-4" />
+                Sign in with Email OTP
+              </Button>
+
+              <p className="mt-4 text-center text-sm text-muted-foreground">
+                {isRegister
+                  ? "Already have an account?"
+                  : "Don't have an account?"}{" "}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsRegister(!isRegister);
+                    setError(null);
+                  }}
+                  className="font-medium text-primary hover:underline"
+                >
+                  {isRegister ? "Sign in" : "Create one"}
+                </button>
+              </p>
+            </>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+function OtpEmailView({
+  email,
+  setEmail,
+  onSend,
+  onBack,
+  isLoading,
+  error,
+}: {
+  email: string;
+  setEmail: (v: string) => void;
+  onSend: () => void;
+  onBack: () => void;
+  isLoading: boolean;
+  error: string | null;
+}) {
+  return (
+    <div className="space-y-4">
+      <Button variant="ghost" size="sm" onClick={onBack} className="mb-2">
+        <ArrowLeft className="size-4" />
+        Back
+      </Button>
+
+      <div className="space-y-2">
+        <Label htmlFor="otp-email">Email Address</Label>
+        <Input
+          id="otp-email"
+          type="email"
+          placeholder="you@example.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <p className="text-xs text-muted-foreground">
+          We&apos;ll send a 6-digit verification code to this email
+        </p>
+      </div>
+
+      {error && <p className="text-sm text-destructive">{error}</p>}
+
+      <Button
+        className="w-full"
+        onClick={onSend}
+        disabled={isLoading || !email.trim()}
+      >
+        {isLoading ? "Sending..." : "Send Verification Code"}
+      </Button>
+    </div>
+  );
+}
+
+function OtpVerifyView({
+  otpCode,
+  setOtpCode,
+  onVerify,
+  onBack,
+  isLoading,
+  error,
+}: {
+  otpCode: string;
+  setOtpCode: (v: string) => void;
+  onVerify: (e: React.FormEvent) => void;
+  onBack: () => void;
+  isLoading: boolean;
+  error: string | null;
+}) {
+  return (
+    <div className="space-y-4">
+      <Button variant="ghost" size="sm" onClick={onBack} className="mb-2">
+        <ArrowLeft className="size-4" />
+        Back
+      </Button>
+
+      <div className="flex justify-center">
+        <CheckCircle className="size-12 text-primary" />
+      </div>
+
+      <form onSubmit={onVerify} className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="otp-code">Verification Code</Label>
+          <Input
+            id="otp-code"
+            placeholder="000000"
+            value={otpCode}
+            onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+            className="text-center text-2xl tracking-[0.5em]"
+            maxLength={6}
+            autoFocus
+          />
         </div>
-    )
+
+        {error && <p className="text-sm text-destructive">{error}</p>}
+
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={isLoading || otpCode.length !== 6}
+        >
+          {isLoading ? "Verifying..." : "Verify & Sign In"}
+        </Button>
+      </form>
+    </div>
+  );
 }

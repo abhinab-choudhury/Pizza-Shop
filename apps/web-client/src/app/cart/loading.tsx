@@ -1,10 +1,8 @@
-export default function loading() {
+export default function Loading() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-8">
-      <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-gray-900 dark:border-gray-100"></div>
-      <p className="mt-4 text-lg font-medium text-gray-900 dark:text-gray-100">
-        Loading...
-      </p>
+    <div className="flex flex-col items-center justify-center min-h-[60vh] p-8">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-primary"></div>
+      <p className="mt-4 text-sm text-muted-foreground">Loading cart...</p>
     </div>
   );
 }
