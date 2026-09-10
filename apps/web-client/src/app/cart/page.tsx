@@ -40,52 +40,59 @@ export default function CartPage() {
         <div className="lg:col-span-2 space-y-4">
           {items.map((item) => (
             <Card key={item.id}>
-              <CardContent className="flex items-center gap-4 p-4">
-                <div className="size-16 flex-shrink-0 rounded-lg bg-muted flex items-center justify-center text-2xl">
-                  🍕
-                </div>
+              <CardContent className="p-4">
+                <div className="flex items-start gap-4">
+                  <div className="flex size-16 flex-shrink-0 items-center justify-center rounded-lg bg-muted text-2xl">
+                    🍕
+                  </div>
 
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold">{item.name}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    ${item.price.toFixed(2)} each
-                  </p>
-                </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="truncate font-semibold">{item.name}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      ${item.price.toFixed(2)} each
+                    </p>
+                  </div>
 
-                <div className="flex items-center gap-2">
                   <Button
-                    variant="outline"
+                    variant="ghost"
                     size="icon"
-                    className="size-8"
-                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                    className="size-8 shrink-0 text-destructive"
+                    aria-label={`Remove ${item.name}`}
+                    onClick={() => removeItem(item.id)}
                   >
-                    <Minus className="size-3" />
+                    <Trash2 className="size-4" />
                   </Button>
-                  <span className="w-8 text-center font-medium">
-                    {item.quantity}
+                </div>
+
+                <div className="mt-3 flex items-center justify-between gap-4 border-t pt-3">
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="size-8"
+                      aria-label="Decrease quantity"
+                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                    >
+                      <Minus className="size-3" />
+                    </Button>
+                    <span className="w-8 text-center font-medium">
+                      {item.quantity}
+                    </span>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="size-8"
+                      aria-label="Increase quantity"
+                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                    >
+                      <Plus className="size-3" />
+                    </Button>
+                  </div>
+
+                  <span className="font-bold">
+                    ${(item.price * item.quantity).toFixed(2)}
                   </span>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="size-8"
-                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                  >
-                    <Plus className="size-3" />
-                  </Button>
                 </div>
-
-                <span className="w-20 text-right font-bold">
-                  ${(item.price * item.quantity).toFixed(2)}
-                </span>
-
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="size-8 text-destructive"
-                  onClick={() => removeItem(item.id)}
-                >
-                  <Trash2 className="size-4" />
-                </Button>
               </CardContent>
             </Card>
           ))}

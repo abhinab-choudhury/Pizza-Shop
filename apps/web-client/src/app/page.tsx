@@ -37,23 +37,23 @@ export default function Home() {
     <div>
       {/* Hero Section */}
       <section className="relative flex min-h-[70vh] items-center justify-center bg-gradient-to-br from-red-500/10 via-orange-500/10 to-yellow-500/10">
-        <div className="container mx-auto px-4 text-center">
-          <span className="text-7xl">🍕</span>
-          <h1 className="mt-6 text-5xl font-bold tracking-tight md:text-7xl">
+        <div className="container mx-auto px-6 text-center">
+          <span className="text-6xl sm:text-7xl">🍕</span>
+          <h1 className="mt-6 text-4xl font-bold tracking-tight sm:text-5xl md:text-7xl">
             Pinocchio&apos;s Pizza
           </h1>
-          <p className="mx-auto mt-4 max-w-xl text-lg text-muted-foreground">
+          <p className="mx-auto mt-4 max-w-xl text-base text-muted-foreground sm:text-lg">
             Fresh, handcrafted pizza made with love. Order online and
             get it delivered hot to your door.
           </p>
-          <div className="mt-8 flex items-center justify-center gap-4">
-            <Button asChild size="lg">
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
+            <Button asChild size="lg" className="w-full sm:w-auto">
               <Link href="/product">
                 Browse Menu
                 <ArrowRight className="size-4" />
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg">
+            <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
               <Link href="/login">Sign In</Link>
             </Button>
           </div>
