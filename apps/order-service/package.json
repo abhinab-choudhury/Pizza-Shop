@@ -1,28 +1,40 @@
 {
   "name": "order-service",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Order management microservice for Pizza Shop",
+  "main": "dist/app.js",
   "scripts": {
     "dev": "tsx --watch src/app.ts",
     "build": "tsc",
-    "start": "node dist/app.js"
+    "start": "node dist/app.js",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/db/migrate.ts",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "db:seed": "tsx scripts/seed.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.18.1",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.45.2",
     "express": "^5.2.1",
+    "jose": "^6.2.12",
     "morgan": "^1.12.0",
-    "winston": "^3.19.0"
+    "postgres": "^3.4.9",
+    "winston": "^3.19.0",
+    "zod": "^4.6.1"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:^",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/morgan": "^1.9.10",
     "@types/node": "^24.12.4",
+    "drizzle-kit": "^0.31.10",
     "tsx": "^4.23.13",
     "typescript": "^5.9.3"
   }
