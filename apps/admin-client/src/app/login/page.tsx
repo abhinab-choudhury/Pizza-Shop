@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Eye, EyeOff, Pizza } from "lucide-react";
 import { useAdminAuth } from "@/contexts/auth-context";
 import { Button } from "@/components/ui/button";
 
@@ -10,6 +11,7 @@ export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [from] = useState(() => {
@@ -27,8 +29,13 @@ export default function LoginPage() {
     return "/";
   });
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.replace(from);
+    }
+  }, [isAuthenticated, from, router]);
+
   if (isAuthenticated) {
-    router.replace(from);
     return null;
   }
 
@@ -53,7 +60,7 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
-          <span className="text-4xl">🍕</span>
+          <Pizza className="mx-auto size-12 text-primary" />
           <h1 className="mt-2 text-2xl font-bold">Pizza Shop Admin</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             Sign in to manage your store
@@ -86,16 +93,30 @@ export default function LoginPage() {
             >
               Password
             </label>
-            <input
-              id="password"
-              type="password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
-              required
-              minLength={8}
-            />
+            <div className="relative">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 pr-10 text-sm shadow-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
+                required
+                minLength={8}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((s) => !s)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {showPassword ? (
+                  <EyeOff className="size-4" />
+                ) : (
+                  <Eye className="size-4" />
+                )}
+              </button>
+            </div>
           </div>
 
           {error && <p className="text-sm text-destructive">{error}</p>}

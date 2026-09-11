@@ -36,7 +36,13 @@ export function AdminAuthProvider({
     if (!savedToken) return;
     api.auth
       .getProfile(savedToken)
-      .then((res) => setUser(res.user))
+      .then((res) => {
+        if (res.user.role !== "admin") {
+          localStorage.removeItem("access_token");
+          return;
+        }
+        setUser(res.user);
+      })
       .catch(() => {
         localStorage.removeItem("access_token");
       })
@@ -45,6 +51,9 @@ export function AdminAuthProvider({
 
   const login = useCallback(async (email: string, password: string) => {
     const res = await api.auth.login(email, password);
+    if (res.user.role !== "admin") {
+      throw new Error("Access denied. Only admins can use this panel.");
+    }
     localStorage.setItem("access_token", res.accessToken);
     setUser(res.user);
   }, []);
