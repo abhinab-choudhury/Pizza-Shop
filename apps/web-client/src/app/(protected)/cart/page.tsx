@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft } from "lucide-react";
+import { formatRupees } from "@/lib/format";
 
 export default function CartPage() {
   const { items, total, updateQuantity, removeItem, clearCart } = useCart();
@@ -16,8 +17,8 @@ export default function CartPage() {
         <ShoppingBag className="size-16 text-muted-foreground" />
         <h2 className="mt-4 text-2xl font-bold">Your cart is empty</h2>
         <p className="mt-2 text-muted-foreground">
-          Add some delicious pizzas to get started
-        </p>
+            Add some delicious items to get started
+          </p>
         <Button asChild className="mt-6">
           <Link href="/product">Browse Menu</Link>
         </Button>
@@ -42,15 +43,32 @@ export default function CartPage() {
             <Card key={item.id}>
               <CardContent className="p-4">
                 <div className="flex items-start gap-4">
-                  <div className="flex size-16 flex-shrink-0 items-center justify-center rounded-lg bg-muted text-2xl">
-                    🍕
+                  <div className="flex size-16 flex-shrink-0 items-center justify-center rounded-lg bg-muted">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/pizza.svg"
+                      alt=""
+                      aria-hidden
+                      className="size-10 object-contain"
+                    />
                   </div>
 
                   <div className="min-w-0 flex-1">
                     <h3 className="truncate font-semibold">{item.name}</h3>
                     <p className="text-sm text-muted-foreground">
-                      ${item.price.toFixed(2)} each
+                      {formatRupees(item.price)} each
                     </p>
+                    {item.options && (
+                      <p className="mt-0.5 text-xs text-muted-foreground">
+                        {[
+                          item.options.size,
+                          ...(item.options.toppings ?? []),
+                          ...(item.options.addOns ?? []),
+                        ]
+                          .filter(Boolean)
+                          .join(" · ")}
+                      </p>
+                    )}
                   </div>
 
                   <Button
@@ -90,7 +108,7 @@ export default function CartPage() {
                   </div>
 
                   <span className="font-bold">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    {formatRupees(item.price * item.quantity)}
                   </span>
                 </div>
               </CardContent>
@@ -106,18 +124,31 @@ export default function CartPage() {
               <Separator />
               <div className="space-y-2">
                 {items.map((item) => (
-                  <div key={item.id} className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">
-                      {item.name} x{item.quantity}
-                    </span>
-                    <span>${(item.price * item.quantity).toFixed(2)}</span>
+                  <div key={item.id} className="text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">
+                        {item.name} x{item.quantity}
+                      </span>
+                      <span>{formatRupees(item.price * item.quantity)}</span>
+                    </div>
+                    {item.options && (
+                      <p className="text-xs text-muted-foreground">
+                        {[
+                          item.options.size,
+                          ...(item.options.toppings ?? []),
+                          ...(item.options.addOns ?? []),
+                        ]
+                          .filter(Boolean)
+                          .join(" · ")}
+                      </p>
+                    )}
                   </div>
                 ))}
               </div>
               <Separator />
               <div className="flex justify-between font-bold text-lg">
                 <span>Total</span>
-                <span className="text-primary">${total.toFixed(2)}</span>
+                <span className="text-primary">{formatRupees(total)}</span>
               </div>
               <Button asChild className="w-full" size="lg">
                 <Link href="/checkout">Proceed to Checkout</Link>

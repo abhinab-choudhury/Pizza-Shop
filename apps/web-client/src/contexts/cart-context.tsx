@@ -2,14 +2,22 @@
 
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 
+export interface CartItemOptions {
+  size?: string;
+  toppings?: string[];
+  addOns?: string[];
+}
+
 export interface CartItem {
   id: string;
+  productId: string;
   name: string;
   description: string;
   price: number;
   imageUrl?: string;
   category: string;
   quantity: number;
+  options?: CartItemOptions;
 }
 
 interface CartContextType {

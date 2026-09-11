@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/auth-context";
 import { api } from "@/lib/api";
@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { ArrowLeft, Mail, CheckCircle } from "lucide-react";
+import { ArrowLeft, Mail, User, Lock, KeyRound, Eye, EyeOff } from "lucide-react";
 
 type View = "login" | "otp-email" | "otp-verify";
 
@@ -22,6 +22,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [otpCode, setOtpCode] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [from] = useState(() => {
@@ -39,8 +40,13 @@ export default function LoginPage() {
     return "/product";
   });
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.replace(from);
+    }
+  }, [isAuthenticated, from, router]);
+
   if (isAuthenticated) {
-    router.replace(from);
     return null;
   }
 
@@ -105,7 +111,14 @@ export default function LoginPage() {
     <div className="flex min-h-[calc(100vh-12rem)] items-center justify-center px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <span className="text-4xl">🍕</span>
+          <div className="mx-auto flex size-16 items-center justify-center overflow-hidden rounded-full bg-primary/10 ring-1 ring-primary/20">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/pizza.svg"
+              alt="Pinocchio's Pizza"
+              className="size-12 object-contain"
+            />
+          </div>
           <CardTitle className="mt-2">
             {view === "otp-verify"
               ? "Enter Verification Code"
@@ -149,43 +162,67 @@ export default function LoginPage() {
             />
           ) : (
             <>
-              <form onSubmit={handleEmailPasswordSubmit} className="space-y-4">
+              <form onSubmit={handleEmailPasswordSubmit} className="mx-0 my-6 space-y-4">
                 {isRegister && (
                   <div className="space-y-2">
                     <Label htmlFor="name">Full Name</Label>
-                    <Input
-                      id="name"
-                      placeholder="John Doe"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      required
-                    />
+                    <div className="relative">
+                      <User className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                      <Input
+                        id="name"
+                        placeholder="John Doe"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="pl-10"
+                        required
+                      />
+                    </div>
                   </div>
                 )}
 
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="you@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="you@example.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="pl-10"
+                      required
+                    />
+                  </div>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="password">Password</Label>
-                  <Input
-                    id="password"
-                    type="password"
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    minLength={8}
-                  />
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                    <Input
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="••••••••"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="pl-10 pr-10"
+                      required
+                      minLength={8}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((s) => !s)}
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      {showPassword ? (
+                        <EyeOff className="size-4" />
+                      ) : (
+                        <Eye className="size-4" />
+                      )}
+                    </button>
+                  </div>
                 </div>
 
                 {error && (
@@ -267,13 +304,17 @@ function OtpEmailView({
 
       <div className="space-y-2">
         <Label htmlFor="otp-email">Email Address</Label>
-        <Input
-          id="otp-email"
-          type="email"
-          placeholder="you@example.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <div className="relative">
+          <Mail className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            id="otp-email"
+            type="email"
+            placeholder="you@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="pl-10"
+          />
+        </div>
         <p className="text-xs text-muted-foreground">
           We&apos;ll send a 6-digit verification code to this email
         </p>
@@ -315,7 +356,9 @@ function OtpVerifyView({
       </Button>
 
       <div className="flex justify-center">
-        <CheckCircle className="size-12 text-primary" />
+        <span className="flex size-14 items-center justify-center rounded-full bg-primary/10 text-primary">
+          <KeyRound className="size-7" />
+        </span>
       </div>
 
       <form onSubmit={onVerify} className="space-y-4">

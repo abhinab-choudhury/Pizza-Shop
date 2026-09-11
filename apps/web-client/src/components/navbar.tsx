@@ -5,6 +5,7 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/contexts/auth-context";
 import { useCart } from "@/contexts/cart-context";
+import { useTheme } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -22,11 +23,14 @@ import {
   Package,
   Menu,
   X,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 export function Navbar() {
   const { user, isAuthenticated, logout } = useAuth();
   const { itemCount } = useCart();
+  const { toggleTheme } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
 
@@ -51,7 +55,10 @@ export function Navbar() {
           onClick={() => setMobileOpen(false)}
           className="flex min-w-0 items-center gap-2 font-bold text-base sm:text-lg"
         >
-          <span className="text-2xl">🍕</span>
+          <span className="flex size-7 items-center justify-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/pizza.svg" alt="" aria-hidden className="size-7" />
+          </span>
           <span className="truncate">Pinocchio&apos;s Pizza</span>
         </Link>
 
@@ -72,6 +79,16 @@ export function Navbar() {
               Orders
             </Link>
           )}
+
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Toggle theme"
+            onClick={toggleTheme}
+          >
+            <Sun className="size-5 dark:hidden" />
+            <Moon className="size-5 hidden dark:block" />
+          </Button>
 
           <Link href="/cart" className="relative">
             <Button variant="ghost" size="icon">
@@ -123,6 +140,16 @@ export function Navbar() {
 
         {/* Mobile controls */}
         <div className="flex items-center gap-1 md:hidden">
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Toggle theme"
+            onClick={toggleTheme}
+          >
+            <Sun className="size-5 dark:hidden" />
+            <Moon className="size-5 hidden dark:block" />
+          </Button>
+
           <Link href="/cart" className="relative">
             <Button variant="ghost" size="icon" aria-label="Cart">
               <ShoppingCart className="size-5" />
