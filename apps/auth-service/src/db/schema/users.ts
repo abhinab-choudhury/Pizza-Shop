@@ -15,6 +15,8 @@ export const userStatusEnum = pgEnum("user_status", [
   "suspended",
 ]);
 
+export const userRoleEnum = pgEnum("user_role", ["user", "admin"]);
+
 export const users = pgTable(
   "users",
   {
@@ -23,6 +25,7 @@ export const users = pgTable(
     name: varchar("name", { length: 255 }),
     passwordHash: text("password_hash"),
     emailVerified: boolean("email_verified").default(false).notNull(),
+    role: userRoleEnum("role").default("user").notNull(),
     status: userStatusEnum("status").default("active").notNull(),
     createdAt: timestamp("created_at", {
       mode: "date",

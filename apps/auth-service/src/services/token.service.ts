@@ -11,9 +11,9 @@ import {
   createPublicKey,
   createPrivateKey,
 } from "crypto";
-import { eq, and, gt } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { db } from "../db";
-import { refreshTokens } from "../db/schema";
+import { refreshTokens, users, userRoleEnum } from "../db/schema";
 import { UnauthorizedError } from "../utils/errors";
 
 const ACCESS_TOKEN_EXPIRY = "15m";
@@ -27,6 +27,7 @@ export interface TokenPair {
 
 export interface AccessTokenPayload extends JWTPayload {
   sub: string;
+  role: "user" | "admin";
   scope: string;
   iss: string;
   aud: string;
@@ -91,9 +92,32 @@ export function generateOTPCode(length: number = 6): string {
   return code;
 }
 
-export async function generateAccessToken(userId: string): Promise<string> {
+export async function getUserRole(
+  userId: string,
+): Promise<"user" | "admin"> {
+  const [row] = await db
+    .select({ role: users.role })
+    .from(users)
+    .where(eq(users.id, userId))
+    .limit(1);
+
+  if (!row) {
+    throw new UnauthorizedError("User not found");
+  }
+
+  return row.role;
+}
+
+export async function generateAccessToken(
+  userId: string,
+  role: "user" | "admin",
+): Promise<string> {
   const privateKey = getPrivateKey();
-  return new SignJWT({ sub: userId, scope: "access" })
+  return new SignJWT({
+    sub: userId,
+    role,
+    scope: "access",
+  })
     .setProtectedHeader({ alg: "RS256", kid: currentKid })
     .setIssuedAt()
     .setIssuer("auth-service")
@@ -106,7 +130,8 @@ export async function generateAccessToken(userId: string): Promise<string> {
 export async function generateTokenPair(
   userId: string,
 ): Promise<TokenPair> {
-  const accessToken = await generateAccessToken(userId);
+  const role = await getUserRole(userId);
+  const accessToken = await generateAccessToken(userId, role);
   const rawRefreshToken = generateOpaqueToken();
   const tokenHash = hashToken(rawRefreshToken);
   const familyId = crypto.randomUUID();
@@ -177,7 +202,8 @@ export async function rotateRefreshToken(
     });
   });
 
-  const accessToken = await generateAccessToken(row.userId);
+  const role = await getUserRole(row.userId);
+  const accessToken = await generateAccessToken(row.userId, role);
 
   return { accessToken, refreshToken: newRawToken };
 }

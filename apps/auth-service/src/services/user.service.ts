@@ -20,6 +20,7 @@ export interface UserResponse {
   email: string;
   name: string | null;
   emailVerified: boolean;
+  role: "user" | "admin";
   status: string;
 }
 
@@ -29,6 +30,7 @@ function toUserResponse(user: typeof users.$inferSelect): UserResponse {
     email: user.email,
     name: user.name,
     emailVerified: user.emailVerified,
+    role: user.role,
     status: user.status,
   };
 }

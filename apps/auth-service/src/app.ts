@@ -1,9 +1,12 @@
 import Koa from "koa";
 import bodyParser from "koa-bodyparser";
 import cors from "@koa/cors";
+import Router from "koa-router";
 import authRoutes from "./routes/auth";
 import errorHandler from "./middleware/error-handler";
 import logger from "./middleware/logger";
+import { client } from "./db";
+import { renderLandingPage } from "./landing";
 import { config } from "./utils/env";
 
 const app = new Koa();
@@ -29,13 +32,49 @@ app.use(
   }),
 );
 app.use(bodyParser());
+
+// Landing page
+const homeRouter = new Router();
+homeRouter.get("/", (ctx) => {
+  ctx.type = "text/html";
+  ctx.body = renderLandingPage("Auth");
+});
+app.use(homeRouter.routes());
+app.use(homeRouter.allowedMethods());
+
+// Health check route
+const healthRouter = new Router();
+healthRouter.get("/health", async (ctx) => {
+  try {
+    await client`SELECT 1`;
+    ctx.status = 200;
+    ctx.body = { status: "ok", service: "auth-service" };
+  } catch (err) {
+    ctx.status = 503;
+    ctx.body = { status: "error", message: "Database unreachable" };
+  }
+});
+app.use(healthRouter.routes());
+app.use(healthRouter.allowedMethods());
+
 app.use(authRoutes.routes());
 app.use(authRoutes.allowedMethods());
 
 const PORT = config.PORT;
 
-app.listen(PORT, () => {
-  console.log(
-    `Auth Service running at http://localhost:${PORT}`,
-  );
-});
+async function start() {
+  try {
+    // Verify database connectivity before starting
+    await client`SELECT 1`;
+    console.log("Database connection verified");
+  } catch (err) {
+    console.error("Failed to connect to database:", err);
+    process.exit(1);
+  }
+
+  app.listen(PORT, () => {
+    console.log(`Auth Service running at http://localhost:${PORT}`);
+  });
+}
+
+start();
