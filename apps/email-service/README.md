@@ -1,1 +1,2 @@
-# Email Server - Express.js
+# Email Service
+> Express.js

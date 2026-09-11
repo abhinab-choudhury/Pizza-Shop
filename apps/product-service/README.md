@@ -1,1 +1,2 @@
-# Payment Server - Hono
+# Payment Service
+> Hono

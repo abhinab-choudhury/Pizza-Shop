@@ -5,38 +5,28 @@ A full-stack pizza ordering platform built with a microservices architecture. In
 ## Architecture
 
 ```
- ┌─────────────────────────────────────────────┐
- │                 Clients                     │
- │   ┌──────────────┐ ┌──────────────┐         │
- │   │  Web Client  │ │ Admin Client │         │
- │   │  (Next.js)   │ │  (Next.js)   │         │
- │   │  :3000       │ │  :3001       │         │
- │   └──────┬───────┘ └──────┬───────┘         │
- └─────────┼─────────────────┼─────────────────┘
-           │                 │
- ┌─────────▼─────────────────▼─────────────┐
- │          API Gateway / Load Balancer    │
- └─────────┬──────────┬──────────┬─────────┘
-           │          │          │
- ┌─────────▼──┐ ┌─────▼────┐ ┌───▼──────┐
- │   Auth     │ │  Order   │ │ Payment  │
- │  Service   │ │  Service │ │ Service  │
- │  (Koa)     │ │ (Express)│ │ (Hono)   │
- │  :3002     │ │  :3004   │ │  :3005   │
- └─────┬──────┘ └────┬─────┘ └────┬─────┘
-       │              │            │
-       └───┐    ┌─────▼────────────┘
-           │    │
- ┌─────────▼────▼──────────────┐
- │      Product Service        │
- │      (Hono)  :3006          │
- └────────────┬───────────────┘
-              │
- ┌────────────▼───────────────┐
- │         PostgreSQL         │
- │         :5432              │
- └────────────────────────────┘
+ ┌─────────────────────────────────────────────────────────────────┐
+ │                             Clients                             │
+ │              ┌──────────────┐    ┌──────────────┐               │
+ │              │  Web Client  │    │ Admin Client │               │
+ │              │  (Next.js)   │    │  (Next.js)   │               │
+ │              │    :3000     │    │    :3001     │               │
+ │              └──────────────┘    └──────────────┘               │
+ └──────────────────────────────────┬──────────────────────────────┘
+                                    │
+┌───────────┐ ┌───────────┐ ┌───────────┐ ┌───────────┐ ┌───────────┐
+│   Auth    │ │  Email    │ │   Order   │ │  Payment  │ │  Product  │
+│  Service  │ │  Service  │ │  Service  │ │  Service  │ │  Service  │
+│  (Koa)    │ │ (Express) │ │ (Express) │ │  (Hono)   │ │  (Hono)   │
+│   :3002   │ │   :3003   │ │   :3004   │ │   :3005   │ │   :3006   │
+└────┬──────┘ └────┬──────┘ └────┬──────┘ └────┬──────┘ └────┬──────┘
+     │             │             │             │             │
+┌────▼─────────────▼─────────────▼─────────────▼─────────────▼───────┐
+│                       PostgreSQL 16  (:5432)                       │
+└────────────────────────────────────────────────────────────────────┘
 ```
+
+> Clients (web + admin) call each microservice directly — there is no API gateway. All services connect to the same PostgreSQL database, and auth/email services send OTP & transactional emails to Mailpit in development.
 
 ## Tech Stack
 
@@ -149,6 +139,33 @@ pnpm db:studio
 ```
 
 The initial schema migration (`drizzle/0000_*.sql`) is committed, so a fresh setup only needs `pnpm db:migrate`. Open the URL Drizzle Studio prints (default: `https://local.drizzle.studio`) to browse the `users`, `otp_codes`, `accounts`, `refresh_tokens`, `sessions`, and `service_accounts` tables.
+
+The product-service manages its own database (`pizza_shop_products`). Apply its migrations the same way, scoped to the package:
+
+```bash
+pnpm --filter product-service db:generate
+pnpm --filter product-service db:migrate
+```
+
+The product and order services also ship a development catalog that is re-seeded idempotently:
+
+```bash
+pnpm --filter product-service db:seed   # full take-away menu (₹, sizes + toppings)
+pnpm --filter order-service db:seed     # sample orders across statuses
+```
+
+> The shop is **take-away / pick-up only** (no delivery). Prices are in **Indian Rupees (₹)** — stored as paise (`price_cents = rupees × 100`).
+
+### Seed Accounts
+
+Run `pnpm db:seed` to populate development accounts (idempotent).
+
+| Account | Email | Password | Role |
+|---|---|---|---|
+| Store Admin | `admin@pizzashop.com` | `Password123!` | `admin` |
+| Demo User | `demo@pizzashop.com` | `Password123!` | `user` |
+
+Only `admin` accounts can sign in to the Admin Client (`:3001`) and create products.
 
 ### Database Credentials
 

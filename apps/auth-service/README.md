@@ -1,1 +1,2 @@
-# Auth Server - Koa.js
+# Auth Service
+> Koa.js + Drizzle ORM
