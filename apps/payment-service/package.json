@@ -10,7 +10,8 @@
   "dependencies": {
     "@hono/node-server": "^2.1.1",
     "dotenv": "^17.4.2",
-    "hono": "^4.13.7"
+    "hono": "^4.13.7",
+    "razorpay": "^2.9.8"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:^",
