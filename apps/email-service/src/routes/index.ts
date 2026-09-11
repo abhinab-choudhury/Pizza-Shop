@@ -1,9 +1,11 @@
 import express, { type Router } from "express";
 
+import { renderLandingPage } from "../landing";
+
 const router: Router = express.Router();
 
 router.get("/", (_req, res) => {
-  res.json({ message: "Email Server - Express.js" });
+  res.type("html").send(renderLandingPage("Email"));
 });
 
 export default router;
