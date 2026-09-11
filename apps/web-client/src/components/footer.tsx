@@ -70,18 +70,18 @@ export function Footer() {
               <li>14, MG Road, Bengaluru, Karnataka 560001</li>
               <li>
                 <a
-                  href="tel:+919876543210"
+                  href="tel:+917077664878"
                   className="hover:text-foreground transition-colors"
                 >
-                  +91 98765 43210
+                  +91 70776 64878
                 </a>
               </li>
               <li>
                 <a
-                  href="mailto:support@pinocchiospizza.in"
+                  href="mailto:abhinabchoudhury291@gmail.com"
                   className="hover:text-foreground transition-colors"
                 >
-                  support@pinocchiospizza.in
+                  abhinabchoudhury291@gmail.com
                 </a>
               </li>
             </ul>

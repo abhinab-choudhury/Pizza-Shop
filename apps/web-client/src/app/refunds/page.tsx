@@ -16,7 +16,7 @@ const sections = [
   },
   {
     title: "4. Incorrect or damaged orders",
-    body: "If you receive an incorrect item, or your food is unsatisfactory when collected, report it to us at the store or within 24 hours via support@pinocchiospizza.in. We will re-prepare your order or issue a credit as appropriate.",
+    body: "If you receive an incorrect item, or your food is unsatisfactory when collected, report it to us at the store or within 24 hours via abhinabchoudhury291@gmail.com. We will re-prepare your order or issue a credit as appropriate.",
   },
   {
     title: "5. No-show policy",

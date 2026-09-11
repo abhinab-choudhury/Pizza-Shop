@@ -25,10 +25,10 @@ export function LegalPage({
           <p className="text-muted-foreground">
             Reach us at{" "}
             <a
-              href="mailto:support@pinocchiospizza.in"
+              href="mailto:abhinabchoudhury291@gmail.com"
               className="font-medium text-primary hover:underline"
             >
-              support@pinocchiospizza.in
+              abhinabchoudhury291@gmail.com
             </a>{" "}
             or visit our{" "}
             <a href="/contact" className="font-medium text-primary hover:underline">

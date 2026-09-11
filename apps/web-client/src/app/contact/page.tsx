@@ -6,14 +6,14 @@ const details = [
   {
     icon: Mail,
     label: "Email",
-    value: "support@pinocchiospizza.in",
-    href: "mailto:support@pinocchiospizza.in",
+    value: "abhinabchoudhury291@gmail.com",
+    href: "mailto:abhinabchoudhury291@gmail.com",
   },
   {
     icon: Phone,
     label: "Phone",
-    value: "+91 98765 43210",
-    href: "tel:+919876543210",
+    value: "+91 7077664878",
+    href: "tel:+917077664878",
   },
   {
     icon: MapPin,
@@ -81,9 +81,8 @@ export default function ContactPage() {
         <CardContent className="p-6">
           <h2 className="font-semibold">Order support</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Most queries are resolved at the store. For anything else, email
-            support@pinocchiospizza.in with your order number (found in My
-            Orders) and we&apos;ll get back to you within one business day.
+            Most queries are resolved at the store. For anything else, email abhinabchoudhury291@gmail.com with your order number (found
+            in My Orders) and we&apos;ll get back to you within one business day.
           </p>
         </CardContent>
       </Card>
