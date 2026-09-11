@@ -1,20 +1,28 @@
 {
   "name": "product-service",
   "version": "1.0.0",
-  "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/db/migrate.ts",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "db:seed": "tsx scripts/seed.ts"
   },
   "dependencies": {
     "@hono/node-server": "^2.1.1",
     "dotenv": "^17.4.2",
-    "hono": "^4.13.7"
+    "drizzle-orm": "^0.45.2",
+    "hono": "^4.13.7",
+    "postgres": "^3.4.9",
+    "zod": "^4.6.1"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:^",
     "@types/node": "^22.20.2",
+    "drizzle-kit": "^0.31.10",
     "tsx": "^4.23.13",
     "typescript": "^5.9.3"
   }
