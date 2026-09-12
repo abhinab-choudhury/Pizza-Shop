@@ -267,6 +267,9 @@ importers:
       hono:
         specifier: ^4.13.7
         version: 4.13.7
+      jose:
+        specifier: ^6.2.12
+        version: 6.2.12
       razorpay:
         specifier: ^2.9.8
         version: 2.9.8

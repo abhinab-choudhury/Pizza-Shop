@@ -11,6 +11,7 @@
     "@hono/node-server": "^2.1.1",
     "dotenv": "^17.4.2",
     "hono": "^4.13.7",
+    "jose": "^6.2.12",
     "razorpay": "^2.9.8"
   },
   "devDependencies": {

@@ -1,6 +1,7 @@
 import { createHmac } from "node:crypto";
 import { Hono } from "hono";
 import Razorpay from "razorpay";
+import { verifyJwt } from "../middleware/auth.js";
 
 const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID ?? "";
 const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET ?? "";
@@ -32,7 +33,7 @@ paymentsRouter.get("/config", (c) => {
   });
 });
 
-paymentsRouter.post("/create-order", async (c) => {
+paymentsRouter.post("/create-order", verifyJwt, async (c) => {
   if (!razorpay) {
     return c.json(
       {
@@ -96,7 +97,7 @@ paymentsRouter.post("/create-order", async (c) => {
   }
 });
 
-paymentsRouter.post("/verify", async (c) => {
+paymentsRouter.post("/verify", verifyJwt, async (c) => {
   const body = await c.req.json().catch(() => null);
   const { razorpayOrderId, paymentId, signature } = body ?? {};
 

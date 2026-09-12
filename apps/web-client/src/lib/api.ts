@@ -217,7 +217,7 @@ export const api = {
         "/payments/config",
       ),
 
-    createOrder: (orderId: string, amountCents: number) =>
+    createOrder: (token: string, orderId: string, amountCents: number) =>
       request<{
         id: string;
         keyId: string;
@@ -226,12 +226,19 @@ export const api = {
       }>(PAYMENT_BASE, "/payments/create-order", {
         method: "POST",
         body: { orderId, amountCents },
+        token,
       }),
 
-    verify: (razorpayOrderId: string, paymentId: string, signature: string) =>
+    verify: (
+      token: string,
+      razorpayOrderId: string,
+      paymentId: string,
+      signature: string,
+    ) =>
       request<{ verified: boolean }>(PAYMENT_BASE, "/payments/verify", {
         method: "POST",
         body: { razorpayOrderId, paymentId, signature },
+        token,
       }).then((res) => res.verified),
   },
 };

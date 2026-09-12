@@ -67,7 +67,11 @@ export function CheckoutForm() {
         return;
       }
 
-      const pay = await api.payments.createOrder(order.id, order.totalCents);
+      const pay = await api.payments.createOrder(
+        accessToken,
+        order.id,
+        order.totalCents,
+      );
 
       const RazorpayCtor = await loadRazorpay();
       if (!RazorpayCtor) {
@@ -95,6 +99,7 @@ export function CheckoutForm() {
         handler: async (response) => {
           try {
             await api.payments.verify(
+              accessToken,
               response.razorpay_order_id,
               response.razorpay_payment_id,
               response.razorpay_signature,
