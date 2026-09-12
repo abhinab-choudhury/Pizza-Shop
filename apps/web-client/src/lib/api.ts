@@ -60,10 +60,45 @@ export interface ApiOrder {
   updatedAt: string;
 }
 
+type TokenRefreshedHandler = (newToken: string | null) => void;
+let onTokenRefreshed: TokenRefreshedHandler | null = null;
+let isRefreshing = false;
+let refreshPromise: Promise<string | null> | null = null;
+
+export function setTokenRefreshedHandler(handler: TokenRefreshedHandler | null) {
+  onTokenRefreshed = handler;
+}
+
+async function refreshAccessToken(): Promise<string | null> {
+  try {
+    const res = await fetch(`${AUTH_BASE}/auth/refresh`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (res.ok) {
+      const data = (await res.json()) as { accessToken: string };
+      const newToken = data.accessToken;
+      localStorage.setItem("access_token", newToken);
+      onTokenRefreshed?.(newToken);
+      return newToken;
+    }
+  } catch {
+    // ignore
+  }
+
+  localStorage.removeItem("access_token");
+  onTokenRefreshed?.(null);
+  window.dispatchEvent(new Event("session-expired"));
+  return null;
+}
+
 async function request<T>(
   base: string,
   endpoint: string,
   options: ApiOptions = {},
+  refreshed = false,
 ): Promise<T> {
   const { method = "GET", body, headers = {}, token } = options;
 
@@ -85,6 +120,24 @@ async function request<T>(
 
   if (!res.ok) {
     const error = await res.json().catch(() => ({ error: { message: "Request failed" } }));
+
+    if (res.status === 401 && token && !refreshed) {
+      if (!isRefreshing) {
+        isRefreshing = true;
+        refreshPromise = refreshAccessToken().finally(() => {
+          isRefreshing = false;
+          refreshPromise = null;
+        });
+      }
+
+      if (refreshPromise) {
+        const newToken = await refreshPromise;
+        if (newToken) {
+          return request(base, endpoint, { ...options, token: newToken }, true);
+        }
+      }
+    }
+
     throw new Error(error.error?.message || `HTTP ${res.status}`);
   }
 
@@ -92,6 +145,7 @@ async function request<T>(
 }
 
 export const api = {
+  setTokenRefreshedHandler,
   auth: {
     googleAuthUrl: `${AUTH_BASE}/auth/google`,
 
@@ -118,10 +172,10 @@ export const api = {
     getProfile: (token: string) =>
       request<{ user: ApiUser }>(AUTH_BASE, "/auth/me", { token }),
 
-    refreshToken: (refreshToken: string) =>
+    refreshToken: (refreshToken?: string) =>
       request<{ accessToken: string }>(AUTH_BASE, "/auth/refresh", {
         method: "POST",
-        body: { refreshToken },
+        body: refreshToken ? { refreshToken } : undefined,
       }),
 
     sendOtp: (email: string) =>

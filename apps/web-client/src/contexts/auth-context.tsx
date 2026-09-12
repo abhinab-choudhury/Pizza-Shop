@@ -34,6 +34,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    const stored = localStorage.getItem("access_token");
+    if (stored && !token) {
+      setToken(stored);
+    }
+  }, [token]);
+
+  useEffect(() => {
     if (!token) return;
     api.auth
       .getProfile(token)
@@ -41,9 +49,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .catch(() => {
         localStorage.removeItem("access_token");
         setToken(null);
+        setUser(null);
       })
       .finally(() => setIsLoading(false));
   }, [token]);
+
+  useEffect(() => {
+    const handleSessionExpired = () => {
+      localStorage.removeItem("access_token");
+      setToken(null);
+      setUser(null);
+    };
+
+    window.addEventListener("session-expired", handleSessionExpired);
+    return () => window.removeEventListener("session-expired", handleSessionExpired);
+  }, []);
+
+  useEffect(() => {
+    api.setTokenRefreshedHandler((newToken) => {
+      if (newToken) {
+        setToken(newToken);
+      } else {
+        localStorage.removeItem("access_token");
+        setToken(null);
+        setUser(null);
+      }
+    });
+
+    return () => {
+      api.setTokenRefreshedHandler(null);
+    };
+  }, []);
 
   const login = useCallback(async (email: string, password: string) => {
     const res = await api.auth.login(email, password);
