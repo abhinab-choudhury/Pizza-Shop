@@ -31,12 +31,16 @@ app.get("/", (c) => {
 
 app.route("/payments", paymentsRouter);
 
-serve(
-  {
-    fetch: app.fetch,
-    port: process.env.PORT ? parseInt(process.env.PORT) : 3005,
-  },
-  (info) => {
-    console.log(`Payment Server is running on http://localhost:${info.port}`);
-  },
-);
+export default app.fetch;
+
+if (process.env.VERCEL !== "1") {
+  serve(
+    {
+      fetch: app.fetch,
+      port: process.env.PORT ? parseInt(process.env.PORT) : 3005,
+    },
+    (info) => {
+      console.log(`Payment Server is running on http://localhost:${info.port}`);
+    },
+  );
+}
