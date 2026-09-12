@@ -93,6 +93,8 @@ async function request<T>(
 
 export const api = {
   auth: {
+    googleAuthUrl: `${AUTH_BASE}/auth/google`,
+
     login: (email: string, password: string) =>
       request<{ user: ApiUser; accessToken: string }>(
         AUTH_BASE,
