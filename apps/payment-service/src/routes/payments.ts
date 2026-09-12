@@ -53,7 +53,7 @@ paymentsRouter.post("/create-order", verifyJwt, async (c) => {
   if (
     typeof amountCents !== "number" ||
     !Number.isInteger(amountCents) ||
-    amountCents <= 0 ||
+    amountCents < 100 ||
     typeof orderId !== "string" ||
     orderId.length === 0
   ) {
@@ -61,7 +61,7 @@ paymentsRouter.post("/create-order", verifyJwt, async (c) => {
       {
         error: {
           code: "VALIDATION_ERROR",
-          message: "amountCents and orderId are required",
+          message: "amountCents (minimum 100) and orderId are required",
         },
       },
       400,
@@ -124,5 +124,17 @@ paymentsRouter.post("/verify", verifyJwt, async (c) => {
     .update(`${razorpayOrderId}|${paymentId}`)
     .digest("hex");
 
-  return c.json({ verified: expected === signature });
+  if (expected !== signature) {
+    return c.json(
+      {
+        error: {
+          code: "SIGNATURE_MISMATCH",
+          message: "Payment signature verification failed",
+        },
+      },
+      400,
+    );
+  }
+
+  return c.json({ verified: true });
 });
