@@ -10,14 +10,18 @@ import ordersRouter from "./routes/orders";
 const app = express();
 const PORT = config.PORT;
 
+const corsOrigins = (
+  process.env.CORS_ORIGINS || "http://localhost:3000,http://localhost:3001"
+)
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: [
-      process.env.WEB_CLIENT || "http://localhost:3000",
-      process.env.ADMIN_CLIENT || "http://localhost:3001",
-    ],
+    origin: corsOrigins,
     allowedHeaders: ["Content-Type", "Authorization"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     credentials: true,

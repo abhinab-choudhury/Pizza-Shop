@@ -18,7 +18,7 @@ export const config = {
   WEB_CLIENT_URL:
     process.env.WEB_CLIENT_URL || "http://localhost:3000",
   CORS_ORIGINS:
-    process.env.CORS_ORIGINS || "http://localhost:3000",
+    process.env.CORS_ORIGINS || "http://localhost:3000,http://localhost:3001",
   SMTP_HOST: process.env.SMTP_HOST || "",
   SMTP_PORT: process.env.SMTP_PORT || "587",
   SMTP_SECURE: process.env.SMTP_SECURE || "false",

@@ -8,15 +8,20 @@ import { paymentsRouter } from "./routes/payments.js";
 
 const app = new Hono();
 
+const corsOrigins = (
+  process.env.CORS_ORIGINS || "http://localhost:3000,http://localhost:3001"
+)
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 app.use(
   "*",
   cors({
-    origin: [
-      process.env.WEB_CLIENT || "http://localhost:3000",
-      process.env.ADMIN_CLIENT || "http://localhost:3001",
-    ],
+    origin: corsOrigins,
     allowHeaders: ["Content-Type", "Authorization"],
-    allowMethods: ["GET", "POST", "OPTIONS"],
+    allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    credentials: true,
   }),
 );
 
