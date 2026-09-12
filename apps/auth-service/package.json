@@ -20,6 +20,7 @@
   "dependencies": {
     "@koa/cors": "^5.0.0",
     "@node-rs/argon2": "^2.2.1",
+    "@repo/auth-middleware": "workspace:^",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^0.45.2",
     "jose": "^6.2.12",

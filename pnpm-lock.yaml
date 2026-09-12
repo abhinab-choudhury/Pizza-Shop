@@ -99,6 +99,9 @@ importers:
       '@node-rs/argon2':
         specifier: ^2.2.1
         version: 2.2.1
+      '@repo/auth-middleware':
+        specifier: workspace:^
+        version: link:../../packages/auth-middleware
       dotenv:
         specifier: ^17.4.2
         version: 17.4.2
@@ -203,6 +206,9 @@ importers:
 
   apps/order-service:
     dependencies:
+      '@repo/auth-middleware':
+        specifier: workspace:^
+        version: link:../../packages/auth-middleware
       cors:
         specifier: ^2.8.5
         version: 2.8.6
@@ -215,9 +221,6 @@ importers:
       express:
         specifier: ^5.2.1
         version: 5.2.1
-      jose:
-        specifier: ^6.2.12
-        version: 6.2.12
       morgan:
         specifier: ^1.12.0
         version: 1.12.0
@@ -261,15 +264,15 @@ importers:
       '@hono/node-server':
         specifier: ^2.1.1
         version: 2.1.1(hono@4.13.7)
+      '@repo/auth-middleware':
+        specifier: workspace:^
+        version: link:../../packages/auth-middleware
       dotenv:
         specifier: ^17.4.2
         version: 17.4.2
       hono:
         specifier: ^4.13.7
         version: 4.13.7
-      jose:
-        specifier: ^6.2.12
-        version: 6.2.12
       razorpay:
         specifier: ^2.9.8
         version: 2.9.8
@@ -292,6 +295,9 @@ importers:
       '@hono/node-server':
         specifier: ^2.1.1
         version: 2.1.1(hono@4.13.7)
+      '@repo/auth-middleware':
+        specifier: workspace:^
+        version: link:../../packages/auth-middleware
       dotenv:
         specifier: ^17.4.2
         version: 17.4.2
@@ -390,9 +396,6 @@ importers:
       jose:
         specifier: ^6.2.12
         version: 6.2.12
-      koa:
-        specifier: ^3.2.1
-        version: 3.2.1
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:^
@@ -400,9 +403,6 @@ importers:
       '@repo/typescript-config':
         specifier: workspace:^
         version: link:../typescript-config
-      '@types/koa':
-        specifier: ^3.0.3
-        version: 3.0.3
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
