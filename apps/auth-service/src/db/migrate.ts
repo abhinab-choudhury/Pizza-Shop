@@ -4,7 +4,7 @@ import { db, migrationClient } from "./index";
 async function runMigrations() {
   console.log("Running migrations...");
   try {
-    await migrate(db, { migrationsFolder: "./drizzle" });
+    await migrate(db, { migrationsFolder: "./drizzle", migrationsSchema: "drizzle_auth" });
     console.log("Migrations completed successfully");
   } catch (err) {
     console.error("Migration failed:", err);
