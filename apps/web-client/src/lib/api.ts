@@ -176,34 +176,38 @@ export const api = {
   },
 
   orders: {
-    create: (data: {
-      items: {
-        id: string;
-        name: string;
-        quantity: number;
-        priceCents: number;
-        options?: {
-          size?: string;
-          toppings?: string[];
-          addOns?: string[];
-        };
-      }[];
-      paymentMethod: string;
-    }) =>
+    create: (
+      token: string,
+      data: {
+        items: {
+          id: string;
+          name: string;
+          quantity: number;
+          priceCents: number;
+          options?: {
+            size?: string;
+            toppings?: string[];
+            addOns?: string[];
+          };
+        }[];
+        paymentMethod: string;
+      },
+    ) =>
       request<{ order: ApiOrder }>(ORDER_BASE, "/orders", {
         method: "POST",
         body: data,
+        token,
       }).then((res) => res.order),
 
-    getAll: () =>
-      request<{ orders: ApiOrder[] }>(ORDER_BASE, "/orders").then(
+    getAll: (token: string) =>
+      request<{ orders: ApiOrder[] }>(ORDER_BASE, "/orders", { token }).then(
         (res) => res.orders,
       ),
 
-    getById: (id: string) =>
-      request<{ order: ApiOrder }>(ORDER_BASE, `/orders/${id}`).then(
-        (res) => res.order,
-      ),
+    getById: (token: string, id: string) =>
+      request<{ order: ApiOrder }>(ORDER_BASE, `/orders/${id}`, {
+        token,
+      }).then((res) => res.order),
   },
 
   payments: {

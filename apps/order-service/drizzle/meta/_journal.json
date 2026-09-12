@@ -15,6 +15,13 @@
       "when": 1789102838754,
       "tag": "0001_outgoing_dagger",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1789247036262,
+      "tag": "0002_overconfident_guardian",
+      "breakpoints": true
     }
   ]
 }

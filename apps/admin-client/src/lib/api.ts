@@ -233,8 +233,8 @@ export const api = {
   },
 
   orders: {
-    list: () =>
-      requestOrder<{ orders: ApiOrder[] }>("/orders").then(
+    list: (token: string) =>
+      requestOrder<{ orders: ApiOrder[] }>("/orders", { token }).then(
         (res) => res.orders,
       ),
 

@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Package, Loader, WifiOff, RefreshCw } from "lucide-react";
 import { api, type ApiOrder } from "@/lib/api";
+import { useAuth } from "@/contexts/auth-context";
 import { formatRupees } from "@/lib/format";
 
 const statusVariants: Record<
@@ -27,13 +28,15 @@ function formatStatus(status: string): string {
 }
 
 export default function OrdersPage() {
+  const { token } = useAuth();
   const [orders, setOrders] = useState<ApiOrder[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const loadOrders = useCallback(() => {
+    if (!token) return;
     api.orders
-      .getAll()
+      .getAll(token)
       .then((items) => {
         setOrders(items);
         setError(null);
@@ -44,7 +47,7 @@ export default function OrdersPage() {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     loadOrders();

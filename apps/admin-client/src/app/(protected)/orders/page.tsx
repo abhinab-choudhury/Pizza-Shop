@@ -203,8 +203,10 @@ export default function OrdersPage() {
 
   useEffect(() => {
     let cancelled = false;
+    const token = getStoredToken();
+    if (!token) return;
     api.orders
-      .list()
+      .list(token)
       .then((items) => {
         if (cancelled) return;
         setOrders(items);

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useCart } from "@/contexts/cart-context";
+import { useAuth } from "@/contexts/auth-context";
 import { useRouter } from "next/navigation";
 import { api } from "@/lib/api";
 import { formatRupees } from "@/lib/format";
@@ -25,6 +26,7 @@ const PAYMENT_METHODS: { value: string; label: string; icon: LucideIcon }[] = [
 
 export function CheckoutForm() {
   const { items, total, clearCart } = useCart();
+  const { token: accessToken } = useAuth();
   const router = useRouter();
   const [paymentMethod, setPaymentMethod] = useState("cash");
   const [isLoading, setIsLoading] = useState(false);
@@ -41,16 +43,23 @@ export function CheckoutForm() {
     setError(null);
 
     try {
-      const order = await api.orders.create({
-        items: items.map((item) => ({
-          id: item.id,
-          name: item.name,
-          quantity: item.quantity,
-          priceCents: Math.round(item.price * 100),
-          options: item.options,
-        })),
-        paymentMethod,
-      });
+      if (!accessToken) {
+        throw new Error("You must be signed in to place an order");
+      }
+
+      const order = await api.orders.create(
+        accessToken,
+        {
+          items: items.map((item) => ({
+            id: item.id,
+            name: item.name,
+            quantity: item.quantity,
+            priceCents: Math.round(item.price * 100),
+            options: item.options,
+          })),
+          paymentMethod,
+        },
+      );
 
       if (paymentMethod !== "upi") {
         clearCart();

@@ -1,5 +1,5 @@
 import express, { type Router } from "express";
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "../db";
 import { orders, type orders as OrdersTable } from "../db/schema";
@@ -73,6 +73,7 @@ const updateOrderSchema = z.object({
 function toOrderResponse(order: OrderRow) {
   return {
     id: order.id,
+    userId: order.userId,
     customerName: order.customerName,
     customerEmail: order.customerEmail,
     items: order.items.map((item) => ({
@@ -89,8 +90,8 @@ function toOrderResponse(order: OrderRow) {
   };
 }
 
-// List orders (public)
-router.get("/", async (req, res) => {
+// List orders (authenticated users see only their own, admins see all)
+router.get("/", verifyJwt, async (req, res) => {
   const { status: statusParam } = req.query;
 
   const status =
@@ -99,21 +100,34 @@ router.get("/", async (req, res) => {
       ? (statusParam as OrderStatusValue)
       : undefined;
 
+  const isAdmin = res.locals.role === "admin";
+  const userId = res.locals.userId as string | undefined;
+
+  const conditions = [];
+  if (status) {
+    conditions.push(eq(orders.status, status));
+  }
+  if (!isAdmin && userId) {
+    conditions.push(eq(orders.userId, userId));
+  }
+
   const rows = await db
     .select()
     .from(orders)
-    .where(status ? eq(orders.status, status) : undefined)
+    .where(conditions.length > 0 ? and(...conditions) : undefined)
     .orderBy(desc(orders.createdAt));
 
   res.json({ orders: rows.map(toOrderResponse) });
 });
 
-// Get single order (public)
-router.get("/:id", async (req, res) => {
+// Get single order (auth required; non-admins may only fetch their own)
+router.get("/:id", verifyJwt, async (req, res) => {
+  const id = req.params.id as string;
+
   const [order] = await db
     .select()
     .from(orders)
-    .where(eq(orders.id, req.params.id))
+    .where(eq(orders.id, id))
     .limit(1);
 
   if (!order) {
@@ -123,11 +137,19 @@ router.get("/:id", async (req, res) => {
     return;
   }
 
+  const isAdmin = res.locals.role === "admin";
+  if (!isAdmin && order.userId !== res.locals.userId) {
+    res
+      .status(403)
+      .json({ error: { code: "FORBIDDEN", message: "Access denied" } });
+    return;
+  }
+
   res.json({ order: toOrderResponse(order) });
 });
 
-// Create order (public - placed from checkout)
-router.post("/", async (req, res) => {
+// Create order (authenticated users only, placed from checkout)
+router.post("/", verifyJwt, async (req, res) => {
   const parsed = createOrderSchema.safeParse(req.body);
 
   if (!parsed.success) {
@@ -149,6 +171,7 @@ router.post("/", async (req, res) => {
   const [order] = await db
     .insert(orders)
     .values({
+      userId: res.locals.userId,
       customerName: data.customerName ?? null,
       customerEmail: data.customerEmail ?? null,
       items: data.items,

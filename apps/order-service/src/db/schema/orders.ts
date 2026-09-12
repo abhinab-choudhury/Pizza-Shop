@@ -23,6 +23,7 @@ export const orders = pgTable(
   "orders",
   {
     id: uuid("id").primaryKey().defaultRandom(),
+    userId: uuid("user_id"),
     customerName: varchar("customer_name", { length: 255 }),
     customerEmail: varchar("customer_email", { length: 255 }),
     items: jsonb("items")
@@ -63,5 +64,6 @@ export const orders = pgTable(
   (table) => [
     index("orders_status_idx").on(table.status),
     index("orders_created_at_idx").on(table.createdAt),
+    index("orders_user_id_idx").on(table.userId),
   ],
 );
