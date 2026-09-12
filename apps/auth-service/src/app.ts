@@ -66,7 +66,7 @@ async function start() {
   try {
     // Verify database connectivity before starting
     await client`SELECT 1`;
-    console.log("Database connection verified");
+    console.log("Successfully connected to the database");
   } catch (err) {
     console.error("Failed to connect to database:", err);
     process.exit(1);

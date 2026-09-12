@@ -6,6 +6,7 @@ import config from "./utils/env";
 import logger from "./middleware/logger";
 import router from "./routes";
 import ordersRouter from "./routes/orders";
+import { client } from "./db";
 
 const app = express();
 const PORT = config.PORT;
@@ -47,6 +48,18 @@ app.use(
   },
 );
 
-app.listen(PORT, () => {
-  logger.info(`Order Server running at http://localhost:${PORT}`);
-});
+async function start() {
+  try {
+    await client`SELECT 1`;
+    logger.info("Successfully connected to the database");
+  } catch (err) {
+    logger.error("Failed to connect to database:", err);
+    process.exit(1);
+  }
+
+  app.listen(PORT, () => {
+    logger.info(`Order Server running at http://localhost:${PORT}`);
+  });
+}
+
+start();
