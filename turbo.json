@@ -1,6 +1,15 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
+  "globalPassThroughEnv": [
+    "PORT",
+    "RAZORPAY_KEY_ID",
+    "RAZORPAY_KEY_SECRET",
+    "CORS_ORIGINS",
+    "WEB_CLIENT",
+    "ADMIN_CLIENT",
+    "AUTH_SERVICE_INTERNAL_URL"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
