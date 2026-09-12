@@ -14,30 +14,30 @@ A full-stack pizza ordering platform built with a microservices architecture. In
  │              └──────────────┘    └──────────────┘               │
  └──────────────────────────────────┬──────────────────────────────┘
                                     │
-┌───────────┐ ┌───────────┐ ┌───────────┐ ┌───────────┐ ┌───────────┐
-│   Auth    │ │  Email    │ │   Order   │ │  Payment  │ │  Product  │
-│  Service  │ │  Service  │ │  Service  │ │  Service  │ │  Service  │
-│  (Koa)    │ │ (Express) │ │ (Express) │ │  (Hono)   │ │  (Hono)   │
-│   :3002   │ │   :3003   │ │   :3004   │ │   :3005   │ │   :3006   │
-└────┬──────┘ └────┬──────┘ └────┬──────┘ └────┬──────┘ └────┬──────┘
-     │             │             │             │             │
-┌────▼─────────────▼─────────────▼─────────────▼─────────────▼───────┐
-│                       PostgreSQL 16  (:5432)                       │
-└────────────────────────────────────────────────────────────────────┘
+ ┌───────────┐ ┌───────────┐ ┌───────────┐ ┌───────────┐ ┌───────────┐
+ │   Auth    │ │  Email    │ │   Order   │ │  Payment  │ │  Product  │
+ │  Service  │ │  Service  │ │  Service  │ │  Service  │ │  Service  │
+ │  (Koa)    │ │ (Express) │ │ (Express) │ │  (Hono)   │ │  (Hono)   │
+ │   :3002   │ │   :3003   │ │   :3004   │ │   :3005   │ │   :3006   │
+ └────┬──────┘ └────┬──────┘ └────┬──────┘ └────┬──────┘ └────┬──────┘
+      │             │             │             │             │
+ ┌────▼─────────────▼─────────────▼─────────────▼─────────────▼───────┐
+ │                   PostgreSQL 16  (shared database)                 │
+ └────────────────────────────────────────────────────────────────────┘
 ```
 
-> Clients (web + admin) call each microservice directly — there is no API gateway. All services connect to the same PostgreSQL database, and auth/email services send OTP & transactional emails to Mailpit in development.
+> Clients (web + admin) call each microservice directly — there is no API gateway. A microservice is authenticated with a JWT issued by the auth service; services verify tokens locally against the auth-service JWKS. All services connect to the same PostgreSQL database, and auth/email services send OTP & transactional emails to Mailpit in development.
 
 ## Tech Stack
 
 | Layer | Technology |
 |---|---|
 | **Monorepo** | pnpm workspaces + Turborepo |
-| **Frontend** | Next.js 15, React 19, Tailwind CSS 4, shadcn/ui |
+| **Frontend** | Next.js 16, React 19, Tailwind CSS 4, shadcn/ui |
 | **Auth Service** | Koa.js 3, Drizzle ORM, PostgreSQL, JWT (RS256) |
-| **Order Service** | Express.js 5 |
-| **Payment Service** | Hono.js 4 |
-| **Product Service** | Hono.js 4 |
+| **Order Service** | Express.js 5, Drizzle ORM |
+| **Payment Service** | Hono.js 4, Razorpay |
+| **Product Service** | Hono.js 4, Drizzle ORM |
 | **Email Service** | Express.js 5 |
 | **Database** | PostgreSQL 16 |
 | **Containerization** | Docker Compose |
@@ -60,34 +60,13 @@ A full-stack pizza ordering platform built with a microservices architecture. In
 
 ---
 
-## Quick Start
-
-The fastest way to get everything running:
-
-```bash
-# 1. Clone and install
-git clone <repo-url>
-cd Pizza-Shop
-pnpm install
-
-# 2. Set up database + run migrations (requires Docker)
-pnpm setup
-
-# 3. Start all services
-pnpm dev
-```
-
-This starts PostgreSQL, runs migrations, and boots all backend + frontend services.
-
----
-
 ## Prerequisites
 
 | Tool | Version | Purpose |
 |---|---|---|
-| **Node.js** | >= 18 | Runtime for all services |
+| **Node.js** | >= 20 (Next.js 16 requires ≥ 20.9) | Runtime for all services |
 | **pnpm** | >= 10 | Package manager |
-| **Docker** | >= 24 | PostgreSQL database |
+| **Docker** | >= 24 | PostgreSQL database (or use a managed DB) |
 | **Docker Compose** | >= 2.20 | Container orchestration |
 
 ---
@@ -95,13 +74,85 @@ This starts PostgreSQL, runs migrations, and boots all backend + frontend servic
 ## Installation
 
 ```bash
-# Install all dependencies (including auth-service new deps)
+# 1. Install dependencies (installs all workspaces)
 pnpm install
 ```
 
+This installs every package in the monorepo. A success message confirms `pnpm-lock.yaml` is up to date.
+
 ---
 
-## Database Setup
+## Environment Setup
+
+Each service ships a `.env.template`. Copy it to `.env` and fill in the values. `.env` files are git-ignored — never commit real credentials.
+
+```bash
+# One-off: copy all templates into place
+for app in auth-service product-service order-service payment-service email-service; do
+  cp apps/$app/.env.template apps/$app/.env
+done
+
+# Frontend clients use .env.local
+cp apps/web-client/.env.template apps/web-client/.env.local
+cp apps/admin-client/.env.template apps/admin-client/.env.local
+```
+
+### Backend services
+
+**Database** — all *DB-backed* services (auth, product, order) must point at the **same** PostgreSQL database. Set the identical `DATABASE_URL` in each `.env`. You can use the bundled Docker container (`postgres://postgres:postgres@localhost:5432/pizza_shop_auth`) or a managed database (e.g. Neon). Migrations are isolated per service (see [Migrations](#database--migrations)).
+
+**CORS** — every service reads a comma-separated allowlist from `CORS_ORIGINS`. Default: `http://localhost:3000,http://localhost:3001`. For production, add your deployed client origins, e.g.:
+
+```bash
+CORS_ORIGINS="http://localhost:3000,http://localhost:3001,https://pizza-shop-client.vercel.app,https://pizza-shop-admin-client.vercel.app"
+```
+
+**Service-to-service auth** — services verify user JWTs by fetching the auth-service JWKS. Set `AUTH_SERVICE_INTERNAL_URL` to the auth-service base URL (local: `http://localhost:3002`). The JWKS lives at `<AUTH_SERVICE_INTERNAL_URL>/auth/.well-known/jwks.json`.
+
+### Variable reference
+
+| Service | Variable | Required | Notes |
+|---|---|---|---|
+| **auth-service** | `DATABASE_URL` | Yes | Shared PostgreSQL connection string |
+| | `JWT_ACCESS_SECRET` | Yes | Signing secret for access JWTs |
+| | `JWT_REFRESH_SECRET` | Yes | Secret for refresh-token hashing |
+| | `GOOGLE_CLIENT_ID` | No | Google OAuth client ID (login button) |
+| | `GOOGLE_CLIENT_SECRET` | No | Google OAuth client secret |
+| | `GOOGLE_REDIRECT_URI` | No | e.g. `http://localhost:3002/auth/google/callback` |
+| | `WEB_CLIENT_URL` | No | Client origin used after OAuth callback |
+| | `CORS_ORIGINS` | No | Comma-separated browser origins |
+| | `SMTP_HOST` / `SMTP_PORT` | No | Mailpit dev: `localhost:1025`; leave empty to log OTPs to console |
+| | `SMTP_USER` / `SMTP_PASS` / `SMTP_FROM` | No | Real SMTP (e.g. Gmail) credentials |
+| | `AUTH_SERVICE_INTERNAL_URL` | No | Own public URL, used for the JWKS fetched by other services |
+| **product-service** | `DATABASE_URL` | Yes | Same DB as auth-service |
+| | `CORS_ORIGINS` | No | Browser origins allowed |
+| | `AUTH_SERVICE_INTERNAL_URL` | No | Auth base URL for JWKS |
+| **order-service** | `DATABASE_URL` | Yes | Same DB as auth-service |
+| | `CORS_ORIGINS` | No | Browser origins allowed |
+| | `AUTH_SERVICE_INTERNAL_URL` | No | Auth base URL for JWKS |
+| **payment-service** | `RAZORPAY_KEY_ID` | Yes¹ | Razorpay test/live key ID |
+| | `RAZORPAY_KEY_SECRET` | Yes¹ | Razorpay key secret (**server-side only**) |
+| | `CORS_ORIGINS` | No | Browser origins allowed |
+| | `AUTH_SERVICE_INTERNAL_URL` | No | Auth base URL for JWKS |
+| **email-service** | `WEB_CLIENT` / `ADMIN_CLIENT` | No | CORS origins |
+| **web-client** | `NEXT_PUBLIC_API_URL` | No | Auth service URL (default `http://localhost:3002`) |
+| | `NEXT_PUBLIC_PRODUCT_API_URL` | No | Product service URL (`...:3006`) |
+| | `NEXT_PUBLIC_ORDER_API_URL` | No | Order service URL (`...:3004`) |
+| | `NEXT_PUBLIC_PAYMENT_API_URL` | No | Payment service URL (`...:3005`) |
+| **admin-client** | `NEXT_PUBLIC_API_URL` | No | Auth service URL |
+| | `NEXT_PUBLIC_PRODUCT_API_URL` | No | Product service URL |
+| | `NEXT_PUBLIC_ORDER_API_URL` | No | Order service URL |
+
+¹ Payment flows (Razorpay) are disabled until both keys are set.
+
+### External accounts
+
+- **Google OAuth**: create an OAuth client in Google Cloud Console and add your `GOOGLE_REDIRECT_URI` to the authorized redirect URIs.
+- **Razorpay**: test keys are fine for local development. The key secret is only ever used by the backend — the client receives only the key ID.
+
+---
+
+## Database & Migrations
 
 ### Start PostgreSQL
 
@@ -112,164 +163,101 @@ pnpm db:up
 # Start PostgreSQL + pgAdmin + Mailpit (development tools)
 docker compose --profile dev up -d
 
-# View logs
-pnpm db:logs
-
-# Stop database
+# Stop / restart / logs
 pnpm db:down
-
-# Restart database
 pnpm db:restart
+pnpm db:logs
 ```
 
-### Run Migrations
+Mailpit captures OTP/order emails in development — open `http://localhost:8025` to read them.
+
+### Shared database, per-service migrations
+
+All DB-backed services write to the **same** database, but each keeps its own Drizzle migration journal (auth → schema `drizzle_auth`, product → schema `drizzle_products`, order → schema `drizzle`). This lets the services evolve their schemas independently without colliding.
+
+Migrations are applied **per service**. The root `db:migrate` only targets auth-service — run migrations explicitly per package:
 
 ```bash
-# Generate migration files from schema
-pnpm db:generate
-
-# Apply migrations to database
-pnpm db:migrate
-
-# Or push schema directly (dev only, skips migration files)
-pnpm db:push
-
-# Open Drizzle Studio (web-based DB browser)
-pnpm db:studio
-```
-
-The initial schema migration (`drizzle/0000_*.sql`) is committed, so a fresh setup only needs `pnpm db:migrate`. Open the URL Drizzle Studio prints (default: `https://local.drizzle.studio`) to browse the `users`, `otp_codes`, `accounts`, `refresh_tokens`, `sessions`, and `service_accounts` tables.
-
-The product-service manages its own database (`pizza_shop_products`). Apply its migrations the same way, scoped to the package:
-
-```bash
-pnpm --filter product-service db:generate
+# Apply pending migrations
+pnpm --filter auth-service db:migrate
 pnpm --filter product-service db:migrate
+pnpm --filter order-service db:migrate
 ```
 
-The product and order services also ship a development catalog that is re-seeded idempotently:
+On startup each DB-backed service also verifies the connection and logs `Successfully connected to the database` (it exits if the DB is unreachable).
+
+### Generate & push
+
+After editing a service's Drizzle schema, generate + apply its migration:
 
 ```bash
-pnpm --filter product-service db:seed   # full take-away menu (₹, sizes + toppings)
-pnpm --filter order-service db:seed     # sample orders across statuses
+pnpm --filter <service> db:generate     # create migration SQL from schema
+pnpm --filter <service> db:migrate      # apply it
+pnpm --filter <service> db:push         # dev-only: push schema without migration files
+pnpm --filter <service> db:studio       # open Drizzle Studio browser UI
 ```
 
-> The shop is **take-away / pick-up only** (no delivery). Prices are in **Indian Rupees (₹)** — stored as paise (`price_cents = rupees × 100`).
+(`<service>` = `auth-service`, `product-service`, or `order-service`.)
 
-### Seed Accounts
+### Seed data
 
-Run `pnpm db:seed` to populate development accounts (idempotent).
+Development seeds are idempotent (existing rows are left untouched):
+
+```bash
+pnpm --filter auth-service db:seed     # demo users + dev service accounts
+pnpm --filter product-service db:seed  # full take-away menu (₹, sizes + toppings)
+pnpm --filter order-service db:seed    # sample orders across statuses
+```
+
+Seeded accounts:
 
 | Account | Email | Password | Role |
 |---|---|---|---|
 | Store Admin | `admin@pizzashop.com` | `Password123!` | `admin` |
 | Demo User | `demo@pizzashop.com` | `Password123!` | `user` |
 
-Only `admin` accounts can sign in to the Admin Client (`:3001`) and create products.
+Only `admin` accounts can sign in to the Admin Client (`:3001`) and manage products.
 
-### Database Credentials
-
-| Field | Value |
-|---|---|
-| Host | `localhost` |
-| Port | `5432` |
-| User | `postgres` |
-| Password | `postgres` |
-| Database | `pizza_shop_auth` |
-
-pgAdmin (if using dev profile):
-- URL: `http://localhost:5050`
-- Email: `admin@pizzashop.com`
-- Password: `admin`
-
-### Email OTP via Mailpit (dev)
-
-[Mailpit](https://github.com/axllent/mailpit) is a mail trap for development — it accepts any email sent to its SMTP server and shows it in a local web UI. No credentials required.
-
-```bash
-# Start Mailpit with the other dev tools
-docker compose --profile dev up -d
-
-# Open the email inbox
-open http://localhost:8025
-```
-
-OTP emails sent by the auth service land in Mailpit's UI instead of a real inbox. When you request an OTP from the login page, open Mailpit to grab the 6-digit code.
-
-> SMTP env defaults (`apps/auth-service/.env`): `localhost:1025`, no user/pass.
-> To send real email instead, set `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS` etc. — and leave `SMTP_HOST` empty to fall back to logging codes to the console.
+> The shop is **take-away / pick-up only**. Prices are stored as paise (`price_cents = rupees × 100`).
 
 ---
 
-## Environment Variables
+## Running the Project
 
-Each service has a `.env.template` file. Copy it to create your `.env`:
-
-```bash
-# Auth Service (required)
-cp apps/auth-service/.env.template apps/auth-service/.env
-```
-
-### Auth Service Variables
-
-| Variable | Required | Description |
-|---|---|---|
-| `PORT` | No | Server port (default: 3002) |
-| `DATABASE_URL` | Yes | PostgreSQL connection string |
-| `JWT_ACCESS_SECRET` | Yes | Secret for signing access tokens |
-| `JWT_REFRESH_SECRET` | Yes | Secret for refresh tokens |
-| `GOOGLE_CLIENT_ID` | No | Google OAuth client ID |
-| `GOOGLE_CLIENT_SECRET` | No | Google OAuth client secret |
-| `GOOGLE_REDIRECT_URI` | No | OAuth callback URL |
-| `SMTP_HOST` | No | SMTP server host (Local Mailpit: `localhost`) |
-| `SMTP_PORT` | No | SMTP port (Mailpit default: 1025) |
-| `SMTP_SECURE` | No | Use TLS (`true`/`false`) |
-| `SMTP_USER` | No | SMTP username |
-| `SMTP_PASS` | No | SMTP password |
-| `SMTP_FROM` | No | Sender address (default: noreply@pizzashop.com) |
-
-> **Note:** By default SMTP points at the local Mailpit container — OTP emails appear at `http://localhost:8025`.
-
----
-
-## Starting Services
-
-### All Services (Recommended)
+### All services (recommended)
 
 ```bash
-# Start all backend services + frontend clients
 pnpm dev
 ```
 
-This uses Turborepo to start all services in parallel. Each service runs on its own port.
+Turborepo starts every backend service and frontend client in parallel on the ports listed above.
 
-### Individual Services
+### Individual services
 
 ```bash
-# Backend services
-pnpm dev:auth        # Auth Service → http://localhost:3002
-pnpm dev:order       # Order Service → http://localhost:3004
-pnpm dev:payment     # Payment Service → http://localhost:3005
-pnpm dev:product     # Product Service → http://localhost:3006
-pnpm dev:email       # Email Service → http://localhost:3003
-
 # Frontend clients
 pnpm dev:web         # Web Client → http://localhost:3000
 pnpm dev:admin       # Admin Client → http://localhost:3001
+
+# Backend services
+pnpm dev:auth        # Auth Service → http://localhost:3002
+pnpm dev:email       # Email Service → http://localhost:3003
+pnpm dev:order       # Order Service → http://localhost:3004
+pnpm dev:payment     # Payment Service → http://localhost:3005
+pnpm dev:product     # Product Service → http://localhost:3006
 ```
 
-### Useful Combinations
+### Useful combinations
 
 ```bash
-# Auth service + web client only
-pnpm dev:auth & pnpm dev:web
-
-# All backend services (no frontend)
+# Backend only, no frontend
 turbo run dev --filter='*-service'
 
-# Just the web client
-pnpm dev:web
+# Auth + web client
+pnpm dev:auth & pnpm dev:web
 ```
+
+Each DB-backed service logs `Successfully connected to the database` before it starts listening. If you see a failure instead, the DB isn't reachable from that service's `DATABASE_URL`.
 
 ---
 
@@ -277,7 +265,7 @@ pnpm dev:web
 
 ### Auth Service (Koa.js — Port 3002)
 
-The central authentication service. Handles user registration, login, JWT token management, Google OAuth, and email OTP.
+Central authentication: register/login (email + password), Google OAuth, email OTP, JWT issuance (RS256) and a JWKS endpoint for other services.
 
 #### API Endpoints
 
@@ -292,19 +280,14 @@ The central authentication service. Handles user registration, login, JWT token 
 | POST | `/auth/refresh` | Cookie | Rotate refresh token |
 | POST | `/auth/logout` | Cookie | Revoke refresh token |
 | GET | `/auth/me` | Bearer | Get current user profile |
-| GET | `/.well-known/jwks.json` | No | Public keys for services |
-| POST | `/auth/service/token` | Client creds | Issue service token |
+| GET | `/auth/.well-known/jwks.json` | No | Public keys used by other services |
+| POST | `/auth/service/token` | Client creds | Issue an internal service token |
 
 #### Authentication Flow
 
-**Email/Password Registration:**
-```bash
-curl -X POST http://localhost:3002/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{"email":"user@example.com","name":"John","password":"securepass123"}'
-```
+**Google OAuth** — the web client links to `GET /auth/google`. After consent, the callback redirects back to `WEB_CLIENT_URL` with an `access_token` in the query string; the client stores it and calls `/auth/me`.
 
-**Email/Password Login:**
+**Email/Password login:**
 ```bash
 curl -X POST http://localhost:3002/auth/login \
   -H "Content-Type: application/json" \
@@ -313,60 +296,57 @@ curl -X POST http://localhost:3002/auth/login \
 
 **Email OTP:**
 ```bash
-# Step 1: Send OTP (check Mailpit at http://localhost:8025 for the code)
+# Step 1: send OTP (check Mailpit at http://localhost:8025 for the code)
 curl -X POST http://localhost:3002/auth/otp/send \
   -H "Content-Type: application/json" \
   -d '{"email":"user@example.com","purpose":"login"}'
 
-# Step 2: Verify OTP
+# Step 2: verify OTP
 curl -X POST http://localhost:3002/auth/otp/verify \
   -H "Content-Type: application/json" \
   -d '{"email":"user@example.com","code":"123456","purpose":"login"}'
 ```
 
-**Refresh Token:**
+**Get profile:**
 ```bash
-curl -X POST http://localhost:3002/auth/refresh \
-  -H "Cookie: refresh_token=<token>"
-```
-
-**Get Profile:**
-```bash
-curl http://localhost:3002/auth/me \
-  -H "Authorization: Bearer <access_token>"
+curl http://localhost:3002/auth/me -H "Authorization: Bearer <access_token>"
 ```
 
 #### Token Security
 
-- **Access tokens**: JWT RS256, 15-minute expiry
-- **Refresh tokens**: Opaque, argon2-hashed at rest, HttpOnly cookies, rotated on every use
-- **Reuse detection**: If a used refresh token is replayed, the entire token family is revoked
+- **Access tokens**: JWT RS256, short-lived. Verified by services via JWKS — no network round-trip to auth-service.
+- **Refresh tokens**: opaque, hashed at rest, HttpOnly cookies, rotated on use; replaying a spent token revokes the whole token family.
 
 ### Service-to-Service Auth
 
-Other services verify JWTs locally using JWKS — no network call to auth-service needed:
+`@repo/auth-middleware` is a framework-agnostic JWT verifier. Services resolve the signing key from the auth-service JWKS and validate issuer `auth-service` / audience `pizza-shop`:
 
 ```typescript
-import { createAuthMiddleware } from "@repo/auth-middleware";
+import { buildJwksUrl, verifyAccessToken } from "@repo/auth-middleware";
 
-const auth = createAuthMiddleware({
-  jwksUrl: "http://localhost:3002/.well-known/jwks.json",
-});
+const jwksUrl = buildJwksUrl(process.env.AUTH_SERVICE_INTERNAL_URL!);
 
-router.get("/orders", auth, async (ctx) => {
-  const userId = ctx.state.userId;
-  // ...
+// Inside a route handler:
+const user = await verifyAccessToken({
+  jwksUrl,
+  token: bearerToken,
 });
+// user.sub  → user id
+// user.role → "user" | "admin"
 ```
+
+Each service wraps this in its own thin framework middleware (`src/middleware/auth.ts`) — see `apps/product-service` for a Hono example, `apps/order-service` for Express, and `apps/auth-service` for Koa.
 
 ### Other Services
 
-| Service | Framework | Port | Status |
+| Service | Framework | Port | Notes |
 |---|---|---|---|
-| Order Service | Express.js | 3004 | Scaffolded |
-| Payment Service | Hono.js | 3005 | Scaffolded |
-| Product Service | Hono.js | 3006 | Scaffolded |
-| Email Service | Express.js | 3003 | Scaffolded |
+| Product Service | Hono.js | 3006 | Menu CRUD (`/products`); requires auth for writes |
+| Order Service | Express.js | 3004 | Orders scoped to owner (`/orders`); requires auth |
+| Payment Service | Hono.js | 3005 | Razorpay Standard Checkout: `/payments/create-order`, `/payments/verify`, `/payments/config` |
+| Email Service | Express.js | 3003 | Transactional email stub |
+
+The payment checkout is wired into the web client — pay online via **Turbo UPI** on the checkout page. The Razorpay signature is verified server-side (HMAC-SHA256); a mismatch returns `400`.
 
 ---
 
@@ -398,10 +378,10 @@ Pizza-Shop/
 │   ├── payment-service/     # Hono.js payments (port 3005)
 │   └── product-service/     # Hono.js products (port 3006)
 ├── packages/
-│   ├── auth-middleware/      # Shared JWT verification
+│   ├── auth-middleware/      # Framework-agnostic JWT verification
 │   ├── eslint-config/       # Shared ESLint configs
 │   └── typescript-config/   # Shared tsconfig presets
-├── docker-compose.yml       # PostgreSQL + pgAdmin
+├── docker-compose.yml       # PostgreSQL + pgAdmin + Mailpit
 ├── turbo.json               # Turborepo task config
 ├── pnpm-workspace.yaml      # Workspace definition
 └── package.json             # Root scripts
@@ -411,26 +391,14 @@ Pizza-Shop/
 
 ## Adding a New Service
 
-1. Create directory under `apps/`
-2. Add `package.json`:
-   ```json
-   {
-     "name": "my-service",
-     "scripts": {
-       "dev": "tsx watch src/app.ts",
-       "build": "tsc",
-       "start": "node dist/app.js"
-     },
-     "devDependencies": {
-       "@repo/eslint-config": "workspace:^",
-       "@repo/typescript-config": "workspace:^"
-     }
-   }
-   ```
+1. Create a directory under `apps/`
+2. Add `package.json` (`dev`, `build`, `start` scripts; extend `@repo/typescript-config`)
 3. Add `tsconfig.json` extending `@repo/typescript-config/base.json`
-4. Create `.env.template` with port assignment
+4. Create a `.env.template` with its port and `CORS_ORIGINS`
 5. Add the port to `docker-compose.yml` if needed
-6. Add script to root `package.json`: `"dev:my-service": "pnpm --filter my-service dev"`
+6. Add helper scripts to the root `package.json` (`dev:<app>`)
+
+If the service uses a database, give it its own Drizzle migration schema and wire `db:generate` / `db:migrate` into `package.json` — run them scoped to the package, as documented above.
 
 ---
 
@@ -438,34 +406,28 @@ Pizza-Shop/
 
 ### PostgreSQL won't start
 ```bash
-# Check if port 5432 is in use
-lsof -i :5432
-
-# Check Docker logs
-pnpm db:logs
-
-# Reset database
-docker compose down -v && pnpm db:up
+lsof -i :5432            # is the port busy?
+pnpm db:logs             # container logs
+docker compose down -v && pnpm db:up   # hard reset
 ```
 
-### Auth service won't connect to database
+### Service can't connect to database
 ```bash
-# Verify database is running
-docker compose ps
+# Confirm DATABASE_URL is the same in the failing service's .env
+psql "<DATABASE_URL>"
 
-# Test connection
-psql postgres://postgres:postgres@localhost:5432/pizza_shop_auth
-
-# Re-run migrations
-pnpm db:generate && pnpm db:migrate
+# Re-run that service's migrations
+pnpm --filter <service> db:migrate
 ```
+
+### CORS errors from the browser
+- Restart the backend service after editing `.env` — `tsx watch` picks up source changes but does **not** re-read `.env`.
+- Confirm the requesting origin is in that service's `CORS_ORIGINS`.
+- The payment service requires `credentials: true` (already set) for authenticated calls.
 
 ### Port already in use
 ```bash
-# Kill process on a specific port (e.g., 3002)
-kill $(lsof -t -i:3002)
-
-# Or use a different port in the service's .env
+kill $(lsof -t -i:3002)   # replace with the offending port
 ```
 
 ---
