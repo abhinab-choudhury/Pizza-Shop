@@ -27,6 +27,8 @@
     "dev:payment": "pnpm --filter payment-service dev",
     "dev:product": "pnpm --filter product-service dev",
     "dev:email": "pnpm --filter email-service dev",
+    "dev:gateway": "pnpm --filter gateway dev",
+    "dev:delivery": "pnpm --filter delivery-service dev",
     "start": "turbo run start",
     "start:auth": "pnpm --filter auth-service start",
     "start:web": "pnpm --filter web-client start",

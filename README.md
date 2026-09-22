@@ -53,6 +53,8 @@ A full-stack pizza ordering platform built with a microservices architecture. In
 | Order Service | 3004 |
 | Payment Service | 3005 |
 | Product Service | 3006 |
+| Gateway | 3007 |
+| Delivery Service | 3008 |
 | PostgreSQL | 5432 |
 | pgAdmin (dev) | 5050 |
 | Mailpit SMTP (dev) | 1025 |
@@ -88,7 +90,7 @@ Each service ships a `.env.template`. Copy it to `.env` and fill in the values. 
 
 ```bash
 # One-off: copy all templates into place
-for app in auth-service product-service order-service payment-service email-service; do
+for app in auth-service product-service order-service payment-service email-service delivery-service gateway; do
   cp apps/$app/.env.template apps/$app/.env
 done
 
@@ -135,6 +137,12 @@ CORS_ORIGINS="http://localhost:3000,http://localhost:3001,https://pizza-shop-cli
 | | `CORS_ORIGINS` | No | Browser origins allowed |
 | | `AUTH_SERVICE_INTERNAL_URL` | No | Auth base URL for JWKS |
 | **email-service** | `WEB_CLIENT` / `ADMIN_CLIENT` | No | CORS origins |
+| **gateway** | `PORT` | No | Defaults to 3007 |
+| | `<SERVICE>_SERVICE_URL` | Yes | One per upstream (auth, email, order, payment, product, delivery) |
+| | `CORS_ORIGINS` | No | Browser origins allowed |
+| **delivery-service** | `DATABASE_URL` | Yes | Own DB (`pizza_shop_delivery`) |
+| | `CORS_ORIGINS` | No | Browser origins allowed |
+| | `AUTH_SERVICE_INTERNAL_URL` | No | Auth base URL for JWKS |
 | **web-client** | `NEXT_PUBLIC_API_URL` | No | Auth service URL (default `http://localhost:3002`) |
 | | `NEXT_PUBLIC_PRODUCT_API_URL` | No | Product service URL (`...:3006`) |
 | | `NEXT_PUBLIC_ORDER_API_URL` | No | Order service URL (`...:3004`) |
@@ -173,7 +181,13 @@ Mailpit captures OTP/order emails in development — open `http://localhost:8025
 
 ### Shared database, per-service migrations
 
-All DB-backed services write to the **same** database, but each keeps its own Drizzle migration journal (auth → schema `drizzle_auth`, product → schema `drizzle_products`, order → schema `drizzle`). This lets the services evolve their schemas independently without colliding.
+All DB-backed services write to the **same** database, but each keeps its own Drizzle migration journal (auth → schema `drizzle_auth`, product → schema `drizzle_products`, order → schema `drizzle`, delivery → schema `drizzle_delivery`). This lets the services evolve their schemas independently without colliding.
+
+The delivery-service also owns a separate database. Create it once, then migrate:
+
+```bash
+pnpm --filter delivery-service db:create   # creates pizza_shop_delivery
+```
 
 Migrations are applied **per service**. The root `db:migrate` only targets auth-service — run migrations explicitly per package:
 
@@ -182,6 +196,7 @@ Migrations are applied **per service**. The root `db:migrate` only targets auth-
 pnpm --filter auth-service db:migrate
 pnpm --filter product-service db:migrate
 pnpm --filter order-service db:migrate
+pnpm --filter delivery-service db:migrate
 ```
 
 On startup each DB-backed service also verifies the connection and logs `Successfully connected to the database` (it exits if the DB is unreachable).
@@ -197,7 +212,7 @@ pnpm --filter <service> db:push         # dev-only: push schema without migratio
 pnpm --filter <service> db:studio       # open Drizzle Studio browser UI
 ```
 
-(`<service>` = `auth-service`, `product-service`, or `order-service`.)
+(`<service>` = `auth-service`, `product-service`, `order-service`, or `delivery-service`.)
 
 ### Seed data
 
@@ -207,6 +222,7 @@ Development seeds are idempotent (existing rows are left untouched):
 pnpm --filter auth-service db:seed     # demo users + dev service accounts
 pnpm --filter product-service db:seed  # full take-away menu (₹, sizes + toppings)
 pnpm --filter order-service db:seed    # sample orders across statuses
+pnpm --filter delivery-service db:seed # delivery zones
 ```
 
 Seeded accounts:
@@ -245,6 +261,8 @@ pnpm dev:email       # Email Service → http://localhost:3003
 pnpm dev:order       # Order Service → http://localhost:3004
 pnpm dev:payment     # Payment Service → http://localhost:3005
 pnpm dev:product     # Product Service → http://localhost:3006
+pnpm dev:gateway     # Gateway → http://localhost:3007
+pnpm dev:delivery    # Delivery Service → http://localhost:3008
 ```
 
 ### Useful combinations
@@ -348,6 +366,60 @@ Each service wraps this in its own thin framework middleware (`src/middleware/au
 
 The payment checkout is wired into the web client — pay online via **Turbo UPI** on the checkout page. The Razorpay signature is verified server-side (HMAC-SHA256); a mismatch returns `400`.
 
+### Gateway (Hono — Port 3007)
+
+A thin reverse proxy that gives every client a single stable API surface. It handles CORS once, forwards `Authorization` headers untouched (each service still verifies JWTs locally against the auth-service JWKS), and rewrites `/api/<noun>/...` to the matching upstream.
+
+| Public path | Upstream |
+|---|---|
+| `/api/auth/*` | auth-service `/auth/*` |
+| `/api/email/*` | email-service |
+| `/api/orders/*` | order-service `/orders/*` |
+| `/api/payments/*` | payment-service `/payments/*` |
+| `/api/products/*` | product-service `/products/*` |
+| `/api/delivery/*` | delivery-service `/delivery/*` |
+
+Upstreams are configured via `<SERVICE>_SERVICE_URL` env vars — never ship internal URLs to clients again. `GET /health` reports the reachability of every upstream.
+
+### Delivery Service (Hono — Port 3008)
+
+Riders, zones, and delivery lifecycle. Owns its own database (`pizza_shop_delivery`) and migration journal (`drizzle_delivery`). Use `@repo/auth-middleware` credentials; agents hold the `delivery_agent` role.
+
+**Status machine:**
+
+```
+pending → assigned → accepted → out_for_delivery → delivered
+  └── any non-terminal state can become cancelled (admin)
+```
+
+| Method | Path | Role | Description |
+|---|---|---|---|
+| GET | `/delivery/zones` (or `/api/delivery/zones` via gateway) | public | Active zones + delivery fee |
+| POST / PATCH | `/delivery/zones` / `/delivery/zones/:id` | admin | Zone management |
+| GET | `/delivery/riders/me` | delivery_agent | My rider profile |
+| POST | `/delivery/riders/me` | delivery_agent | Create/update my rider profile |
+| PATCH | `/delivery/riders/me/status` | delivery_agent | Go online / offline |
+| PATCH | `/delivery/riders/me/location` | delivery_agent | Heartbeat location update |
+| GET | `/delivery/riders` | admin | List riders (filter `?online=` ) |
+| GET | `/delivery/deliveries` | admin / delivery_agent | List (agent = own only, filter `?status=`) |
+| GET | `/delivery/deliveries/:id` | admin / delivery_agent | Single (agent = own only) |
+| POST | `/delivery/deliveries` | admin | Create delivery from an order |
+| POST | `/delivery/deliveries/:id/assign` | admin | Assign a rider |
+| POST | `/delivery/deliveries/:id/accept` | delivery_agent | Accept own assignment |
+| POST | `/delivery/deliveries/:id/pickup` | delivery_agent | Mark picked up |
+| POST | `/delivery/deliveries/:id/deliver` | delivery_agent | Mark delivered |
+| POST | `/delivery/deliveries/:id/cancel` | admin | Cancel |
+
+```bash
+# Bootstrap the delivery service (new DB + migrations + zones)
+pnpm --filter delivery-service db:create
+pnpm --filter delivery-service db:migrate
+pnpm --filter delivery-service db:seed
+```
+
+> See `ARCHITECTURE.md` for the full plan to scale this to delivery (tracking,
+> notifications, native KMP apps, event bus).
+
 ---
 
 ## Code Quality
@@ -376,7 +448,9 @@ Pizza-Shop/
 │   ├── email-service/       # Express.js email (port 3003)
 │   ├── order-service/       # Express.js orders (port 3004)
 │   ├── payment-service/     # Hono.js payments (port 3005)
-│   └── product-service/     # Hono.js products (port 3006)
+│   ├── product-service/     # Hono.js products (port 3006)
+│   ├── gateway/             # Hono.js API gateway (port 3007)
+│   └── delivery-service/    # Hono.js riders/zones/deliveries (port 3008)
 ├── packages/
 │   ├── auth-middleware/      # Framework-agnostic JWT verification
 │   ├── eslint-config/       # Shared ESLint configs
@@ -384,6 +458,7 @@ Pizza-Shop/
 ├── docker-compose.yml       # PostgreSQL + pgAdmin + Mailpit
 ├── turbo.json               # Turborepo task config
 ├── pnpm-workspace.yaml      # Workspace definition
+├── ARCHITECTURE.md          # Scale-up plan (delivery, KMP apps, event bus)
 └── package.json             # Root scripts
 ```
 

@@ -328,6 +328,46 @@ importers:
         specifier: ^7.0.2
         version: 7.0.2
 
+  apps/delivery-service:
+    dependencies:
+      '@hono/node-server':
+        specifier: ^2.1.1
+        version: 2.1.1(hono@4.13.7)
+      '@repo/auth-middleware':
+        specifier: workspace:^
+        version: link:../../packages/auth-middleware
+      dotenv:
+        specifier: ^17.4.2
+        version: 17.4.2
+      drizzle-orm:
+        specifier: ^0.45.2
+        version: 0.45.2(postgres@3.4.9)
+      hono:
+        specifier: ^4.13.7
+        version: 4.13.7
+      postgres:
+        specifier: ^3.4.9
+        version: 3.4.9
+      zod:
+        specifier: ^4.6.2
+        version: 4.6.2
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:^
+        version: link:../../packages/typescript-config
+      '@types/node':
+        specifier: ^22.20.2
+        version: 22.20.2
+      drizzle-kit:
+        specifier: ^0.31.10
+        version: 0.31.10
+      tsx:
+        specifier: ^4.23.13
+        version: 4.23.13
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
+
   apps/email-service:
     dependencies:
       dotenv:
@@ -355,6 +395,31 @@ importers:
       '@types/node':
         specifier: ^24.12.4
         version: 24.12.4
+      tsx:
+        specifier: ^4.23.13
+        version: 4.23.13
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
+
+  apps/gateway:
+    dependencies:
+      '@hono/node-server':
+        specifier: ^2.1.1
+        version: 2.1.1(hono@4.13.7)
+      dotenv:
+        specifier: ^17.4.2
+        version: 17.4.2
+      hono:
+        specifier: ^4.13.7
+        version: 4.13.7
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:^
+        version: link:../../packages/typescript-config
+      '@types/node':
+        specifier: ^22.20.2
+        version: 22.20.2
       tsx:
         specifier: ^4.23.13
         version: 4.23.13
