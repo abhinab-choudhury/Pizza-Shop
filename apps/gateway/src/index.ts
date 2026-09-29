@@ -48,6 +48,7 @@ const upstreams: Upstream[] = [
   { name: "payments", baseUrl: env("PAYMENT_SERVICE_URL", "http://localhost:3005"), strip: "/api/payments", prepend: "/payments" },
   { name: "products", baseUrl: env("PRODUCT_SERVICE_URL", "http://localhost:3006"), strip: "/api/products", prepend: "/products" },
   { name: "delivery", baseUrl: env("DELIVERY_SERVICE_URL", "http://localhost:3008"), strip: "/api/delivery", prepend: "/delivery" },
+  { name: "notifications", baseUrl: env("NOTIFICATION_SERVICE_URL", "http://localhost:3010"), strip: "/api/notifications", prepend: "/notifications" },
 ];
 
 function upstreamTarget(upstream: Upstream, publicPath: string): URL {
