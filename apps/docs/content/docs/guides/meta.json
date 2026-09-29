@@ -1,0 +1,9 @@
+{
+  "title": "Guides",
+  "pages": [
+    "environment",
+    "database",
+    "adding-a-service",
+    "troubleshooting"
+  ]
+}

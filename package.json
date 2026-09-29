@@ -23,6 +23,7 @@
     "dev:auth": "pnpm --filter auth-service dev",
     "dev:web": "pnpm --filter web-client dev",
     "dev:admin": "pnpm --filter admin-client dev",
+    "dev:docs": "pnpm --filter docs dev",
     "dev:order": "pnpm --filter order-service dev",
     "dev:payment": "pnpm --filter payment-service dev",
     "dev:product": "pnpm --filter product-service dev",
@@ -34,6 +35,7 @@
     "start:auth": "pnpm --filter auth-service start",
     "start:web": "pnpm --filter web-client start",
     "start:admin": "pnpm --filter admin-client start",
+    "start:docs": "pnpm --filter docs start",
     "clean": "turbo run clean && rm -rf node_modules"
   },
   "devDependencies": {

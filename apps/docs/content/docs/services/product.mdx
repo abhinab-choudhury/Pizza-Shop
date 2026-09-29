@@ -1,0 +1,51 @@
+---
+title: Product Service
+description: Hono.js service owning the pizza menu
+---
+
+Menu CRUD for the storefront and admin panel.
+
+- **Port** 3006
+- **Stack** Hono.js 4, Drizzle ORM
+- **Routes** `/products`
+- **Database** shared `pizza_shop_products`, journal `drizzle_products`
+- **Auth** Reads are public; writes require a valid JWT with the `admin` role
+
+## Endpoints
+
+| Method | Path | Auth | Description |
+|---|---|---|---|
+| GET | `/products` | No | List the menu |
+| GET | `/products/:id` | No | Single product |
+| POST | `/products` | admin | Create a product |
+| PATCH | `/products/:id` | admin | Update a product |
+| DELETE | `/products/:id` | admin | Delete a product |
+
+## Data model notes
+
+Prices are stored as **integer paise** (`price_cents = rupees × 100`). Sizes and
+toppings are modelled as structured values, and the seeded menu covers the full
+take-away catalogue.
+
+## Auth wiring
+
+This service is the reference example for Koa-free Hono auth. It wraps
+`@repo/auth-middleware` in a thin middleware at `src/middleware/auth.ts`:
+
+```typescript
+import { verifyAccessToken } from "@repo/auth-middleware";
+
+const user = await verifyAccessToken({ jwksUrl, token: bearerToken });
+```
+
+See [Order Service](/docs/services/order) for the Express equivalent and
+[Auth Service](/docs/services/auth) for Koa.
+
+## Seed data
+
+```bash
+pnpm --filter product-service db:seed
+```
+
+Seeds the full take-away menu — sizes, toppings, and rupee pricing. Seeds are
+idempotent: existing rows are left untouched.

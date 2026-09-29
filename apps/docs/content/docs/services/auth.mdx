@@ -1,0 +1,101 @@
+---
+title: Auth Service
+description: Koa.js service handling registration, login, JWT issuance, and JWKS
+---
+
+Central authentication: register/login (email + password), Google OAuth, email
+OTP, JWT issuance (RS256), and a JWKS endpoint that every other service uses to
+verify tokens locally.
+
+- **Port** 3002
+- **Stack** Koa.js 3, Drizzle ORM, PostgreSQL
+- **Routes** `/auth/*`
+- **Database** shared `pizza_shop_auth`, journal `drizzle_auth`
+
+## Endpoints
+
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| POST | `/auth/register` | No | Register with email + password |
+| POST | `/auth/login` | No | Login with email + password |
+| GET | `/auth/google` | No | Redirect to Google OAuth consent |
+| GET | `/auth/google/callback` | No | Handle OAuth callback |
+| POST | `/auth/otp/send` | No | Send 6-digit email OTP |
+| POST | `/auth/otp/verify` | No | Verify OTP, returns tokens |
+| POST | `/auth/refresh` | Cookie | Rotate refresh token |
+| POST | `/auth/logout` | Cookie | Revoke refresh token |
+| GET | `/auth/me` | Bearer | Current user profile |
+| GET | `/auth/.well-known/jwks.json` | No | Public keys used by other services |
+| POST | `/auth/service/token` | Client creds | Issue an internal service token |
+
+## Flows
+
+### Google OAuth
+
+The web client links to `GET /auth/google`. After consent, the callback
+redirects back to `WEB_CLIENT_URL` with an `access_token` in the query string.
+The client stores it and calls `/auth/me`.
+
+### Email and password
+
+```bash
+curl -X POST http://localhost:3002/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"user@example.com","password":"securepass123"}'
+```
+
+### Email OTP
+
+```bash
+# Step 1: send the OTP (read it from Mailpit at http://localhost:8025)
+curl -X POST http://localhost:3002/auth/otp/send \
+  -H "Content-Type: application/json" \
+  -d '{"email":"user@example.com","purpose":"login"}'
+
+# Step 2: verify it
+curl -X POST http://localhost:3002/auth/otp/verify \
+  -H "Content-Type: application/json" \
+  -d '{"email":"user@example.com","code":"123456","purpose":"login"}'
+```
+
+If `SMTP_HOST` is empty, OTPs are logged to the console instead of being sent.
+
+### Profile
+
+```bash
+curl http://localhost:3002/auth/me -H "Authorization: Bearer <access_token>"
+```
+
+## Token security
+
+- **Access tokens** — JWT RS256, short-lived. Services verify them via JWKS, so
+  there is no network round-trip to auth-service.
+- **Refresh tokens** — opaque, hashed at rest, HttpOnly cookies, rotated on use.
+  Replaying a spent token revokes the whole token family.
+
+<Callout title="Native app note">
+  Refresh tokens are HttpOnly cookies, which native apps cannot hold. The plan is
+  to add a bearer-token refresh endpoint (`POST /auth/refresh` accepting the token
+  in the body or header) so Kotlin Multiplatform clients can rotate, while keeping
+  the cookie path for web.
+</Callout>
+
+## Roles
+
+Two roles exist today: `user` and `admin`. A `delivery_agent` role is planned for
+riders; how it is granted is an open decision.
+
+## Verifying tokens in other services
+
+```typescript
+import { buildJwksUrl, verifyAccessToken } from "@repo/auth-middleware";
+
+const jwksUrl = buildJwksUrl(process.env.AUTH_SERVICE_INTERNAL_URL!);
+
+const user = await verifyAccessToken({ jwksUrl, token: bearerToken });
+// user.sub  → user id
+// user.role → "user" | "admin"
+```
+
+Set `AUTH_SERVICE_INTERNAL_URL` to this service's base URL. The JWKS lives at
+`<AUTH_SERVICE_INTERNAL_URL>/auth/.well-known/jwks.json`.

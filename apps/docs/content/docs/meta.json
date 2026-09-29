@@ -1,0 +1,11 @@
+{
+  "title": "Pizza Shop",
+  "description": "Documentation for the Pizza Shop microservices platform",
+  "pages": [
+    "index",
+    "getting-started",
+    "architecture",
+    "services",
+    "guides"
+  ]
+}

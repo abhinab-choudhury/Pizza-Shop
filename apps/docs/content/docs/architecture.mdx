@@ -1,0 +1,126 @@
+---
+title: Architecture
+description: Request flow, data ownership, and the roadmap to native apps
+---
+
+## Request flow
+
+All client traffic enters through the gateway. The gateway is the contract —
+building new clients never touches service code.
+
+```
+┌──────────────┬──────────────┬──────────────────┐
+│ Customer Web │  Admin Panel │  Delivery Agent  │
+│  (Next.js)   │  (Next.js)   │   Web (Next.js)  │
+└──────┬───────┴──────┬───────┴─────────┬────────┘
+       └──────────────┴─────────────────┘
+                    │  /api/*
+          ┌─────────▼──────────┐
+          │  API Gateway / BFF │  :3007
+          │  CORS, routing,    │  Authorization passthrough
+          │  stable URLs       │
+          └─────────┬──────────┘
+   ┌─────────┬──────┼───────┬──────────┬─────────┐
+   ▼         ▼      ▼       ▼          ▼         ▼
+ auth     product  order  payment   delivery   email
+ :3002    :3006    :3004   :3005      :3008     :3003
+   │         │       │       │          │
+   └─────────┴───────┴───────┴──────────┘
+        shared PostgreSQL 16
+        (per-service Drizzle journals)
+```
+
+### Gateway responsibilities
+
+- **Single origin + CORS** — one allowlist (`CORS_ORIGINS`), credentials enabled.
+- **Routing** — `/api/auth/*`, `/api/products/*`, `/api/orders/*`,
+  `/api/payments/*`, `/api/delivery/*`, `/api/email/*`.
+- **Auth passthrough** — the `Authorization` header is forwarded untouched. Each
+  service verifies the JWT locally against the auth-service JWKS via
+  `@repo/auth-middleware`. No behaviour change downstream.
+- **URL stability** — service URLs live in server-side `<SERVICE>_SERVICE_URL`
+  env vars and never ship to clients.
+- **Health** — `GET /health` reports reachability of every upstream.
+
+## Token model
+
+**Access tokens** are JWT RS256, short-lived, and verified through the JWKS
+endpoint — no per-request network hop to auth-service.
+
+**Refresh tokens** are opaque, hashed at rest, stored in HttpOnly cookies, and
+rotated on use. Replaying a spent token revokes the entire token family.
+
+`@repo/auth-middleware` resolves the signing key from the JWKS and validates
+issuer `auth-service` and audience `pizza-shop`. Each service wraps it in a thin
+framework middleware — see `apps/product-service` (Hono), `apps/order-service`
+(Express), and `apps/auth-service` (Koa).
+
+## Data ownership
+
+Today all DB-backed services share one database, isolated only by migration
+journals. The delivery-service added a new data owner, so the plan is to split
+per service before scaling:
+
+1. **One instance, one DB per service** — `pizza_shop_auth`,
+   `pizza_shop_products`, `pizza_shop_orders`, `pizza_shop_delivery`.
+2. **Independent instances** (Neon, Supabase) when isolated failure domains are
+   needed.
+
+> **Rule:** a service that owns data gets its own database. Shared data does not
+> mean shared tables — it means events and API calls.
+
+## Domain model: delivery
+
+The order status machine lives in order-service; delivery-service receives copies
+via events.
+
+```
+placed → paid → preparing ──(pickup)──▶ ready_for_pickup → picked_up
+                    └──(delivery)─▶ pending → assigned → accepted
+                                        → out_for_delivery → delivered
+                                any state → cancelled
+```
+
+## Event bus
+
+Order placement triggers payment, delivery assignment, and notifications — no
+distributed transactions. The plan is **outbox + Redis Streams**:
+
+1. A service writes its row **and an event row** in the same local transaction.
+2. A relay reads the outbox and publishes to Redis Streams.
+3. Consumers process with consumer groups (at-least-once); event ids make
+   handlers idempotent.
+
+Starting events: `order.placed`, `payment.captured`, `order.ready_for_pickup`,
+`delivery.assigned`, `delivery.out_for_delivery`, `delivery.delivered`.
+
+## Roadmap
+
+1. **Backend hardening** — per-service databases, gateway, bearer-token refresh
+   endpoint. The web app stays fully working throughout.
+2. **Delivery domain** — delivery fields in order-service, delivery-service with
+   riders, zones, deliveries.
+3. **Delivery-agent web** (Next.js) — proves the delivery API with the cheapest
+   client.
+4. **Delivery-agent KMP app** — offline-first, best fit for the shared platform.
+5. **Customer KMP app** — reuses `shared/`; tracking, push, order history.
+6. **notification-service** — WebSockets + FCM, event bus + outbox.
+7. **Scale** — managed per-service Postgres, frontends on Vercel, services on
+   Fly.io / Railway / ECS, Redis in production.
+
+The native apps live in a Gradle root (`kmp/`) outside the pnpm workspace, since
+Turborepo does not drive Gradle. One OpenAPI spec should drive both sides so Node
+services and Kotlin DTOs never drift.
+
+## Open decisions
+
+These are unresolved and marked `[DECIDE]` in the root `ARCHITECTURE.md`:
+
+- Web stack stays Next.js (recommended) vs. KMP-everywhere.
+- Gateway framework — Hono (recommended).
+- How the `delivery_agent` role is granted in auth-service.
+- Mobile token strategy — short-lived RS256 bearer + rotating refresh.
+- Push — FCM-only (covers both platforms) vs. FCM + APNs.
+- Real-time — own WebSocket service vs. managed (Ably, Pusher).
+- Contract source of truth — OpenAPI spec (recommended).
+- Rider assignment — static zones + first-available vs. something smarter.

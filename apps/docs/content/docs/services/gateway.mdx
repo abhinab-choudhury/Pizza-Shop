@@ -1,0 +1,54 @@
+---
+title: Gateway
+description: Hono.js reverse proxy giving every client one stable API surface
+---
+
+A thin reverse proxy in front of every backend service. Clients get a single
+origin, CORS is handled once, and internal service URLs stay server-side.
+
+- **Port** 3007
+- **Stack** Hono.js 4
+- **Routes** `/api/*`, `/health`
+- **Database** none — stateless
+
+## Routing
+
+| Public path | Upstream |
+|---|---|
+| `/api/auth/*` | auth-service `/auth/*` |
+| `/api/email/*` | email-service |
+| `/api/orders/*` | order-service `/orders/*` |
+| `/api/payments/*` | payment-service `/payments/*` |
+| `/api/products/*` | product-service `/products/*` |
+| `/api/delivery/*` | delivery-service `/delivery/*` |
+
+Upstreams come from `<SERVICE>_SERVICE_URL` environment variables — one per
+upstream — so internal URLs are never shipped to clients again.
+
+## Design notes
+
+- **CORS once.** A single `CORS_ORIGINS` allowlist with credentials, rather than
+  one per service.
+- **Auth passthrough.** The `Authorization` header is forwarded untouched. Each
+  service still verifies the JWT locally against the auth-service JWKS, so there
+  is no behaviour change downstream and no auth hop per request.
+- **URL stability.** When a service moves, only the gateway's env vars change.
+
+## Configuration
+
+| Variable | Required | Notes |
+|---|---|---|
+| `PORT` | No | Defaults to 3007 |
+| `CORS_ORIGINS` | No | Browser origins allowed |
+| `AUTH_SERVICE_INTERNAL_URL` | No | Used for the `/config` health entry |
+| `AUTH_SERVICE_URL` | Yes | Upstream |
+| `EMAIL_SERVICE_URL` | Yes | Upstream |
+| `ORDER_SERVICE_URL` | Yes | Upstream |
+| `PAYMENT_SERVICE_URL` | Yes | Upstream |
+| `PRODUCT_SERVICE_URL` | Yes | Upstream |
+| `DELIVERY_SERVICE_URL` | Yes | Upstream |
+
+## Health
+
+`GET /health` reports the reachability of every upstream, so you can tell
+"the gateway is down" apart from "one service is down".

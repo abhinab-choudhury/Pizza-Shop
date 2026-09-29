@@ -1,0 +1,57 @@
+---
+title: Introduction
+description: A full-stack pizza ordering platform built on a microservices architecture
+---
+
+Pizza Shop is a full-stack pizza ordering platform built with a microservices
+architecture, orchestrated with pnpm workspaces and Turborepo.
+
+It ships three Next.js frontends and eight backend services behind a single API
+gateway, with PostgreSQL for persistence and Docker Compose for local
+infrastructure.
+
+<Cards>
+  <Card title="Getting Started" href="/docs/getting-started" />
+  <Card title="Architecture" href="/docs/architecture" />
+  <Card title="Services" href="/docs/services/auth" />
+  <Card title="Guides" href="/docs/guides/environment" />
+</Cards>
+
+## What's in the box
+
+| App | Stack | Port | Purpose |
+|---|---|---|---|
+| `web-client` | Next.js 16 | 3000 | Customer storefront |
+| `admin-client` | Next.js 16 | 3001 | Admin panel for menu and orders |
+| `docs` | Next.js 16 + Fumadocs | 3009 | This documentation site |
+| `auth-service` | Koa.js 3 | 3002 | Registration, login, JWT, JWKS |
+| `email-service` | Express.js 5 | 3003 | Transactional email |
+| `order-service` | Express.js 5 | 3004 | Order lifecycle |
+| `payment-service` | Hono.js 4 | 3005 | Razorpay checkout |
+| `product-service` | Hono.js 4 | 3006 | Menu CRUD |
+| `gateway` | Hono.js 4 | 3007 | Single API surface for all clients |
+| `delivery-service` | Hono.js 4 | 3008 | Riders, zones, deliveries |
+| `notification-service` | — | 3010 | Live order tracking and push |
+
+## Core concepts
+
+**One gateway, many services.** Clients talk to the gateway at `:3007` and never
+learn internal service URLs. The gateway forwards the `Authorization` header
+untouched — each service still verifies the JWT locally against the auth-service
+JWKS, so there is no network round-trip to auth on every request.
+
+**Shared database, isolated migrations.** All DB-backed services point at the
+same PostgreSQL instance, but each keeps its own Drizzle migration journal
+(`drizzle_auth`, `drizzle_products`, `drizzle`, `drizzle_delivery`) so schemas
+can evolve independently. The delivery-service is the exception: it owns a
+separate database, `pizza_shop_delivery`.
+
+**Prices are paise.** Money is stored as integer paise (`price_cents = rupees ×
+100`) to avoid floating-point rounding. The shop is currently **take-away /
+pick-up only**.
+
+## Where to go next
+
+- New to the repo? Start with [Getting Started](/docs/getting-started).
+- Want the system design? Read [Architecture](/docs/architecture).
+- Integrating with a specific service? See [Services](/docs/services/auth).

@@ -1,0 +1,90 @@
+---
+title: Database & Migrations
+description: Shared database, per-service migration journals, and seeding
+---
+
+## Starting PostgreSQL
+
+```bash
+pnpm db:up        # PostgreSQL only
+pnpm tools:up     # PostgreSQL + pgAdmin + Mailpit
+pnpm db:down      # Stop
+pnpm db:restart   # Restart
+pnpm db:logs      # Follow logs
+```
+
+Mailpit captures OTP and order emails — read them at `http://localhost:8025`.
+pgAdmin is at `http://localhost:5050`.
+
+## Shared database, per-service migrations
+
+All DB-backed services write to the **same** database, but each keeps its own
+Drizzle migration journal:
+
+| Service | Journal |
+|---|---|
+| auth-service | `drizzle_auth` |
+| product-service | `drizzle_products` |
+| order-service | `drizzle` |
+| delivery-service | `drizzle_delivery` (own database) |
+
+This lets schemas evolve independently without colliding. The delivery-service
+also owns a separate database, `pizza_shop_delivery` — create it once:
+
+```bash
+pnpm --filter delivery-service db:create
+```
+
+## Applying migrations
+
+Migrations are applied **per service**. The root `pnpm db:migrate` only targets
+auth-service, so run them explicitly:
+
+```bash
+pnpm --filter auth-service db:migrate
+pnpm --filter product-service db:migrate
+pnpm --filter order-service db:migrate
+pnpm --filter delivery-service db:migrate
+```
+
+On startup each DB-backed service verifies the connection and logs
+`Successfully connected to the database` — it exits if the database is
+unreachable.
+
+## Generate and push
+
+After editing a service's Drizzle schema:
+
+```bash
+pnpm --filter <service> db:generate   # create migration SQL from the schema
+pnpm --filter <service> db:migrate    # apply it
+pnpm --filter <service> db:push       # dev-only: push without migration files
+pnpm --filter <service> db:studio     # open Drizzle Studio
+```
+
+`<service>` is one of `auth-service`, `product-service`, `order-service`, or
+`delivery-service`.
+
+## Seeding
+
+Seeds are idempotent — existing rows are left untouched.
+
+```bash
+pnpm --filter auth-service db:seed       # demo users + dev service accounts
+pnpm --filter product-service db:seed    # full take-away menu, sizes + toppings
+pnpm --filter order-service db:seed      # sample orders across statuses
+pnpm --filter delivery-service db:seed   # delivery zones
+```
+
+| Account | Email | Password | Role |
+|---|---|---|---|
+| Store Admin | `admin@pizzashop.com` | `Password123!` | `admin` |
+| Demo User | `demo@pizzashop.com` | `Password123!` | `user` |
+
+Only `admin` accounts can sign in to the Admin Client (`:3001`) and manage
+products.
+
+## Money
+
+The shop is **take-away / pick-up only**. Prices are stored as paise
+(`price_cents = rupees × 100`) to avoid floating-point rounding.

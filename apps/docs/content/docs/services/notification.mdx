@@ -1,0 +1,55 @@
+---
+title: Notification Service
+description: WebSocket hub and push pipeline for live order tracking
+---
+
+Live order tracking over WebSockets, plus a publish endpoint that services use to
+fan out domain events.
+
+- **Port** 3010
+- **Stack** Hono.js, WebSockets
+- **Routes** `/events`, `/stats`, `/event-types`
+- **Database** none today — in-memory rooms, persisted presence only when clustered
+
+## Endpoints
+
+| Method | Path | Auth | Description |
+|---|---|---|---|
+| POST | `/events` | Yes | Publish a domain event to the matching rooms |
+| POST | `/events/...` | Yes | Additional event publishing routes |
+| GET | `/stats` | Bearer | Connection and room statistics |
+| GET | `/event-types` | No | List of supported event types |
+
+## Event types
+
+The service accepts the starting event set defined in the architecture plan:
+
+```
+order.placed
+payment.captured
+order.ready_for_pickup
+delivery.assigned
+delivery.out_for_delivery
+delivery.delivered
+```
+
+Every event carries a common base of `orderId`, `userId`, and `occurredAt`.
+
+<Callout title="Contract drift risk">
+  These event types are currently duplicated from `ARCHITECTURE.md` §5 in
+  `src/events.ts`. The comment in that file flags it: once a shared
+  `packages/domain` exists, they should move there and be imported by both the
+  publishing services and this one, so producer and consumer can never drift.
+</Callout>
+
+## Connection hub
+
+Clients join **rooms** keyed by order and user. The hub runs a 30 second
+heartbeat and caps clients at 50 rooms each. Publishing reports how many rooms
+matched, how many deliveries succeeded, and how many were dropped.
+
+## Push
+
+WebSockets cover the foreground case. When the app is backgrounded, FCM push
+takes over — FCM also carries APNs to iOS, so a single provider covers both
+platforms.

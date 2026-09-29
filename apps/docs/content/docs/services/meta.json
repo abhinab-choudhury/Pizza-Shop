@@ -1,0 +1,13 @@
+{
+  "title": "Services",
+  "pages": [
+    "auth",
+    "product",
+    "order",
+    "payment",
+    "email",
+    "gateway",
+    "delivery",
+    "notification"
+  ]
+}

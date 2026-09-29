@@ -1,0 +1,67 @@
+---
+title: Troubleshooting
+description: Common failures and how to resolve them
+---
+
+## PostgreSQL won't start
+
+```bash
+lsof -i :5432            # is the port busy?
+pnpm db:logs             # container logs
+docker compose down -v && pnpm db:up   # hard reset
+```
+
+## A service can't connect to the database
+
+```bash
+# Confirm DATABASE_URL is the same in the failing service's .env
+psql "<DATABASE_URL>"
+
+# Re-run that service's migrations
+pnpm --filter <service> db:migrate
+```
+
+A DB-backed service logs `Successfully connected to the database` before it
+starts listening. If you see a failure instead, the database is unreachable from
+that service's `DATABASE_URL`.
+
+## CORS errors in the browser
+
+- **Restart the backend service after editing `.env`.** `tsx watch` picks up
+  source changes but does **not** re-read `.env`.
+- Confirm the requesting origin is in that service's `CORS_ORIGINS`.
+- The payment service requires `credentials: true` (already set) for
+  authenticated calls.
+
+## Port already in use
+
+```bash
+kill $(lsof -t -i:3002)   # replace with the offending port
+```
+
+## A variable is missing at build time
+
+Turborepo filters environment variables by task hash. If a variable is missing
+inside `next build` or `dev`, it is not declared in `globalPassThroughEnv` in
+`turbo.json`. Add it there, then re-run the task — Turbo will invalidate the
+cache entry.
+
+## Turborepo skips a package
+
+Turbo only runs tasks a package actually defines. Verify the script name matches
+the task name exactly:
+
+```bash
+npx turbo run check-types lint clean --dry
+```
+
+Any package reporting `<NONEXISTENT>` has no matching script in its
+`package.json`. `check-types` and `clean` are currently only implemented by the
+docs app; every other package type-checks implicitly through `tsc` during
+`build`.
+
+## Seeding doesn't change anything
+
+Seeds are idempotent by design — existing rows are left untouched, so re-running
+is safe but will not overwrite your edits. Reset with
+`docker compose down -v && pnpm db:up` and re-migrate if you want a clean slate.

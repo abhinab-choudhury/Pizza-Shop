@@ -1,0 +1,47 @@
+---
+title: Payment Service
+description: Hono.js service wrapping Razorpay Standard Checkout
+---
+
+Razorpay Standard Checkout, wired into the web client. Customers pay online via
+**Turbo UPI** on the checkout page.
+
+- **Port** 3005
+- **Stack** Hono.js 4, Razorpay
+- **Routes** `/payments`
+- **Database** none — stateless
+- **Auth** Requires a valid JWT
+
+## Endpoints
+
+| Method | Path | Description |
+|---|---|---|
+| GET | `/payments/config` | Public key ID for the checkout widget |
+| POST | `/payments/create-order` | Create a Razorpay order for an amount |
+| POST | `/payments/verify` | Verify the checkout signature |
+
+## Signature verification
+
+The Razorpay signature is verified **server-side** with HMAC-SHA256. A mismatch
+returns `400`. Never verify on the client — the client only ever receives the
+key ID, never the secret.
+
+## Configuration
+
+Payment flows stay disabled until both keys are set:
+
+| Variable | Required | Notes |
+|---|---|---|
+| `RAZORPAY_KEY_ID` | Yes¹ | Razorpay test or live key ID |
+| `RAZORPAY_KEY_SECRET` | Yes¹ | Key secret — server-side only |
+
+¹ Payment flows are disabled until both are set. Test keys are fine for local
+development.
+
+Both variables are declared in `turbo.json` under `globalPassThroughEnv`, so they
+are available to the build and dev tasks.
+
+## Deployment note
+
+The service exports `app.fetch` for Vercel and guards its local server start, so
+it can run both as a local process and as a serverless function.

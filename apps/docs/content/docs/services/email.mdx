@@ -1,0 +1,35 @@
+---
+title: Email Service
+description: Express.js service for transactional email
+---
+
+Transactional email delivery, used for OTPs and order notifications.
+
+- **Port** 3003
+- **Stack** Express.js 5
+- **Routes** `/email`
+- **Database** none — stateless
+- **Auth** CORS origins configured via `WEB_CLIENT` / `ADMIN_CLIENT`
+
+## Behaviour
+
+In development, mail is captured by **Mailpit** rather than sent to real
+recipients. Open `http://localhost:8025` to read OTP codes and order emails.
+
+If `SMTP_HOST` is empty, OTPs are logged to the console instead of being sent —
+useful when you are running without the dev container stack.
+
+## Configuration
+
+| Variable | Required | Notes |
+|---|---|---|
+| `SMTP_HOST` | No | `localhost:1025` for Mailpit; empty logs to console |
+| `SMTP_PORT` | No | Defaults to 1025 in development |
+| `SMTP_USER` | No | Real SMTP credentials, e.g. Gmail |
+| `SMTP_PASS` | No | Real SMTP credentials |
+| `SMTP_FROM` | No | Sender address |
+
+## Routed through the gateway
+
+Clients reach this service at `/api/email/*` via the gateway. See
+[Gateway](/docs/services/gateway).

@@ -1,0 +1,68 @@
+---
+title: Delivery Service
+description: Hono.js service owning riders, zones, and the delivery lifecycle
+---
+
+Riders, delivery zones, and the delivery lifecycle.
+
+- **Port** 3008
+- **Stack** Hono.js 4, Drizzle ORM
+- **Routes** `/delivery`
+- **Database** **own** — `pizza_shop_delivery`, journal `drizzle_delivery`
+- **Auth** `@repo/auth-middleware`; riders hold the `delivery_agent` role
+
+<Callout title="Separate database">
+  Unlike the other DB-backed services, this one owns its database. Create it
+  before running migrations.
+</Callout>
+
+## Bootstrap
+
+```bash
+pnpm --filter delivery-service db:create    # creates pizza_shop_delivery
+pnpm --filter delivery-service db:migrate
+pnpm --filter delivery-service db:seed     # delivery zones
+```
+
+## Status machine
+
+```
+pending → assigned → accepted → out_for_delivery → delivered
+  └── any non-terminal state can become cancelled (admin)
+```
+
+## Endpoints
+
+| Method | Path | Role | Description |
+|---|---|---|---|
+| GET | `/delivery/zones` | public | Active zones + delivery fee |
+| POST | `/delivery/zones` | admin | Create a zone |
+| PATCH | `/delivery/zones/:id` | admin | Update a zone |
+| GET | `/delivery/riders/me` | delivery_agent | My rider profile |
+| POST | `/delivery/riders/me` | delivery_agent | Create/update my profile |
+| PATCH | `/delivery/riders/me/status` | delivery_agent | Go online / offline |
+| PATCH | `/delivery/riders/me/location` | delivery_agent | Heartbeat location |
+| GET | `/delivery/riders` | admin | List riders, filter `?online=` |
+| GET | `/delivery/deliveries` | admin / delivery_agent | List, agent sees own only, filter `?status=` |
+| GET | `/delivery/deliveries/:id` | admin / delivery_agent | Single, agent sees own only |
+| POST | `/delivery/deliveries` | admin | Create a delivery from an order |
+| POST | `/delivery/deliveries/:id/assign` | admin | Assign a rider |
+| POST | `/delivery/deliveries/:id/accept` | delivery_agent | Accept own assignment |
+| POST | `/delivery/deliveries/:id/pickup` | delivery_agent | Mark picked up |
+| POST | `/delivery/deliveries/:id/deliver` | delivery_agent | Mark delivered |
+| POST | `/delivery/deliveries/:id/cancel` | admin | Cancel |
+
+All of these are also reachable through the gateway under `/api/delivery/*`.
+
+## Data model
+
+- **riders** — `id`, `userId` (→ auth `sub`), `name`, `phone`, `vehicleType`,
+  `isOnline`, `currentLat` / `currentLng`, `lastSeenAt`, `status`.
+- **delivery_zones** — `id`, `name`, `feeCents`, `isActive`. Fee lookup happens
+  at checkout; zones stay static until there is real data.
+- **deliveries** — `id`, `orderId` (unique, **not** a foreign key — order-service
+  owns it), `zoneId` → zones, `riderId` → riders, customer contact and address,
+  `feeCents`, `etaMinutes`, `status`, timestamps.
+
+Rider identity is the auth JWT `sub`. Location updates are dumb POSTs at a 5–10
+second interval, and ETA is computed server-side rather than in the client.

@@ -1,0 +1,103 @@
+---
+title: Environment Variables
+description: Full variable reference across every service
+---
+
+Each service ships a `.env.template`. Copy it to `.env` and fill in the values.
+`.env` files are git-ignored — never commit real credentials.
+
+```bash
+for app in auth-service product-service order-service payment-service email-service delivery-service gateway; do
+  cp apps/$app/.env.template apps/$app/.env
+done
+
+# Frontend clients use .env.local
+cp apps/web-client/.env.template apps/web-client/.env.local
+cp apps/admin-client/.env.template apps/admin-client/.env.local
+```
+
+## Backend services
+
+**Database** — all *DB-backed* services (auth, product, order) must point at the
+**same** PostgreSQL database. Set an identical `DATABASE_URL` in each. Use the
+bundled container (`postgres://postgres:postgres@localhost:5432/pizza_shop_auth`)
+or a managed database such as Neon. Migrations stay isolated per service — see
+[Database](/docs/guides/database).
+
+**CORS** — every service reads a comma-separated allowlist from `CORS_ORIGINS`.
+The default is `http://localhost:3000,http://localhost:3001`.
+
+```bash
+CORS_ORIGINS="http://localhost:3000,http://localhost:3001,https://pizza-shop-client.vercel.app,https://pizza-shop-admin-client.vercel.app"
+```
+
+**Service-to-service auth** — services verify user JWTs by fetching the
+auth-service JWKS. Set `AUTH_SERVICE_INTERNAL_URL` to the auth-service base URL
+(local: `http://localhost:3002`). The JWKS lives at
+`<AUTH_SERVICE_INTERNAL_URL>/auth/.well-known/jwks.json`.
+
+## Variable reference
+
+| Service | Variable | Required | Notes |
+|---|---|---|---|
+| **auth-service** | `DATABASE_URL` | Yes | Shared PostgreSQL connection string |
+| | `JWT_ACCESS_SECRET` | Yes | Signing secret for access JWTs |
+| | `JWT_REFRESH_SECRET` | Yes | Secret for refresh-token hashing |
+| | `GOOGLE_CLIENT_ID` | No | Google OAuth client ID |
+| | `GOOGLE_CLIENT_SECRET` | No | Google OAuth client secret |
+| | `GOOGLE_REDIRECT_URI` | No | e.g. `http://localhost:3002/auth/google/callback` |
+| | `WEB_CLIENT_URL` | No | Client origin used after the OAuth callback |
+| | `CORS_ORIGINS` | No | Comma-separated browser origins |
+| | `SMTP_HOST` / `SMTP_PORT` | No | Mailpit dev: `localhost:1025`; empty logs OTPs to console |
+| | `SMTP_USER` / `SMTP_PASS` / `SMTP_FROM` | No | Real SMTP credentials |
+| | `AUTH_SERVICE_INTERNAL_URL` | No | Public URL used for the JWKS by other services |
+| **product-service** | `DATABASE_URL` | Yes | Same DB as auth-service |
+| | `CORS_ORIGINS` | No | Browser origins allowed |
+| | `AUTH_SERVICE_INTERNAL_URL` | No | Auth base URL for JWKS |
+| **order-service** | `DATABASE_URL` | Yes | Same DB as auth-service |
+| | `CORS_ORIGINS` | No | Browser origins allowed |
+| | `AUTH_SERVICE_INTERNAL_URL` | No | Auth base URL for JWKS |
+| **payment-service** | `RAZORPAY_KEY_ID` | Yes¹ | Razorpay test/live key ID |
+| | `RAZORPAY_KEY_SECRET` | Yes¹ | Key secret — server-side only |
+| | `CORS_ORIGINS` | No | Browser origins allowed |
+| | `AUTH_SERVICE_INTERNAL_URL` | No | Auth base URL for JWKS |
+| **email-service** | `WEB_CLIENT` / `ADMIN_CLIENT` | No | CORS origins |
+| **gateway** | `PORT` | No | Defaults to 3007 |
+| | `<SERVICE>_SERVICE_URL` | Yes | One per upstream service |
+| | `CORS_ORIGINS` | No | Browser origins allowed |
+| **delivery-service** | `DATABASE_URL` | Yes | Own DB, `pizza_shop_delivery` |
+| | `CORS_ORIGINS` | No | Browser origins allowed |
+| | `AUTH_SERVICE_INTERNAL_URL` | No | Auth base URL for JWKS |
+| **web-client** | `NEXT_PUBLIC_API_URL` | No | Auth service URL, default `http://localhost:3002` |
+| | `NEXT_PUBLIC_PRODUCT_API_URL` | No | Product service URL, `...:3006` |
+| | `NEXT_PUBLIC_ORDER_API_URL` | No | Order service URL, `...:3004` |
+| | `NEXT_PUBLIC_PAYMENT_API_URL` | No | Payment service URL, `...:3005` |
+| **admin-client** | `NEXT_PUBLIC_API_URL` | No | Auth service URL |
+| | `NEXT_PUBLIC_PRODUCT_API_URL` | No | Product service URL |
+| | `NEXT_PUBLIC_ORDER_API_URL` | No | Order service URL |
+
+¹ Payment flows are disabled until both Razorpay keys are set.
+
+## Turbo passthrough
+
+`turbo.json` declares `globalPassThroughEnv` so these reach the task graph rather
+than being dropped by the task hash. If you add a variable a service needs at
+**build or dev** time, add it there too:
+
+```
+PORT, VERCEL, NODE_ENV, RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET, CORS_ORIGINS,
+WEB_CLIENT, ADMIN_CLIENT, DELIVERY_AGENT_WEB, AUTH_SERVICE_INTERNAL_URL,
+AUTH_SERVICE_URL, EMAIL_SERVICE_URL, ORDER_SERVICE_URL, PAYMENT_SERVICE_URL,
+PRODUCT_SERVICE_URL, DELIVERY_SERVICE_URL, NOTIFICATION_SERVICE_URL,
+ALLOW_ANONYMOUS_PUBLISH, FCM_SERVER_KEY
+```
+
+The ESLint config includes `turbo/no-undeclared-env-vars`, which warns when a
+variable is used but not declared in `turbo.json`.
+
+## External accounts
+
+- **Google OAuth** — create an OAuth client in Google Cloud Console and add your
+  `GOOGLE_REDIRECT_URI` to the authorized redirect URIs.
+- **Razorpay** — test keys are fine locally. The secret is only ever used by the
+  backend; the client receives only the key ID.

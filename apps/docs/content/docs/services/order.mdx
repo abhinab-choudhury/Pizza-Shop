@@ -1,0 +1,56 @@
+---
+title: Order Service
+description: Express.js service owning the order lifecycle
+---
+
+Order creation and the status machine that everything downstream reacts to.
+
+- **Port** 3004
+- **Stack** Express.js 5, Drizzle ORM
+- **Routes** `/orders`
+- **Database** shared `pizza_shop_orders`, journal `drizzle`
+- **Auth** All endpoints require a valid JWT; results are scoped to the owner
+
+## Status machine
+
+The order status machine is the single source of truth here. Delivery events are
+copied into delivery-service.
+
+```
+placed → paid → preparing ──(pickup)──▶ ready_for_pickup → picked_up
+                    └──(delivery)─▶ pending → assigned → accepted
+                                        → out_for_delivery → delivered
+                                any state → cancelled
+```
+
+## Endpoints
+
+| Method | Path | Description |
+|---|---|---|
+| POST | `/orders` | Place an order |
+| GET | `/orders` | List your orders |
+| GET | `/orders/:id` | Single order |
+
+Requests are scoped to the authenticated owner, so a user can only read their
+own orders. Admin-side listing is handled by the delivery and admin flows.
+
+## Data model notes
+
+Amounts are integer paise. The shop is **take-away / pick-up only** today;
+delivery fields (`deliveryType`, `address`, `feeCents`) are part of the roadmap
+in [Architecture](/docs/architecture).
+
+## Auth wiring
+
+This service is the reference example for Express auth. The
+`@repo/auth-middleware` verifier is wrapped in `src/middleware/auth.ts` using the
+Express `Request` shape.
+
+## Seed data
+
+```bash
+pnpm --filter order-service db:seed
+```
+
+Creates sample orders spread across every status in the machine, which is useful
+for exercising the admin and delivery UIs.

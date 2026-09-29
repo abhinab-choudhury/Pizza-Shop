@@ -1,0 +1,142 @@
+---
+title: Getting Started
+description: Prerequisites, install, environment setup, and running the platform locally
+---
+
+This walks you from a clean checkout to a running local environment.
+
+## Prerequisites
+
+| Tool | Version | Purpose |
+|---|---|---|
+| **Node.js** | >= 20.9 | Runtime for all services |
+| **pnpm** | >= 10 | Package manager |
+| **Docker** | >= 24 | PostgreSQL database |
+| **Docker Compose** | >= 2.20 | Container orchestration |
+
+## Install
+
+```bash
+pnpm install
+```
+
+This installs every workspace. A success message confirms `pnpm-lock.yaml` is
+up to date.
+
+## Configure the environment
+
+Each service ships a `.env.template`. Copy it to `.env` and fill in the values.
+`.env` files are git-ignored — never commit real credentials.
+
+```bash
+# One-off: copy all backend templates into place
+for app in auth-service product-service order-service payment-service email-service delivery-service gateway; do
+  cp apps/$app/.env.template apps/$app/.env
+done
+
+# Frontend clients use .env.local
+cp apps/web-client/.env.template apps/web-client/.env.local
+cp apps/admin-client/.env.template apps/admin-client/.env.local
+```
+
+See [Environment](/docs/guides/environment) for the full variable reference.
+
+## Start the database
+
+```bash
+# PostgreSQL only
+pnpm db:up
+
+# PostgreSQL + pgAdmin + Mailpit (development tools)
+pnpm tools:up
+
+# Stop / restart / logs
+pnpm db:down
+pnpm db:restart
+pnpm db:logs
+```
+
+Mailpit captures OTP and order emails in development — read them at
+`http://localhost:8025`. pgAdmin is at `http://localhost:5050`.
+
+## Run migrations and seed
+
+```bash
+# Delivery service owns a separate database — create it first
+pnpm --filter delivery-service db:create
+
+# Apply pending migrations per service
+pnpm --filter auth-service db:migrate
+pnpm --filter product-service db:migrate
+pnpm --filter order-service db:migrate
+pnpm --filter delivery-service db:migrate
+
+# Seed development data (idempotent)
+pnpm --filter auth-service db:seed
+pnpm --filter product-service db:seed
+pnpm --filter order-service db:seed
+pnpm --filter delivery-service db:seed
+```
+
+> The root `pnpm db:migrate` script only targets auth-service. Run migrations
+> explicitly per package.
+
+Seeded accounts:
+
+| Account | Email | Password | Role |
+|---|---|---|---|
+| Store Admin | `admin@pizzashop.com` | `Password123!` | `admin` |
+| Demo User | `demo@pizzashop.com` | `Password123!` | `user` |
+
+Only `admin` accounts can sign in to the Admin Client (`:3001`).
+
+## Run everything
+
+```bash
+pnpm dev
+```
+
+Turborepo starts every service and client in parallel.
+
+## Run a single app
+
+```bash
+# Frontend clients and docs
+pnpm dev:web         # Web Client  → http://localhost:3000
+pnpm dev:admin       # Admin Client → http://localhost:3001
+pnpm dev:docs        # Docs site   → http://localhost:3009
+
+# Backend services
+pnpm dev:auth        # Auth Service → http://localhost:3002
+pnpm dev:email       # Email Service → http://localhost:3003
+pnpm dev:order       # Order Service → http://localhost:3004
+pnpm dev:payment     # Payment Service → http://localhost:3005
+pnpm dev:product     # Product Service → http://localhost:3006
+pnpm dev:gateway     # Gateway → http://localhost:3007
+pnpm dev:delivery    # Delivery Service → http://localhost:3008
+```
+
+Useful combinations:
+
+```bash
+# Backend only, no frontend
+turbo run dev --filter='*-service'
+
+# Auth + web client
+pnpm dev:auth & pnpm dev:web
+```
+
+Each DB-backed service logs `Successfully connected to the database` before it
+starts listening. If you see a failure instead, the database is not reachable
+from that service's `DATABASE_URL`.
+
+## Code quality
+
+```bash
+pnpm lint           # Lint all packages
+pnpm check-types    # Type check all packages
+pnpm format         # Format code
+```
+
+> `check-types` is currently implemented by the docs app only. The other
+> packages type-check implicitly through `tsc` during `build`.

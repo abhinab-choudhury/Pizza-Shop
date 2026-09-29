@@ -1,0 +1,58 @@
+---
+title: Adding a New Service
+description: The checklist for adding a service or app to the monorepo
+---
+
+A service is just a workspace package under `apps/`. Turborepo picks it up
+automatically from `pnpm-workspace.yaml` — there is no registry to update.
+
+## Checklist
+
+1. **Create a directory** under `apps/`, named after the package.
+2. **Add `package.json`** with `dev`, `build`, and `start` scripts.
+3. **Add `tsconfig.json`** extending `@repo/typescript-config/base.json`.
+4. **Create a `.env.template`** with its port and `CORS_ORIGINS`.
+5. **Declare its env vars** in `turbo.json` under `globalPassThroughEnv` if it
+   needs them at build or dev time — otherwise the ESLint rule
+   `turbo/no-undeclared-env-vars` will warn.
+6. **Add root helper scripts** — `dev:<app>` and `start:<app>`.
+7. **Add the port** to `docker-compose.yml` if it needs one.
+
+## Databases
+
+If the service owns data, give it its own database and its own Drizzle migration
+journal, then wire up:
+
+```json
+{
+  "scripts": {
+    "db:create": "tsx scripts/create-db.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/db/migrate.ts",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "db:seed": "tsx scripts/seed.ts"
+  }
+}
+```
+
+Run these scoped to the package — `pnpm --filter <service> db:migrate`. Do not
+add them to a shared root task, because the root `db:migrate` only targets
+auth-service by design.
+
+See [Database](/docs/guides/database).
+
+## Gateway routing
+
+If clients should reach it through the gateway, add a route mapping in
+`apps/gateway` and a `<SERVICE>_SERVICE_URL` variable to the gateway's env
+template.
+
+## Ports
+
+The allocation is documented in the root `README.md` and in
+[Architecture](/docs/architecture). Currently taken: 3000 web, 3001 admin, 3002
+auth, 3003 email, 3004 order, 3005 payment, 3006 product, 3007 gateway, 3008
+delivery, 3009 docs, 3010 notification. 3009 was previously reserved for
+notification-service in the architecture plan; the docs site took it and
+notification-service moved to 3010.
