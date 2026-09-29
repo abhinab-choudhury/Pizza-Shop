@@ -1,5 +1,5 @@
 import type { WebSocketLike } from "@hono/node-server";
-import { targetRooms, type NotificationEvent } from "../events";
+import { targetRooms, type NotificationEvent } from "../events.js";
 
 export interface HubClient {
   socket: WebSocketLike;

@@ -31,6 +31,66 @@ pnpm dev:notification          # or: pnpm --filter notification-service dev
 
 Copy `.env.template` to `.env` first.
 
+## Deploying to Vercel
+
+This service is **not** deployable as a plain `export default app.fetch` Hono
+function. Vercel only accepts a WebSocket upgrade when the function
+default-exports the `http.Server` instance itself, so the Vercel entry point is
+`api/server.ts` → `createNotificationServer()` from `src/server.ts`.
+
+`src/app.ts` holds the Hono app with no server bootstrap, so the local
+(`src/index.ts`) and deployed (`api/server.ts`) entries share one app instance
+definition.
+
+### One-time project setup
+
+There is no Vercel project for this service yet. In the dashboard:
+
+1. **Add New → Project**, import this repo.
+2. **Root Directory** → `apps/notification-service`.
+3. **Framework Preset** → *Other*.
+4. **Include Files Outside the Root Directory** → **on** (the monorepo
+   lockfile and `packages/` live above it).
+5. **Fluid compute** → **on**. Required for WebSockets; default for projects
+   created after 2025-04-23.
+6. Install / build commands are in `vercel.json`:
+   `pnpm install --filter notification-service...` and
+   `turbo run build --filter=notification-service...`.
+7. `vercel.json` rewrites `/*` to `/api/server`, so the service is served from
+   the project root and `/ws` upgrades survive the rewrite.
+
+Then add the environment variables under **Settings → Environment Variables**:
+
+| Variable | Notes |
+|---|---|
+| `CORS_ORIGINS` | must include the deployed client origins |
+| `AUTH_SERVICE_INTERNAL_URL` | deployed auth-service URL, for JWKS |
+| `ALLOW_ANONYMOUS_PUBLISH` | **leave unset** — see gap 1 below |
+| `PORT` | set by Vercel; do not pin |
+
+Finally, point the gateway at it: `NOTIFICATION_SERVICE_URL=https://<domain>`.
+
+### Vercel-specific caveats
+
+These are platform limits, not bugs, and they shape the design:
+
+1. **Fan-out does not work across instances.** A WebSocket connection is pinned
+   to the one function instance that accepted it, and new connections are not
+   guaranteed to reach the same instance. `hub` is an in-memory singleton, so a
+   publish only reaches sockets held by *that* instance. This needs an external
+   pub/sub layer (e.g. Upstash Redis) before order events reach real users.
+2. **Connections are capped.** A WebSocket is billed as a function invocation
+   and inherits the function duration limit — 300s by default, 800s on
+   Pro/Enterprise. Clients must reconnect and resubscribe; the heartbeat in
+   `src/ws/hub.ts` is for liveness, not for keeping the connection alive.
+3. **WebSocket support is public beta** on Vercel Functions (since 2026-06-22).
+   The API could change.
+4. **In-memory `hub` state is lost** on redeploy and on instance recycle.
+
+If 1–4 are unacceptable, deploy this service to a long-lived host
+(Fly.io / Railway / a VPS) instead. It is a plain `@hono/node-server` app, so
+`pnpm --filter notification-service start` is all it needs.
+
 ## HTTP API
 
 | Method | Path | Auth | Purpose |
@@ -100,7 +160,7 @@ These are intentional for a template but must be closed before production:
    caller. Until that route lands, set `ALLOW_ANONYMOUS_PUBLISH=true` locally.
    This flag is checked at boot and logs a warning; never deploy with it on.
 2. **Order-room authorization is not enforced.** `canSubscribe` in
-   `src/index.ts` permits any `order:<id>` because order ownership cannot be
+   `src/app.ts` permits any `order:<id>` because order ownership cannot be
    derived from the JWT. Confirming it needs a lookup against order-service.
    `user:` and `rider:` rooms are enforced strictly.
 3. **FCM push is not implemented.** `events.ts` is the place to hook it.
@@ -117,5 +177,10 @@ These are intentional for a template but must be closed before production:
   `ARCHITECTURE.md`; move them there once the package exists (see comment in
   the file).
 - `packages/auth-middleware` — `verifyAccessToken` / `verifyServiceToken`.
-- `turbo.json` — `NOTIFICATION_SERVICE_URL` is in `globalPassThroughEnv`.
+- `turbo.json` — `NOTIFICATION_SERVICE_URL` is in `globalPassThroughEnv`, and
+  `VERCEL` / `NODE_ENV` are in the `build` task's `env` so a local build is
+  never restored from cache inside a Vercel build.
 - `apps/gateway/src/index.ts` — upstream entry for `notifications`.
+- `pnpm-lock.yaml` — the `apps/notification-service` importer entry must stay
+  committed. Vercel installs with `--frozen-lockfile` and fails the build
+  without it.

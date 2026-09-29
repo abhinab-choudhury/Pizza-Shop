@@ -1,14 +1,14 @@
 import { Hono, type Context } from "hono";
 import { z } from "zod";
-import { EVENT_TYPES } from "../events";
-import { hub } from "../ws/hub";
+import { EVENT_TYPES } from "../events.js";
+import { hub } from "../ws/hub.js";
 import {
   verifyJwt,
   verifyService,
   requireScope,
   isAdmin,
   type AuthVariables,
-} from "../middleware/auth";
+} from "../middleware/auth.js";
 
 /**
  * Dev-only escape hatch. auth-service exposes no route that mints

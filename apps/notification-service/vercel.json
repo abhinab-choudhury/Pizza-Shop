@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "cd ../.. && pnpm install --filter notification-service...",
+  "buildCommand": "cd ../.. && turbo run build --filter=notification-service...",
+  "rewrites": [
+    {
+      "source": "^/((?!api/).*)",
+      "destination": "/api/server"
+    }
+  ]
+}

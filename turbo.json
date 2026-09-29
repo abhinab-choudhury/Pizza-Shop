@@ -4,6 +4,8 @@
   "concurrency": "12",
   "globalPassThroughEnv": [
     "PORT",
+    "VERCEL",
+    "NODE_ENV",
     "RAZORPAY_KEY_ID",
     "RAZORPAY_KEY_SECRET",
     "CORS_ORIGINS",
@@ -16,13 +18,17 @@
     "ORDER_SERVICE_URL",
     "PAYMENT_SERVICE_URL",
     "PRODUCT_SERVICE_URL",
-    "DELIVERY_SERVICE_URL"
+    "DELIVERY_SERVICE_URL",
+    "NOTIFICATION_SERVICE_URL",
+    "ALLOW_ANONYMOUS_PUBLISH",
+    "FCM_SERVER_KEY"
   ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+      "env": ["VERCEL", "NODE_ENV"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**", ".vercel/output/**"]
     },
     "lint": {
       "dependsOn": ["^lint"]

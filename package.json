@@ -29,6 +29,7 @@
     "dev:email": "pnpm --filter email-service dev",
     "dev:gateway": "pnpm --filter gateway dev",
     "dev:delivery": "pnpm --filter delivery-service dev",
+    "dev:notification": "pnpm --filter notification-service dev",
     "start": "turbo run start",
     "start:auth": "pnpm --filter auth-service start",
     "start:web": "pnpm --filter web-client start",
