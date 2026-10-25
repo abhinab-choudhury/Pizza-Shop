@@ -1,0 +1,2 @@
+[tool.uv.workspace]
+members = []   # later: "services/catalog", "services/identity", "services/kitchen", "services/notification", "libs/*"

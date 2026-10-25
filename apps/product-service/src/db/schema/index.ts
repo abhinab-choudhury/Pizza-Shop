@@ -1,1 +1,0 @@
-export { products } from "./products";

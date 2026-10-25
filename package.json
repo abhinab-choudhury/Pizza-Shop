@@ -1,50 +1,8 @@
 {
-  "name": "monorepo-pizza-shop",
+  "name": "pizza-shop",
   "private": true,
-  "scripts": {
-    "setup": "pnpm install && pnpm db:up && sleep 3 && pnpm db:generate && pnpm db:migrate",
-    "dev": "turbo run dev",
-    "build": "turbo run build",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types",
-    "db:up": "docker compose up -d postgres",
-    "db:down": "docker compose down",
-    "db:restart": "docker compose restart postgres",
-    "db:logs": "docker compose logs -f postgres",
-    "tools:up": "docker compose --profile dev up -d",
-    "tools:down": "docker compose down",
-    "tools:logs": "docker compose logs -f mailpit pgadmin",
-    "mail:logs": "docker compose logs -f mailpit",
-    "db:generate": "pnpm --filter auth-service db:generate",
-    "db:migrate": "pnpm --filter auth-service db:migrate",
-    "db:push": "pnpm --filter auth-service db:push",
-    "db:studio": "pnpm --filter auth-service db:studio",
-    "dev:auth": "pnpm --filter auth-service dev",
-    "dev:web": "pnpm --filter web-client dev",
-    "dev:admin": "pnpm --filter admin-client dev",
-    "dev:docs": "pnpm --filter docs dev",
-    "dev:order": "pnpm --filter order-service dev",
-    "dev:payment": "pnpm --filter payment-service dev",
-    "dev:product": "pnpm --filter product-service dev",
-    "dev:email": "pnpm --filter email-service dev",
-    "dev:gateway": "pnpm --filter gateway dev",
-    "dev:delivery": "pnpm --filter delivery-service dev",
-    "dev:notification": "pnpm --filter notification-service dev",
-    "start": "turbo run start",
-    "start:auth": "pnpm --filter auth-service start",
-    "start:web": "pnpm --filter web-client start",
-    "start:admin": "pnpm --filter admin-client start",
-    "start:docs": "pnpm --filter docs start",
-    "clean": "turbo run clean && rm -rf node_modules"
-  },
+  "packageManager": "pnpm@11.21.0",
   "devDependencies": {
-    "prettier": "^3.9.6",
-    "turbo": "^2.10.12",
-    "typescript": "7.0.2"
-  },
-  "packageManager": "pnpm@12.4.1",
-  "engines": {
-    "node": ">=18"
+    "turbo": "^2.11.10"
   }
 }

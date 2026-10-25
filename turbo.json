@@ -1,51 +1,9 @@
 {
-  "$schema": "https://turborepo.com/schema.json",
-  "ui": "tui",
-  "concurrency": "12",
-  "globalPassThroughEnv": [
-    "PORT",
-    "VERCEL",
-    "NODE_ENV",
-    "RAZORPAY_KEY_ID",
-    "RAZORPAY_KEY_SECRET",
-    "CORS_ORIGINS",
-    "WEB_CLIENT",
-    "ADMIN_CLIENT",
-    "DELIVERY_AGENT_WEB",
-    "AUTH_SERVICE_INTERNAL_URL",
-    "AUTH_SERVICE_URL",
-    "EMAIL_SERVICE_URL",
-    "ORDER_SERVICE_URL",
-    "PAYMENT_SERVICE_URL",
-    "PRODUCT_SERVICE_URL",
-    "DELIVERY_SERVICE_URL",
-    "NOTIFICATION_SERVICE_URL",
-    "ALLOW_ANONYMOUS_PUBLISH",
-    "FCM_SERVER_KEY"
-  ],
+  "$schema": "https://turbo.build/schema.json",
   "tasks": {
-    "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "env": ["VERCEL", "NODE_ENV"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**", ".vercel/output/**"]
-    },
-    "lint": {
-      "dependsOn": ["^lint"]
-    },
-    "check-types": {
-      "dependsOn": ["^check-types"]
-    },
-    "dev": {
-      "cache": false,
-      "persistent": true
-    },
-    "start": {
-      "cache": false,
-      "persistent": true
-    },
-    "clean": {
-      "cache": false
-    }
+    "build": { "dependsOn": ["^build"], "outputs": ["dist/**"] },
+    "test":  { "dependsOn": ["^build"] },
+    "lint":  {},
+    "dev":   { "cache": false, "persistent": true }
   }
 }

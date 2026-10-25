@@ -1,50 +1,14 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# Dependencies
-**/node_modules/
-.pnp
-.pnp.js
-
-# Local env files
+node_modules/
+dist/
+.turbo/
+.venv/
+__pycache__/
+*.pyc
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# Testing
-coverage
-
-# Turbo
-.turbo
-
-# Vercel
-.vercel
-
-# Build Outputs
-.next/
-out/
-v10/
-build
-dist
-
-# Stray tsc output emitted into src (auth-service)
-apps/auth-service/src/**/*.js
-apps/auth-service/src/**/*.d.ts
-apps/auth-service/src/**/*.d.ts.map
-apps/auth-service/drizzle.config.js
-apps/auth-service/drizzle.config.d.ts
-apps/auth-service/drizzle.config.d.ts.map
-
-
-# Debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Misc
-.DS_Store
-*.pem
 .idea/
 .vscode/
-*.swp  
+.DS_Store
+# Kotlin / Gradle
+.gradle/
+build/
+local.properties

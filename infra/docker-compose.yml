@@ -1,0 +1,39 @@
+# Infra only. Each service block is added milestone by milestone.
+services:
+  rabbitmq:
+    image: rabbitmq:3-management          # management UI on :15672
+    ports: ["5672:5672", "15672:15672"]
+    environment:
+      RABBITMQ_DEFAULT_USER: pizza
+      RABBITMQ_DEFAULT_PASS: pizza
+    healthcheck:                          # lets services wait with depends_on: condition: service_healthy
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  postgres:
+    image: postgres:16
+    ports: ["5432:5432"]
+    environment:
+      POSTGRES_PASSWORD: pizza
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./postgres/init-dbs.sql:/docker-entrypoint-initdb.d/init-dbs.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      retries: 10
+
+  mongo:
+    image: mongo:7
+    ports: ["27017:27017"]
+    volumes: [mongodata:/data/db]
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      retries: 10
+
+volumes:
+  pgdata:
+  mongodata:
